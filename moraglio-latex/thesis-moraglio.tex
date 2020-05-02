@@ -181,6 +181,8 @@ You can insert here possible thanks and acknowledgements
 
 \chapter{Neural Cryptography 1: History}
 \section{Pioneers of Neural Cryptography}
+\newpage
+
 \section{Neural Networks in Cryptography: an interesting attempt}
 This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptoanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough. However, its importance lies in influencing subsequent works. (CITATIONS NEEDED!!!!!).
 
@@ -261,9 +263,31 @@ Thus, the decrypting neural network has six input units and five output ones, wi
 This encryption scheme is symmetric: it uses a single key for both encryption and decryption. It is interesting to notice that Volná, in his publication, thought that this feature was very bad for his encryption system, due to the popularity and goodness of asymmetric, non-neural cryptography. In fact, this model has many limits, but we'll see in next chapters that most modern (and secure) neurocryptographic protocols still are symmetric. Leaving aside asymmetric protocols is indeed one of the main strengths of this new approach to cryptography. \\
 Going back to the protocol, the key will include the adapted neural network parameters; that is its topology (architecture) and its configuration (the weight values on connections). Uniquely identifying the NN is hence equivalent to uniquely characterizing the encryption/decryption function.
 
-\section{The KKK Key Exchange Protocol}
-Hello smirnoff!
+\newpage
 
+\section{The KKK Key Exchange Protocol}
+We now deal with the first complete cryptosystem based on neural networks. It has been later referred to as \textit{KKK}, from the surnames of its inventors. It first appeared in \cite{kanter}, a year later than Volná's work. \\
+Here, a new concept appears in neurocryptography: synchronization of two nets to build a secure communication channel.
+
+\subsection{The Protocol}
+Object of the above cited work is a key-exchange protocol based on a learning process of feedforward neural networks. The two NN's participating in the communication start from private key vectors $E_k(0)$ and $D_k(0)$. Mutual learning from the exchange of public information leads the two nets to develop a common, time dependent key: $E_k(t) = - D_k(t)$. This is then used for both encryption and decryption. \\
+This phenomenon, known as synchronization of synaptic weights, has the core feature of speed. In fact, experiments of the authors show that such synchronizing is faster than the process of tracking the weights of one of the networks by an eavesdropper. It must be said that the inventors weren't able to find a mathematical proof of this, that instead was published little later by other cryptographers in \cite{shamir}. In this same work, all of the limitations of \textit{KKK} are also shown, but we'll deal with this in the following subsections.  \\
+Going back to the model, the architecture used by both sender and recipient is a tree parity machine, a two-layered perceptron with $K$ hidden units, $K \times N$ input neurons and a single output. Input units take binary values $x_{k,j} = \pm 1$, $k = 1,\dots, K$ and $j = 1, \dots, N$. The $K$ binary hidden units are denoted by $y_k$, $k = 1,\dots, K$, while the integer weight from the $j$-th input unit from the $k$-th hidden unit is denoted $w_{k,j}\in\{-L,\dots,L\}$. Output $O$ is the product of the state of the hidden neurons. (ADD FIGURE!!!) \\
+Fix for simplicity $K = 3$ and let $w_{k,j}^S$, $w_{k,j}^R$ be the secret information of sender and recipient, respectively (that is, the initial values for the weights). Hence this consists of $3N$ integer numbers for each of the two participants. \\
+Each network is then trained with the output of its partner. At each step, both for synchronization and for encryption/decryption steps, a new common public input vector is needed. Given $\vec{x_{k,j}}$, output is computed in two steps. In the first one, states of hidden units are computed as 
+\begin{equation}
+y_k^{S/R} = sgn\left(\sum_{j=1}^{N}w_{k,j}^{S/R}x_{k,j}\right),
+\end{equation}
+with the convention $y_k^S = 1$ and $y_k^R = -1$ whenever argument of the sign function is zero. In second step, output is computed as the product of the hidden units:
+\begin{equation}
+O^{S/R} = \prod_{k=1}^{3}y_k^{S/R}.
+\end{equation} 
+Sender and recipient send their outputs to each other and in case they do not agree on them (if $O^SO^R<0$), weight are updated according to the following Hebbian rule:
+\begin{align}
+\text{if} \quad \left(O^{S/R}y_k^{S/R}>0\right) \quad &\text{then} \quad w_{k,j}^{S/R} = w_{k,j}^{S/R} -O^{S/R} x_{k,j}; \\
+\text{if} \quad \left(|w_{k,j}^{S/R}|>L\right) \quad &\text{then} \quad w_{k,j}^{S/R} = sgn\left(w_{k,j}^{S/R}\right)L.
+\end{align}
+Note that this algorithm only updates weights belonging to the hidden units which are in the same state as that of their output unit. \\
 \chapter{Chapter title}
 
 \section{Section title}
@@ -430,7 +454,7 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 
 \bibitem[Volná (1998)]{volna2} {\sc Volnà, E.} (1998).\textit{Learning algorithm which learns both architectures and weights of feedforward neural networks.} Neural Network World. Int. Journal on Neural and Mass-Parallel Compo and Inf. Systems.
 
-\bibitem[Kanter (2001)]{kanter} {\sc Kanter, I.}, {\sc Kinzel, W.} and {\sc Kanter, E.} (2001). \textit{Secure exchange of information by synchronization of neural networks}. Bar Ilan University.
+\bibitem[Kanter, Kinzel and Kanter (2001)]{kanter} {\sc Kanter, I.}, {\sc Kinzel, W.} and {\sc Kanter, E.} (2001). \textit{Secure exchange of information by synchronization of neural networks}. Bar Ilan University.
 
 \bibitem[Klimov, Mityagin and Shamir (2002)]{shamir} {\sc Klimov, A.}, {\sc Mityagin, A.} and {\sc Shamir, A.} (2002). \textit{Analysis of Neural Cryptography}. Weizmann Institute.
 
