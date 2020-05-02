@@ -1,0 +1,460 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX TS-program = pdflatex
+
+%%%%%%% La riga soprastante serve per configurare gli editor
+%%%%%%% TeXShop, TeXworks e TeXstudio per gestire questo file
+%%%%%%% con la codifica UFF-8.
+%%%%%%% Se si vuole usare un'altra codifica si veda sotto.
+%%%%%%%
+
+%%%%%%%  Esempio con molte opzioni
+%%%%%%% Le opzioni nella forma "chiave=valore" sono definite
+%%%%%%% perché la classe dalla versione 6.1.00 usa il pacchetto
+%%%%%%% xkeyval. Vedere sulla documentazione in inglese o
+%%%%%%% in italiano quali chiavi accettano valori.
+
+%%%%%%% L'opzione per il corpo accetta qualsiasi valore, anche fratto
+%%%%%%% (per esempio: corpo=11.5pt) e va sempre scritto con una
+%%%%%%% unità di misura. L'utente è pregato di non esagerare con
+%%%%%%% corpi normali minori di 9.5pt o maggiori di 13pt.
+%%%%%%%
+%%%%%%% Le opzioni per inputenc e fontenc vanno per prime.
+%%%%%%% Vengono ignorate se NON si compone con pdfLaTeX. Ma
+%%%%%%% questo è un esempio per pdfLaTeX.
+%%%%%%%
+
+ \documentclass[%
+    corpo=11pt,
+    twoside,
+    stile=classica,
+    oldstyle,
+    autoretitolo,
+    tipotesi=magistrale,
+    greek,
+    evenboxes,
+    english
+]{toptesi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Per la codifica d'entrata si può scegliere quella che si vuole,
+%%%%%% ma si consiglia di preferire utf8; in ogni caso non scegliere
+%%%%%% codifiche specifiche del sistema operativo.
+
+\usepackage[utf8]{inputenc}% codifica d'entrata
+\usepackage[T1]{fontenc}%    codifica dei font
+\usepackage{lmodern}%        scelta dei font
+
+
+%\parindent=2mm
+%\parskip=1mm
+
+% Vedere la documentazione toptesi-it.pdf per le
+% attenzioni che bisogna usare al fine di ottenere un file
+% veramente conforme alle norme per l'archiviabilità.
+
+
+\usepackage{hyperref}
+
+\hypersetup{%
+    pdfpagemode={UseOutlines},
+    bookmarksopen,
+    pdfstartview={FitH},
+    colorlinks,
+    linkcolor={blue},
+    citecolor={blue},
+    urlcolor={blue}
+  }
+%
+
+\usepackage{mathrsfs,amssymb,amsfonts,amsthm,amsmath,amsbsy}
+\usepackage{natbib}
+\newtheorem{theorem}{Theorem}[section]
+%\newenvironment{theorem}{\begin{theorem}}{\end{theorem}}
+\newtheorem{proposition}[theorem]{Proposition} 
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma} 
+\newtheorem{example}[theorem]{Example} 
+\newtheorem{definition1}[theorem]{Definition} \newenvironment{definition}{\begin{definition1}\rm}{\hfill$\square$\end{definition1}}
+\newtheorem{remark1}[theorem]{Remark} \newenvironment{remark}{\begin{remark1}\rm}{\hfill$\square$\end{remark1}}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[font=small]{caption}
+
+%%%%%%%% Esempio di composizione di tesi di laurea con PDFLATEX
+%
+%
+% Per scrivere testo fasullo in "latinorum"
+%\usepackage{lipsum}
+%
+
+%%%%%%% Definizioni locali
+\newtheorem{osservazione}{Osservazione}% Standard LaTeX
+
+
+\begin{document}\errorcontextlines=9
+%%%%%%% Questi comandi è meglio metterli dentro l'ambiente
+%%%%%%% frontespizio o frontespizio*, oppure in un file di
+%%%%%%% configurazione personale. Si veda la documentazione
+%%%%%%% inglese o italiana.
+%%%%%%% Comunque i presenti comandi servono per comporre la
+%%%%%%% tesi con i moduli di estensione standard del pacchetto
+%%%%%%% TOPtesi.
+\selectlanguage{english}
+
+\thispagestyle{empty}
+
+\centerline {\huge{\textsc{UNIVERSITY OF TORINO}}}
+\vskip 30 pt
+
+%\centerline {\Large{\textsc DIPARTIMENTO DI MATEMATICA GIUSEPPE PEANO}}
+%\vskip 10 pt
+%
+%\centerline {\Large{\textsc DIPARTIMENTO ESOMAS}}
+%\vskip 10 pt
+%
+%\centerline {\Large{\textsc DIPARTIMENTO DI INFORMATICA}}
+%
+%\vskip 30 pt
+%
+%%\centerline {{\textsc SCUOLA DI SCIENZE DELLA NATURA}}
+%
+%%\vskip 20 pt
+%
+\centerline {\LARGE{\textsc M.Sc. in Stochastics and Data Science}}
+\vskip 30 pt
+
+\centerline {\Large{\textsc Final dissertation}}
+\vskip 50 pt
+
+
+
+
+
+%\begin{tabular}{ccc}
+\centerline {\includegraphics[width=4cm]{logounito.pdf}}
+%   \end{tabular}
+
+\vskip 1cm
+
+%\centerline {\normalsize {Tesi di Laurea  Magistrale}}
+
+\vskip 0.7cm
+
+\begin{center} %THESIS TITLE
+\Large \bf Thesis Title\\
+
+\end{center}
+
+\vskip 1.7cm
+\large
+\noindent  Supervisor: Elena Cordero  \hfill  {Candidate: Francesco Moraglio}\\
+\noindent Co-supervisor: Stefano Barbero
+
+
+
+
+\vskip 2.5cm
+
+
+\centerline{ACADEMIC YEAR 2019/2020}
+
+
+
+%%%%%%% Per cambiare l'offset per la rilegatura; meno offset
+%%%%%%% c'e', meglio e'
+%\setbindingcorrection{3mm}
+
+
+
+\sommario
+
+Insert here a summary of your thesis
+% \paginavuota % funziona anche senza specificare l'opzione classica
+
+\ringraziamenti
+
+You can insert here possible thanks and acknowledgements
+
+\tablespagetrue\figurespagetrue % normalmente questa riga non serve ed e' commentata
+\indici
+
+%%%%%%%% fine esperimento
+\mainmatter
+
+\chapter{Neural Cryptography 1: History}
+\section{Pioneers of Neural Cryptography}
+\section{Neural Networks in Cryptography: an interesting attempt}
+This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptoanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough. However, its importance lies in influencing subsequent works. (CITATIONS NEEDED!!!!!).
+
+\subsection{Genetic Algorithms in Neural Network Design}
+Main element in this research are feedforward neural nets with backpropagation, but the most interesting characteristic of Volna's approach is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
+The criterion of choice is the minimization of the sum of square of deviation of output from neural network. At first, the maximal architecture of the nets is proposed, then, at each step, to optimize the population it is necessary to solve the cryptographic problems of interest. Thereafter the process of genetic algorithms is applied. An optimal population is found either when it achieves the maximal generation or when fitness function achieves the maximal defined value. \\
+At this point, it is required to complete the "best" architecture by adapting weights and hence three digits are generated for every
+connection coming out from a unit. If the connection does not exist, three zeroes are assigned, else weights are computed this way:
+\begin{equation}
+w_{i,j,k,l} = \eta[e_2(e_1 2^1 + e_0 2^0)],
+\end{equation}
+where $w_{i,j,k,l} = w(x_{i,j}, x_{k,l})$ is the weight value between the $j$-th unit in the $i$-th layer and the $l$-th unit in the $k$-th layer and
+\begin{align*}
+    \eta &= \text{learning parameter;} \quad \eta \in (0,1)\\
+    e_i &= \text{random digits} \quad (i=0,1)\\
+  	e_2 &= \text{sign bit}.
+\end{align*}
+Error between the desired and the real output is the computed and stored in the vector $\vec{E}$ . On the basis of it, the algorithm computes the fitness precursor value $f_i^{\star}$, for each individual $i = 1, \dots, N$, that is
+\begin{equation}
+f_i^{\star} = k_1(E_i)^2 + k_2(U_i)^2 + k_3(L_i)^2,
+\end{equation}
+where $k_j$, $j = 1,2,3$ are fixed constants and
+\begin{align*}
+    E_i &= \text{error for network }i\\
+    U_i &= \text{number of hidden units}\\
+  	L_i &= \text{number of hidden layers}.
+\end{align*}
+The general fitness function  $f$ is then calculated as follows:
+$$
+f_i = \begin{cases}
+k - (f_i^{\star} + k_5) \quad \text{if} \quad E_i > k_4 \\
+k - f_i^{\star} \quad \text{otherwise.}
+\end{cases} 
+$$ 
+In the above expressions, $k, k_4$ and $k_5$ also denote constants.
+The genetic algorithm used by Volná makes use of standard crossover and mutation procedures, as the ones described in the specific chapter. Here we omit details. \\
+Adaptation of the best found network architecture is finished with backpropagation.
+
+\subsection{Volná's experiment}
+In this work, the parameters of the adapted neural network become the key of an encryption/decryption algorithm. Topology of such NN clearly depends on the training set that, in Volná's case, is represented in table ~\ref{table:traingset}, while the chain of chars of the plain text is equivalent to a binary value, that is 96 less than its ASCII code. The cipher text is a randomly generated chain of bits.
+\begin{table}[]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Plaintext}}                                                                                                                     & \textbf{Cyphertext}                                                          \\ \hline
+\textit{Char} & \textit{\begin{tabular}[c]{@{}c@{}}ASCII\\ Code\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}Bit String\\ Representation\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}Bit String\\ Representation\end{tabular}} \\ \hline
+a             & 97                                                            & 00001                                                                        & 000010                                                                       \\ \hline
+b             & 982                                                           & 00010                                                                        & 100110                                                                       \\ \hline
+c             & 99                                                            & 00011                                                                        & 001011                                                                       \\ \hline
+d             & 100                                                           & 00100                                                                        & 011010                                                                       \\ \hline
+e             & 101                                                           & 00101                                                                        & 100000                                                                       \\ \hline
+f             & 102                                                           & 00110                                                                        & 001110                                                                       \\ \hline
+g             & 103                                                           & 00111                                                                        & 100101                                                                       \\ \hline
+h             & 104                                                           & 01000                                                                        & 010010                                                                       \\ \hline
+i             & 105                                                           & 01001                                                                        & 001000                                                                       \\ \hline
+j             & 106                                                           & 01010                                                                        & 011110                                                                       \\ \hline
+k             & 107                                                           & 01011                                                                        & 001001                                                                       \\ \hline
+l             & 108                                                           & 01100                                                                        & 010110                                                                       \\ \hline
+m             & 109                                                           & 01101                                                                        & 011000                                                                       \\ \hline
+n             & 110                                                           & 01110                                                                        & 011100                                                                       \\ \hline
+o             & 111                                                           & 01111                                                                        & 101000                                                                       \\ \hline
+p             & 112                                                           & 10000                                                                        & 001010                                                                       \\ \hline
+q             & 113                                                           & 10001                                                                        & 010011                                                                       \\ \hline
+r             & 114                                                           & 10010                                                                        & 010111                                                                       \\ \hline
+s             & 115                                                           & 10011                                                                        & 100111                                                                       \\ \hline
+t             & 116                                                           & 10100                                                                        & 001111                                                                       \\ \hline
+u             & 117                                                           & 10101                                                                        & 010100                                                                       \\ \hline
+v             & 118                                                           & 10110                                                                        & 001100                                                                       \\ \hline
+w             & 119                                                           & 10111                                                                        & 100100                                                                       \\ \hline
+x             & 120                                                           & 11000                                                                        & 011011                                                                       \\ \hline
+y             & 121                                                           & 11001                                                                        & 010001                                                                       \\ \hline
+z             & 122                                                           & 11010                                                                        & 001101                                                                       \\ \hline
+\end{tabular}
+\caption{The training set.}
+\label{table:traingset}
+\end{table}
+Thus, the decrypting neural network has six input units and five output ones, with an unspecified number of hidden units. Viceversa, the net that performs encryption has five input neurons and six output ones. \\
+This encryption scheme is symmetric: it uses a single key for both encryption and decryption. It is interesting to notice that Volná, in his publication, thought that this feature was very bad for his encryption system, due to the popularity and goodness of asymmetric, non-neural cryptography. In fact, this model has many limits, but we'll see in next chapters that most modern (and secure) neurocryptographic protocols still are symmetric. Leaving aside asymmetric protocols is indeed one of the main strengths of this new approach to cryptography. \\
+Going back to the protocol, the key will include the adapted neural network parameters; that is its topology (architecture) and its configuration (the weight values on connections). Uniquely identifying the NN is hence equivalent to uniquely characterizing the encryption/decryption function.
+
+\section{The KKK Key Exchange Protocol}
+Hello smirnoff!
+
+\chapter{Chapter title}
+
+\section{Section title}
+Body of text, with unnumbered equations 
+\begin{equation*}%\label{}
+Y=\beta_{0}+\beta_{1}X+\varepsilon
+\end{equation*} 
+if not referenced, or numbered equations
+\begin{equation}\label{eq1}
+Y=\beta_{0}+\beta_{1}X+\varepsilon
+\end{equation} 
+to be referenced like this \eqref{eq1} if needed. 
+
+Start of a new paragraph here, where you can have inline math $y=a+bx$. 
+
+
+
+
+\section{Another section}
+
+Tex of the section with example of theorem
+
+\begin{theorem}\label{th1}
+Example of theorem
+\end{theorem}
+\begin{proof}
+proof of the theorem
+\end{proof}
+
+to be referenced like Theorem \ref{th1}. 
+
+Same for proposition
+\begin{proposition}
+Example of proposition
+\end{proposition}
+ or lemma
+\begin{definition}
+Example of definition
+\end{definition}
+
+\begin{remark}
+Example of remark
+\end{remark}
+
+\begin{lemma}
+Example of lemma
+\end{lemma}
+
+
+
+
+
+
+\newpage
+Example of pseudo code of algorithm
+
+\IncMargin{5mm}
+\begin{algorithm}[t]
+%\footnotesize
+% \SetAlgoLined
+\vspace{2mm}
+\hspace{-5mm} \KwData{$y_{t_{j}}=(y_{t_{j},1},\ldots,y_{t_{j},m_{t_{j}}})$}
+\hspace{-5mm} Set parameters $\alpha=\theta P_{0}$, $\theta>0$, $P_{0}\in M_{1}(\mathbb{Y})$\\[0mm]
+
+ \SetKwBlock{Begin}{Initialise}{end}
+ \Begin{
+$y\leftarrow\emptyset$, $y^{*}=\emptyset$, $m\leftarrow0$, $M\leftarrow0$, $M\leftarrow\{0\}$, $K_{m}\leftarrow0$, 
+$w_{0}\leftarrow1$\\
+}
+
+ \SetKwBlock{Begin}{For $j=0,\ldots,J$}{end}
+ \Begin{
+ \SetKwBlock{Begin}{Title set of instructions 1}{end}
+ \Begin{
+read data $y_{t_{j}}$\\
+$m\leftarrow m+\text{card}(y_{t_{j}})$\\
+%compute distinct values $y_{t_{j}}^{*}$ in $y_{t_{j}}$\\
+%update total no.~of items $m\leftarrow\text{card}(y)$\\
+$y^{*}\leftarrow$ distinct values in $y^{*}\cap y_{t_{j}}$\\
+$K_{m}=\text{card}(y^{*})$
+}
+
+ \SetKwBlock{Begin}{Title set of instructions 2}{end}
+ \Begin{
+ 
+ \SetKwBlock{Begin}{for $M\in M$}{end}
+  \Begin{
+$n\leftarrow t(y_{t_{j}},M)$\\
+$w_{n}\leftarrow
+w_{M}\,\mathrm{PU}_{\alpha}(y_{t_{j}}\mid y)
+$\\[0mm]
+%$\sum_{n\in t(y_{m+1:m+n},M)}\hat w_{n}\Pi_{\alpha+\sum_{i=1}^{K_{m+n}}n_{i}\delta_{y_{i}^{*}}}$\\
+%assign weight $\hat w_{n}$ to mixture component $\Pi_{\alpha+\sum_{i=1}^{K_{m}}n_{i}\delta_{y_{i}^{*}}}$\\[-1.5mm]
+   }
+    $M\leftarrow t(y_{t_{j}},M)$\\
+ \SetKwBlock{Begin}{for $M\in M$}{end}
+  \Begin{       $w_{M}\leftarrow w_{M}/\sum_{\ell \in M}w_{\ell}$
+  }
+    $X_{t_{j}}\mid y,y_{t_{j}}\sim    \sum_{M\in M}w_{M}\Pi_{\alpha+\sum_{i=1}^{K_{m}}m_{i}\delta_{y_{i}^{*}}}$
+%$w_{M}\leftarrow0$ for $M\notin M$
+ }
+ 
+\textbf{Return} $y\leftarrow y\cup y_{t_{j}}$
+   }
+ \caption{Algorithm title}
+ \label{algorithm}
+\end{algorithm}
+
+which is referred as Algorithm \ref{algorithm}. 
+
+
+
+
+\bigskip 
+Example of table
+\begin{table}[htp]              % crea un floating body col nome Tabella nella
+                                % didascalia
+\centering                      % comando necessario per centrare la tabella
+\begin{tabular}%                % inizio vero e proprio della tabella
+{|rrrrrr|}                        % parametri di incolonnamento
+\hline                    % filetti orizzontali sopra la tabella
+                                % intestazione della tabella
+\multicolumn{3}{|c}{\rule{0pt}{2.5ex}Temperatura} % \rule serve per lasciare
+& \multicolumn{3}{c|}{Densit\`a} \\               % un po' di spazio sopra le parole
+    &\unit{\gradi C} & & & $\unit{t/m^3}$ &  \\
+\hline%                         % Filetto orizzontale per separare l'intestazione
+\hspace*{1.3em}& 0  &  & & 13,8 &  \\   % I numeri sono incolonnati %
+              & 10  &  & & 13,6 &  \\   % a destra; le colonne vuote
+              & 50  &  & & 13,5 &  \\   % servono per centrare le colonne
+              &100  &  & & 13,3 &  \\   % numeriche sotto le intestazioni
+ \hline                           % Filetti di fine tabella
+\end{tabular}
+\caption[Densit\`a del mercurio]{Densit\`a del mercurio. Si pu\`o fare molto meglio usando il pacchetto \textsf{booktabs}.} \label{t:1}  % didascalia con label
+\end{table}
+
+
+%\selectlanguage{italian}
+
+
+
+
+\newpage
+Items in the bibliography to be referenced like this \cite{EK86} and this \cite{EK81}, check the different style for books and articles. 
+
+Abbreviations of Journal names can be found at this link
+
+msc2010.org/MSC2010-CD/extras/serials.pdf
+
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem[Ethier and Kurtz(1981)]{EK81}  {\sc Ethier, S.N.} and {\sc Kurtz, T.G.} (1981). The infinitely-many-neutral-alleles diffusion model. {\em Adv. Appl. Probab.} {\bf 13}, 429--452.
+
+\bibitem[Ethier and Kurtz(1986)]{EK86}  {\sc Ethier, S.N.} and {\sc Kurtz, T.G.} (1986). \emph{Markov processes: characterization and convergence}. Wiley, New York.
+
+
+
+\bibitem[Mitchell (1998)]{mit} {\sc Mitchell, M.} (1998). \textit{An introduction to Genetic Algorithms}. MIT Press.
+
+
+\bibitem[Volná (2000)]{volna} {\sc Volnà, E.} (2000). \textit{Using Neural Network in Cryptography}. University of Ostrava.
+
+\bibitem[Volná (1998)]{volna2} {\sc Volnà, E.} (1998).\textit{Learning algorithm which learns both architectures and weights of feedforward neural networks.} Neural Network World. Int. Journal on Neural and Mass-Parallel Compo and Inf. Systems.
+
+\bibitem[Kanter (2001)]{kanter} {\sc Kanter, I.}, {\sc Kinzel, W.} and {\sc Kanter, E.} (2001). \textit{Secure exchange of information by synchronization of neural networks}. Bar Ilan University.
+
+\bibitem[Klimov, Mityagin and Shamir (2002)]{shamir} {\sc Klimov, A.}, {\sc Mityagin, A.} and {\sc Shamir, A.} (2002). \textit{Analysis of Neural Cryptography}. Weizmann Institute.
+
+
+\bibitem[Abadi and Andersen (2016)]{google} {\sc Abadi, M.} and {\sc Andersen, D. G.} (2016). \textit{Learning to protect communications with Adversarial Neural Cryptography}. Google Brain.
+
+\bibitem[Coutinho et al.(2018)]{brazilians} {\sc Coutinho, M.}, {\sc Robson de Oliveira Albuquerque, R.}, {\sc Borges, F. }, {\sc Villalba, L. J. G.} and  {\sc Kim T. H.} (2018). \textit{Learning Perfectly Secure Cryptography to Protect Communications with Adversarial Neural Cryptography}. University of Brasília.
+
+\bibitem[Jayachandiran (2018)]{jay} {\sc Jayachandiran, K.} (2018). \textit{A Machine Learning Approach for Cryptanalysis}. Rochester Institute of Technology.
+
+\bibitem[Gohr (2019)]{gohr} {\sc Gohr, A.} (2019). \textit{Improving Attacks on Round-Reduced Speck32/64 Using Deep Learning}. Bundesamt für Sicherheit in der Informationstechnik (BSI).
+
+\bibitem[Nielsen and Chuang (2000)]{nielsen} {\sc Nielsen, M. A.} and {\sc Chuang, I. L.} (2000). \textit{Quantum Computation and Quantum Information}. Cambridge University Press.
+
+\bibitem[Bernstein, Buchmann and Dahmen (2009)]{pqc} {\sc Bernstein, D. J.}, {\sc Buchmann, J.} and {\sc Dahmen, E.} (2009). \textit{Post-Quantum Cryptography}. Springer.
+
+\bibitem[Shi et al. (2020)]{china} {\sc Shi, J.}, {\sc Chen, S.}, {\sc Lu, Y.}, {\sc Feng, Y.}, {\sc Shi, R.}, {\sc Yang, Y.} and {\sc Li, J.} (2020). \textit{An Approach to Cryptography Based on Continuous-Variable Quantum Neural Network}. Nature.
+
+\end{thebibliography}
+
+
+
+
+\end{document}
+
+
+
