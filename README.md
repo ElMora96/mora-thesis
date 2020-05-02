@@ -1,2 +1,2 @@
 # mora-thesis
-Tesi di laurea magistrale
+Tesi di laurea magistrale.
