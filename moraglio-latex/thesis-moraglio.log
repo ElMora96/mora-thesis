@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.4.9)  2 MAY 2020 17:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.4.9)  3 MAY 2020 12:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -906,7 +906,7 @@ LaTeX Info: Redefining \nameref on input line 92.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<logounito.pdf, id=52, 1706.375pt x 1706.375pt>
+<logounito.pdf, id=60, 1706.375pt x 1706.375pt>
 File: logounito.pdf Graphic file (type pdf)
 <use logounito.pdf>
 Package pdftex.def Info: logounito.pdf  used on input line 132.
@@ -1029,34 +1029,31 @@ LaTeX Warning: No positions in optional float specifier.
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10]
-[11]
-Underfull \hbox (badness 10000) in paragraph at lines 289--292
+[11] [12] [13] [14
 
- []
-
-[12]
+]
 Chapter 2.
-[13
+[15
 
 ]
 LaTeX Font Info:    Trying to load font information for T1+lmss on input line 4
-23.
+64.
  (/usr/share/texmf-dist/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [14] [15] [16
+) [16] [17] [18
 
-] [17
+] [19
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 481.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 522.
 
-[18]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 481.
+[20]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 522.
  (./thesis-moraglio.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 481.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 481.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 522.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 522.
 Package rerunfilecheck Info: File `thesis-moraglio.out' has not changed.
-(rerunfilecheck)             Checksum: 581881EE094A8833BD0F52AA75C4A398;813.
+(rerunfilecheck)             Checksum: E1A58688BC8797DE1811D19D84E90264;963.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1064,10 +1061,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 22643 strings out of 492167
- 385277 string characters out of 6131559
- 508530 words of memory out of 5000000
- 26684 multiletter control sequences out of 15000+600000
+ 22656 strings out of 492167
+ 385447 string characters out of 6131559
+ 508763 words of memory out of 5000000
+ 26690 multiletter control sequences out of 15000+600000
  641562 words of font info for 92 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,18n,106p,786b,522s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1088,13 +1085,13 @@ blic/lm/lmr9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/
 share/texmf-dist/fonts/type1/public/lm/lmro9.pfb></usr/share/texmf-dist/fonts/t
 ype1/public/lm/lmss10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.p
 fb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/share/texmf-dis
-t/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/ams
-fonts/symbols/msam10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/sym
-bols/msbm10.pfb>
-Output written on thesis-moraglio.pdf (18 pages, 1606840 bytes).
+t/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/
+lmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb
+></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on thesis-moraglio.pdf (20 pages, 1616889 bytes).
 PDF statistics:
- 316 PDF objects out of 1000 (max. 8388607)
- 268 compressed objects within 3 object streams
- 62 named destinations out of 1000 (max. 500000)
- 102 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 349 PDF objects out of 1000 (max. 8388607)
+ 298 compressed objects within 3 object streams
+ 69 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

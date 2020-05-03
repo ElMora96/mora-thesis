@@ -271,7 +271,7 @@ Here, a new concept appears in neurocryptography: synchronization of two nets to
 
 \subsection{The Protocol}
 Object of the above cited work is a key-exchange protocol based on a learning process of feedforward neural networks. The two NN's participating in the communication start from private key vectors $E_k(0)$ and $D_k(0)$. Mutual learning from the exchange of public information leads the two nets to develop a common, time dependent key: $E_k(t) = - D_k(t)$. This is then used for both encryption and decryption. \\
-This phenomenon, known as synchronization of synaptic weights, has the core feature of speed. In fact, experiments of the authors show that such synchronizing is faster than the process of tracking the weights of one of the networks by an eavesdropper. It must be said that the inventors weren't able to find a mathematical proof of this, that instead was published little later by other cryptographers in \cite{shamir}. In this same work, all of the limitations of \textit{KKK} are also shown, but we'll deal with this in the following subsections.  \\
+This phenomenon, known as synchronization of synaptic weights, has the core feature of speed. In fact, experiments of the authors show that such synchronizing is faster than the process of tracking the weights of one of the networks by an eavesdropper. It must be said that the inventors weren't able to find a mathematical proof of this, that instead was published little later by other cryptographers in \cite{shamir}. In this same work, all of the limitations of \textit{KKK} are also shown, but we'll deal with this in the following subsections (Synchronization: \ref{ssc:synchro}; Attacks: ).  \\
 Going back to the model, the architecture used by both sender and recipient is a tree parity machine, a two-layered perceptron with $K$ hidden units, $K \times N$ input neurons and a single output. Input units take binary values $x_{k,j} = \pm 1$, $k = 1,\dots, K$ and $j = 1, \dots, N$. The $K$ binary hidden units are denoted by $y_k$, $k = 1,\dots, K$, while the integer weight from the $j$-th input unit from the $k$-th hidden unit is denoted $w_{k,j}\in\{-L,\dots,L\}$. Output $O$ is the product of the state of the hidden neurons. (ADD FIGURE!!!) \\
 Fix for simplicity $K = 3$ and let $w_{k,j}^S$, $w_{k,j}^R$ be the secret information of sender and recipient, respectively (that is, the initial values for the weights). Hence this consists of $3N$ integer numbers for each of the two participants. \\
 Each network is then trained with the output of its partner. At each step, both for synchronization and for encryption/decryption steps, a new common public input vector is needed. Given $\vec{x_{k,j}}$, output is computed in two steps. In the first one, states of hidden units are computed as 
@@ -284,10 +284,51 @@ O^{S/R} = \prod_{k=1}^{3}y_k^{S/R}.
 \end{equation} 
 Sender and recipient send their outputs to each other and in case they do not agree on them (if $O^SO^R<0$), weight are updated according to the following Hebbian rule:
 \begin{align}
-\text{if} \quad \left(O^{S/R}y_k^{S/R}>0\right) \quad &\text{then} \quad w_{k,j}^{S/R} = w_{k,j}^{S/R} -O^{S/R} x_{k,j}; \\
-\text{if} \quad \left(|w_{k,j}^{S/R}|>L\right) \quad &\text{then} \quad w_{k,j}^{S/R} = sgn\left(w_{k,j}^{S/R}\right)L.
+\text{if} \quad \left(O^{S/R}y_k^{S/R}>0\right) \quad &\text{then} \quad w_{k,j}^{S/R} \leftarrow w_{k,j}^{S/R} -O^{S/R} x_{k,j}; \nonumber \\
+\text{if} \quad \left(|w_{k,j}^{S/R}|>L\right) \quad &\text{then} \quad w_{k,j}^{S/R} \leftarrow sgn\left(w_{k,j}^{S/R}\right)L.
+\label{hebblearn}
 \end{align}
 Note that this algorithm only updates weights belonging to the hidden units which are in the same state as that of their output unit. \\
+Synchronizing time depends on the choice of the parameters, but this learning rule implies that, as soon as the two networks are synchronized, so they stay forever. Moreover, it was already clear for these experimenter that those times were relatively short compared to the task of externally intercepting weights of one of the two participants. \\
+As soon as the weights are antiparallel, the initialization of the cryptosystem is completed and the secure communication may start. Here we have two possibilities: either use a conventional algorithm, for example a stream cipher, or use the parity machine itself. In the first case, we can build the seed for a pseudo-random number generator basing on the weight vector after synchronization. In the other case, we directly use the output bit of the net for a stream cipher. Note that, using this approach, the complexity of encryption/decryption is linear. 
+
+\subsection{More details on Synchronization}
+\label{ssc:synchro}
+In Kanter's work, many experiments are reported to show the effectiveness of synchronization process. However, I decided to omit these details since, as I anticipated in previous section, the "sacred cow" of cryptography Adi Shamir provided us with a mathematical proof of it. \\
+The full treatment of this problem found in \cite{shamir} relies on the properties of random walks in bounded domains. Another assumption: learning rule \ref{hebblearn} would complicate the notation, as it forces the mutually learning NN's into anti-parallel states. Instead, a dual scheme in which the two parties eventually become identical is proposed. Given input vectors $\vec{x_{k,j}}$, hidden outputs are calculated as
+\begin{equation}
+y_k^{S/R} = sgn\left(\sum_{j=1}^{N}w_{k,j}^{S/R}x_{k,j}\right),
+\end{equation}
+but with the standard convention 
+\begin{equation}
+sgn(x) = \begin{cases}
+1 \qquad \text{if} \quad x \geq 0 \\
+-1 \quad \text{otherwise.}
+\end{cases}
+\end{equation}
+Final output is computed in the same way as before, that is $O^{S/R} = \prod_{k=1}^{3}y_k^{S/R}$. In this version of the algorithm, after the output exchange, each party updates its weights only if $O^S=O^R=O$ and in this case 
+\begin{equation}
+\label{shamirlearn}
+\text{if} \left(y_k^{S/R}=O\right) \quad \text{then} \quad 
+w_{k,j}^{S/R} \leftarrow B_{-L,L}\left(w_{k,j}^{S/R} - y_k^{S/R}x_{k,j}\right),
+\end{equation}
+where
+\begin{equation}
+\label{rebound}
+B_{-L,L}(w) = \begin{cases}
+w \qquad \text{if} \quad |w|<L \\
+L \qquad \text{if} \quad w>L \\
+-L \qquad \text{otherwise}.
+\end{cases}
+\end{equation}
+In other words, above function rescales weights to the prefixed bounds whenever any of them exceeds the allowed values. \\
+After these premises, we can show how the two participants converge and why a third net cannot converge to the same parameters by following the same learning procedure. \\
+ We start off by considering an oversimplified model of a single perceptron with a single weight. \iftrue Let $w^{S/R}_{t}$  be the current weights and denote inputs $x_{t} \in \{-1,1\} $. \fi Each weight's update process can be described as a random walk with absorbing boundaries $-L,L$, starting from a random point $w^{S/R}_{0}\in\{-L,\dots ,L\}$. \\
+At each round $t$, sender and receiver decide either to move their respective weights in the same direction (determined by $x_t$), or not to vary them. In first case, if any of $w^{S/R}_t$ tries to step beyond the fixed boundaries, it remains stuck at it (due to \ref{rebound}), while the other one gets nearer.  If none of the the weights is absorbed, we have $|w_{t+1}^S - w_{t+1}^R| = |w_{t}^S - w_{t}^R|$, else their distance is reduced by one. Since a random walk is expected to hit its boundaries infinitely often, the weights'paths admit a mixing time. \\
+A simple generalization: consider the case of a single perceptron with multiple weights. Here, the two weight vectors move in the same direction determined by inputs in a multidimensional rectangle, and along each coordinate the distance is either preserved or reduced by one. When all these distances are reduced to zero, the two random walks mix.
+
+\subsection{Attacking KKK}
+
 \chapter{Chapter title}
 
 \section{Section title}
