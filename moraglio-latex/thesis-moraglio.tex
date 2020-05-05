@@ -339,8 +339,50 @@ Shortly after sender $S$ and recipient $R$ synchronize, they can be certain of t
 An interesting experimental result: in the majority of tests led by the authors, at least one  of the attacking nets became synchronized with $S$ even before $S$ and $R$ became fully synchronized. \\
 Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the two parties'nets. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
 
+\chapter{Adversarial Neural Cryptography}
+After a long period without any substantial contribution to neural cryptography, a new, revolutionary approach made its appearance in 2016, thanks to Google's researchers. That is, neural networks can learn to protect the secrecy of their data from other neural networks: they discover forms of encryption and decryption, without being taught specific algorithms for these purposes. This new approach to cryptography has been named ANC (Adversarial Neural Cryptography).
 
+\section{Google's Model}
+The research I'm considering is \cite{google}. In this paper, a new cryptosystem is proposed. At its core there are adversarial neural networks and in this section I'm examining this protocol.
 
+\subsection{Cryptosystem Organization}
+Let's start with some notation. In this scenario, we consider the problem of the secure communication between Alice and Bob, denote them $\mathcal{A}$ and 
+$\mathcal{B}$, respectively. Consider also a third participant, Eve ($\mathcal{E})$), who wishes to eavesdrop on their communication. Such adversary is passive, that means it can only intercept communications. \\
+In this scenario, Alice wishes to send a private message $P$  ("Plaintext") to Bob. Such message must be regarded as an input to $\mathcal{A}$, together with a key $K$. This key is also known by $\mathcal{B}$, that uses it to decipher $\mathcal{A}$'s output; denote it $C$ ("Ciphertext"). Also Eve knows $C$ and tries to recover $P$ from it, but $E$ cannot know $K$. Hence let $P_{Bob}$ and $P_{Eve}$ be the respective outputs. \\
+Alice, Bob, and Eve are represented by, guess what, neural networks, based on a "Mix and Trasform" architecture. This structure has a first fully-connected
+(FC) layer, where the number of outputs is equal to the number of inputs. $P$ and $K$ are fed into this layer, that enables mixing between the bits of these two vectors. Such layer is followed by a sequence of convolutional layers, the last of which produces an output of a size suitable for a plaintext or ciphertext.  These neural networks have parameters, which we write $\theta_{\mathcal{A}}$, $\theta_{\mathcal{B}}$ and $\theta_{\mathcal{E}}$. Moreover, $P$, $C$, $K$, $P_{Bob}$ and $P_{Eve}$ are vectors of float numbers; in particular values are allowed to range in $(-1, 1)$. \\
+Eve's objective is to reconstruct $P$, that is, to minimize the distance between $P$ and $P_{Eve}$. Alice and Bob want to communicate clearly (to minimize the error between $P$ and $P_{Bob}$ ), but also to hide their communication from $\mathcal{E}$. $\mathcal{A}$ and $\mathcal{B}$ are hence trained jointly to communicate securely and to defeat Eve: here lies the biggest innovation in ANC. \\
+Since we want Alice and Bob to be trained against the best possible version of Eve, we need to assume a probability distribution on plaintexts and keys. After that, we can rephrase the parties' objectives in terms of expectation. \\
+Denote Alice and Bob's output as $A(\theta_{\mathcal{A}}, P, K)$ and $B(\theta_{\mathcal{B}}, C, K)$, respectively. Similarly, write $E(\theta_{\mathcal{E}}, C)$ for Eve's output. As anticipated above, we need to choose a distance function on the space of plaintexts. In this model, assuming such $P$'s have length $N$, we take
+\begin{equation}
+d(P,P') = \sum_{i=0}^{N}|P_i - P'_i|,
+\end{equation}
+that is, the $L^1$ distance. Note that this choice is not crucial.  After defining an example-specific loss function for Eve,
+\begin{equation*}
+L_{\mathcal{E}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{E}}, P, K \right) = d\left(P, E(\theta_{\mathcal{E}}, A(\theta_{\mathcal{A}}, P, K) ) \right),
+\end{equation*}
+we can define the "true" loss function for $\mathcal{E}$ by taking expectations over the distributions of the $P$'s and $K$'s:
+\begin{equation}
+L_{\mathcal{E}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{E}}\right) = \mathbb{E}_{P,K} \left[ d\left(P, E(\theta_{\mathcal{E}}, A(\theta_{\mathcal{A}}, P, K) ) \right)\right].
+\end{equation}
+The optimal configuration for Eve, $O_{\mathcal{E}}$, can hence be found by minimizing the above loss (given a configuration of $\mathcal{A}$) .
+\begin{equation}
+O_{\mathcal{E}}\left(\theta_{\mathcal{A}} \right) = \textrm{argmin}_{\theta_{\mathcal{E}}}L_{\mathcal{E}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{E}}\right)
+\end{equation}
+Similarly, a per-example loss for Bob is defined and then extended to the distributions of plaintexts and keys:
+\begin{align}
+L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}, P, K \right) = d\left(P, B(\theta_{\mathcal{B}}, A(\theta_{\mathcal{A}}, P, K), K ) \right) \nonumber \\ 
+L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}\right) = \mathbb{E}_{P,K}\left[ d\left(P, B(\theta_{\mathcal{B}}, A(\theta_{\mathcal{A}}, P, K), K ) \right)\right].
+\end{align}
+We now need to define a joint loss function for Alice and Bob, which takes into account $\mathcal{B}$'s loss and the optimal value of Eve's loss (by maximizing $\mathcal{E}$'s reconstruction error). This is: 
+\begin{equation}
+L_{\mathcal{A}\mathcal{B}}(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}) = L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}\right) - L_{\mathcal{E}}(\theta_{\mathcal{A}}, O_{\mathcal{E}}\left(\theta_{\mathcal{A}} \right)).
+\end{equation}
+Note that also this choice may be subject to variations. Optimal configurations for Alice and Bob can hence by found as 
+\begin{equation}
+(O_{\mathcal{A}}, O_{\mathcal{B}}) = \textrm{argmin}_{(\theta_{\mathcal{A}}, \theta_{\mathcal{B}})}L_{\mathcal{A}\mathcal{B}}(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}) 
+\end{equation}
+It must be said that such optimal configuration are not necessarily unique.
 \chapter{Chapter title}
 
 \section{Section title}
