@@ -382,7 +382,16 @@ Note that also this choice may be subject to variations. Optimal configurations 
 \begin{equation}
 (O_{\mathcal{A}}, O_{\mathcal{B}}) = \textrm{argmin}_{(\theta_{\mathcal{A}}, \theta_{\mathcal{B}})}L_{\mathcal{A}\mathcal{B}}(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}) 
 \end{equation}
-It must be said that such optimal configuration are not necessarily unique.
+It must be said that such optimal configurations are not necessarily unique. \\
+A few words about training. Such procedure is based upon stochastic gradient descent and on estimated values calculated over examples (not on expected values over a distribution). In addition, $O_{\mathcal{E}}$ is not computed for given values of $\theta_{\mathcal{A}}$ , but simply approximated. This is done by alternating the training of Eve with that of Alice and Bob. \\
+Roughly speaking, training proceeds follows. At first, $\mathcal{A}$'s outputs may be totally incomprehensible for both $\mathcal{B}$ and $\mathcal{E}$. After a few steps, Bob could discover a way to decrypt Alice's messages at least partially, without Eve being able to do the same. Later, however, $\mathcal{E}$ may start to break this code. Alice and Bob should then find improvements to their security, in a way such that Eve would find impossible to adjust to those ciphers. Note that this kind of alternation is typical in game theory. 
+
+\subsection{ANC and selective protection} 
+Authors of ANC described an experiment to study to test this cryptosystem over selective protection: the question of whether neural networks can learn what information to protect. For example, a plaintext may be made up of several components, of which only few of them are required to be kept secret to the adversary. In this case, selective protection would mean a maximization in utility. \\
+Consider a dataset consisting of vectors of for values, namely $(A, B, C, D)$. The target is to build and train a system that, given as inputs the first three values, outputs two predictions of $D$:
+$\hat{D}$ and $D_{\text{public}}$. The former is most accurate possible estimate, while the latter is defined as the best possible estimate of $D$ that does not reveal any information about the value of $C$. \\
+As before, Alice and Bob share a key and both $\mathcal{B}$ and Eve have access to $\mathcal{A}$'s outputs, that are $D_{\text{public}}$ and a ciphertext $T$. Her input is $(A, B, C)$. Bob produces $\hat{D}$, while Eve tries to recover $C$. 
+Using strongly correlated values for $(A, B, C)$ and $D$, the authors were able to show that the adversarial training permits approximating $D$ without revealing $C$.
 \chapter{Chapter title}
 
 \section{Section title}
