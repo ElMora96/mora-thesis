@@ -392,6 +392,39 @@ Consider a dataset consisting of vectors of for values, namely $(A, B, C, D)$. T
 $\hat{D}$ and $D_{\text{public}}$. The former is most accurate possible estimate, while the latter is defined as the best possible estimate of $D$ that does not reveal any information about the value of $C$. \\
 As before, Alice and Bob share a key and both $\mathcal{B}$ and Eve have access to $\mathcal{A}$'s outputs, that are $D_{\text{public}}$ and a ciphertext $T$. Her input is $(A, B, C)$. Bob produces $\hat{D}$, while Eve tries to recover $C$. 
 Using strongly correlated values for $(A, B, C)$ and $D$, the authors were able to show that the adversarial training permits approximating $D$ without revealing $C$.
+
+\section{Improvements: CPA-ANC}
+This section is dedicated to an extension of Abadi and Andersen's model. In fact, also this last model has some limitations, that are shown in \cite{brazilians}. Authors of this paper elaborated an extension to ANC, that is discusses in the following.
+
+\subsection{Chosen-Plaintext Attack ANC}
+Main limitation to the security of original ANC model lies in Eve's job, that appears to be too hard. It must decrypt a random message having access only to the ciphertext. The consequence is that, under this methodology, Alice and Bob learn to protect against a weak adversary. It is however possible to strengthen Eve by letting it mount a CPA.  \\
+Eve chooses two plaintext messages, namely $P_0$ and $P_1$, and sends them to Alice. $\mathcal{A}$ chooses one of the messages randomly, encrypts it to $C$ and sends it to $\mathcal{B}$ and $\mathcal{E}$. The former decrypts the message using a NN, while the latter only outputs $0$ if it believes $P_0$ was encrypted or $1$ if it believes $P_1$ was encrypted.
+
+\subsection{Neural Network Architecture}
+A specific network architecture for this model is proposed, based on the continuous extension of logic operator XOR, built to learn an OTP algorithm. \\
+Consider mapping bit $0$ to angle $0$ and bit $1$ to angle $\pi$ (XOR can be seen as the sum of the angles). Generalizing bits to a continuous space, the following defines the mapping of a bit $b$ into an angle: 
+\begin{equation}
+\label{eq:bit-to-angle}
+f(b) = arccos(1 - 2b)
+\end{equation}
+Then consider its inverse:
+\begin{equation}
+\label{eq:angle-to-bit}
+f^{-1}(a) = \frac{1 - cos(a)}{2}
+\end{equation}
+The new net, named \textit{CryptoNet}, takes as input $P$ and $K$ and, for each bit, applies \ref{eq:bit-to-angle}. Next step is a weight matrix (write $W$) multiplication, followed by the inverse transformation \ref{eq:angle-to-bit}; output is $C$. Note bits $C_i \in (0,1)$. \textit{CryptoNet} will be denote mathematically as the function
+\begin{equation}
+C = \zeta_n(W, P, K),
+\end{equation}
+where we recall $n$ is the size of vectors $P$ and $K$.
+
+\subsection{Method}
+Let $E_{\mathcal{A}}(\cdot, K)$ be Alice's encryption function and let $D_{\mathcal{B}}(\cdot, K)$ be Bob's decryption function. In this setup, these maps are defined to be the same \textit{CryptoNet}:
+\begin{equation}
+E_{\mathcal{A}}(\cdot, K) = D_{\mathcal{B}}(\cdot, K) = \zeta_n(W, \cdot, K).
+\end{equation}
+This means, such network must be the inverse of itself.
+More details on the training procedure can be found in the original paper.
 \chapter{Chapter title}
 
 \section{Section title}
