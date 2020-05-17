@@ -1,22 +1,31 @@
 \BOOKMARK [0][]{section*.1}{List of Tables}{}% 1
 \BOOKMARK [0][]{section*.2}{List of Figures}{}% 2
-\BOOKMARK [0][]{chapter.1}{Neural Cryptography 1: History}{}% 3
-\BOOKMARK [1][]{section.1.1}{Pioneers of Neural Cryptography}{chapter.1}% 4
-\BOOKMARK [1][]{section.1.2}{Neural Networks in Cryptography: an interesting attempt}{chapter.1}% 5
-\BOOKMARK [2][]{subsection.1.2.1}{Genetic Algorithms in Neural Network Design}{section.1.2}% 6
-\BOOKMARK [2][]{subsection.1.2.2}{Voln\341's experiment}{section.1.2}% 7
-\BOOKMARK [1][]{section.1.3}{The KKK Key Exchange Protocol}{chapter.1}% 8
-\BOOKMARK [2][]{subsection.1.3.1}{The Protocol}{section.1.3}% 9
-\BOOKMARK [2][]{subsection.1.3.2}{More details on Synchronization}{section.1.3}% 10
-\BOOKMARK [2][]{subsection.1.3.3}{Attacking KKK}{section.1.3}% 11
-\BOOKMARK [0][]{chapter.2}{Adversarial Neural Cryptography}{}% 12
-\BOOKMARK [1][]{section.2.1}{Google's Model}{chapter.2}% 13
-\BOOKMARK [2][]{subsection.2.1.1}{Cryptosystem Organization}{section.2.1}% 14
-\BOOKMARK [2][]{subsection.2.1.2}{ANC and selective protection}{section.2.1}% 15
-\BOOKMARK [1][]{section.2.2}{Improvements: CPA-ANC}{chapter.2}% 16
-\BOOKMARK [2][]{subsection.2.2.1}{Chosen-Plaintext Attack ANC}{section.2.2}% 17
-\BOOKMARK [2][]{subsection.2.2.2}{Neural Network Architecture}{section.2.2}% 18
-\BOOKMARK [2][]{subsection.2.2.3}{Method}{section.2.2}% 19
-\BOOKMARK [0][]{chapter.3}{Chapter title}{}% 20
-\BOOKMARK [1][]{section.3.1}{Section title}{chapter.3}% 21
-\BOOKMARK [1][]{section.3.2}{Another section}{chapter.3}% 22
+\BOOKMARK [0][]{chapter.1}{Introduction to Neural Networks}{}% 3
+\BOOKMARK [1][]{section.1.1}{Biological Perspective}{chapter.1}% 4
+\BOOKMARK [1][]{section.1.2}{Principles}{chapter.1}% 5
+\BOOKMARK [1][]{section.1.3}{The Perceptron}{chapter.1}% 6
+\BOOKMARK [2][]{subsection.1.3.1}{Basic structure}{section.1.3}% 7
+\BOOKMARK [2][]{subsection.1.3.2}{Activation functions}{section.1.3}% 8
+\BOOKMARK [2][]{subsection.1.3.3}{Multi-Layer Perceptron}{section.1.3}% 9
+\BOOKMARK [1][]{section.1.4}{Back Propagation Training Algorithm}{chapter.1}% 10
+\BOOKMARK [0][]{chapter.2}{Genetic Algorithms: a brief overview}{}% 11
+\BOOKMARK [0][]{chapter.3}{Neural Cryptography 1: History}{}% 12
+\BOOKMARK [1][]{section.3.1}{Pioneers of Neural Cryptography}{chapter.3}% 13
+\BOOKMARK [1][]{section.3.2}{Neural Networks in Cryptography: an interesting attempt}{chapter.3}% 14
+\BOOKMARK [2][]{subsection.3.2.1}{Genetic Algorithms in Neural Network Design}{section.3.2}% 15
+\BOOKMARK [2][]{subsection.3.2.2}{Voln\341's experiment}{section.3.2}% 16
+\BOOKMARK [1][]{section.3.3}{The KKK Key Exchange Protocol}{chapter.3}% 17
+\BOOKMARK [2][]{subsection.3.3.1}{The Protocol}{section.3.3}% 18
+\BOOKMARK [2][]{subsection.3.3.2}{More details on Synchronization}{section.3.3}% 19
+\BOOKMARK [2][]{subsection.3.3.3}{Attacking KKK}{section.3.3}% 20
+\BOOKMARK [0][]{chapter.4}{Adversarial Neural Cryptography}{}% 21
+\BOOKMARK [1][]{section.4.1}{Google's Model}{chapter.4}% 22
+\BOOKMARK [2][]{subsection.4.1.1}{Cryptosystem Organization}{section.4.1}% 23
+\BOOKMARK [2][]{subsection.4.1.2}{ANC and selective protection}{section.4.1}% 24
+\BOOKMARK [1][]{section.4.2}{Improvements: CPA-ANC}{chapter.4}% 25
+\BOOKMARK [2][]{subsection.4.2.1}{Chosen-Plaintext Attack ANC}{section.4.2}% 26
+\BOOKMARK [2][]{subsection.4.2.2}{Neural Network Architecture}{section.4.2}% 27
+\BOOKMARK [2][]{subsection.4.2.3}{Method}{section.4.2}% 28
+\BOOKMARK [0][]{chapter.5}{Chapter title}{}% 29
+\BOOKMARK [1][]{section.5.1}{Section title}{chapter.5}% 30
+\BOOKMARK [1][]{section.5.2}{Another section}{chapter.5}% 31
