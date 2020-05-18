@@ -201,7 +201,7 @@ Notice that above historical principles do not all apply to most modern neural n
 \section{The Perceptron}
 \subsection{Basic structure}
 \label{percbs}
-The first neural computation model, that is called Perceptron, first appeared in \citep{rosenblatt} and serves as a building block to most later models. The Perceptron posses the fundamental structure of a neural cell, of several weighted input connections and a single output channel. The input/output relations are defined to be
+The first complete neural computation model, that is called Perceptron, first appeared in \citep{rosenblatt} and serves as a building block to most later models. The Perceptron posses the fundamental structure of a neural cell, of several weighted input connections and a single output channel. The input/output relations are defined to be
 \begin{align}
 z = \sum_{i}w_i x_i \\
 y = f_N(z),
@@ -256,11 +256,14 @@ while activation \ref{act-tanh} is transformed to
 \begin{equation}
 y_i = tanh(z_i) = \frac{1 - e^{-2z_i}}{1 + e^{-2z_i}}.
 \end{equation}
+ADD SHORT DESCRIPTION OF BIAS!
 \subsection{Multi-Layer Perceptron}
 ADD A FEW WORDS ABOUT MLP, JUST FOR COMPLETENESS
 \section{Back Propagation Training Algorithm}
-Back Propagation (BP) algorithm was first proposed in \cite{back}, as a solution for setting weights (and hence for the training) of multi-layer Perceptrons.
+Back Propagation (BP) algorithm was first proposed in \cite{back}, as a solution for setting weights (and hence for the training) of multi-layer Perceptrons. 
 The availability of a rigorous method to set intermediate weights, namely to train the hidden layers of neural networks, gave a major boost to the further development of such models. \\
+In the present section This algorithm is presented in detail. \\
+\subsection{The Algorithm}
 The BP algorithm starts with computing values of the output layer, which is by definition the only one whose desired outputs are available. Let $\epsilon$ be the the \textit{error-energy} at the output layer, that is
 \begin{equation}
 \label{errorenergy}
@@ -287,6 +290,7 @@ With the notations of \ref{percbs}, we can now substitute
 \end{equation}
 and 
 \begin{equation}
+\label{graupe6p8}
 \frac{\partial z_k}{\partial w_{kj}} = x_j(p) = y_j(p -1),
 \end{equation}
 with $p$ denoting the output layer. This way, equation \ref{substitution} becomes 
@@ -305,6 +309,7 @@ so that \ref{newsubstitution} yields
 \end{equation}
 So by this last equation and \ref{deltasub} we get
 \begin{equation}
+\label{graupe6p12}
 \Delta w_{kj} = \eta \phi_k(p)x_j(p) = \eta \phi_k(p)y_j(p-1).
 \end{equation}
 Furthermore, by \ref{phisub}:
@@ -322,6 +327,7 @@ y_k = f_N(z_k) = \frac{1}{1 + e^{-z_k}}
 \end{equation}
 and so we have that 
 \begin{equation}
+\label{graupe6p16}
 \frac{\partial y_k}{\partial z_k} = y_k(1 - y_k).
 \end{equation}
 Consequently, by equations \ref{newphi} and subsequent ones, 
@@ -337,9 +343,144 @@ where, by \ref{newphi}
 \begin{equation}
 \Delta w_{kj}(p) = \eta \phi_k(p)y_j(p-1),
 \end{equation}
-with $\phi_k$ being as in \ref{lastphi}, to complete the derivation of the setting of output layer's weights.
-\chapter{Genetic Algorithms: a brief overview}
+with $\phi_k$ being as in \ref{lastphi}, to complete the derivation of the setting of output layer's weights. \\
+If we now consider, in general, the $i$-th input to the $j$-th neuron of the $r$-th hidden layer, we still have, as before
+\begin{equation}
+\Delta w_{ji} = -\eta \frac{\partial \epsilon}{\partial w_{ij}}.
+\end{equation}
+Similarly to \ref{substitution} it holds
+\begin{equation}
+\frac{\partial \epsilon}{\partial w_{ji}} = \frac{\partial \epsilon}{\partial z_j} \frac{\partial z_j}{\partial w_{ji}}
+\end{equation}
+and taking into account equation \ref{graupe6p8} and the expression of $\phi$ in \ref{newphi} we get to
+\begin{equation}
+\Delta w_{ji} = -\eta \frac{\partial \epsilon}{\partial z_j} y_i (r-1) = \eta \phi_j(r)y_i(r-1).
+\end{equation}
+This way, again by right-hand side of \ref{newphi}, we obtain
+\begin{equation}
+\Delta w_{ji} = -\eta \left[ \frac{\partial \epsilon}{\partial y_j (r)} \frac{\partial y_j}{\partial z_j} \right]y_i(r-1),
+\end{equation}
+where $\frac{\partial \epsilon}{\partial y_j}$ is inaccessible (just like $\phi_j (r)$ above). \\
+Since we're considering backward propagation from the output, error-energy is only determined by upwards neurons:
+\begin{equation}
+\frac{\partial \epsilon}{\partial y_j (r)} = \sum_k \frac{\partial \epsilon}{\partial z_k (r+1)} \left[\frac{\partial z_k (r+1)}{\partial y_j (r)} \right] = \sum_k \frac{\partial \epsilon}{\partial z_k} \left[ \frac{\partial}{\partial y_j(r)} \sum_m w_{km}(r+1)y_m(r)\right].
+\end{equation}
+We remark that, in above expression, summation over $k$ is over the neurons of layer $r+1$ that connect to $y_j(r)$, while summation over $m$ is performed over all inputs to each $k$-th neuron of the $(r+1)$-th layer. Keeping in mind the definition of $\phi$, last equation yields
+\begin{equation} 
+\label{graupe6p25}
+\frac{\partial \epsilon}{\partial y_j (r)}  = \sum_k \frac{\partial \epsilon}{\partial z_k (r+1)}w_{kj} = - \sum_k \phi_k(r+1)w_{kj}(r+1),
+\end{equation}
+since only $w_{kj}(r+1)$ is connected to $y_j(r)$. Consequently, by equations \ref{newphi}, \ref{graupe6p16} and \ref{graupe6p25}
+\begin{equation}
+\phi_j(r) = \frac{\partial y_j}{\partial z_j}\sum_k \phi_k(r+1)w_{kj}(r +1) = y_j(r)\left[1 -y_j(r)\right]\sum_k \phi_k(r+1)w_{kj}(r +1)
+\end{equation}
+and finally, with some other substitutions, we obtain
+\begin{equation}
+\Delta w_{ji}(r) = \eta \phi_j(r)y_i(r-1),
+\end{equation}
+that is a function of $\phi$ and of the weights of the $(r + 1)$-th layer. \\
+Back Propagation algorithm thus propagates up to the first layer ($r = 1$), iterating over a pre-fixed set of training vectors. Weights are initialized randomly, while the learning rate $\eta$ should be adjusted stepwise for faster convergence.
+\subsection{Refinements and Extensions of BP}
+A series of modifications to the Back Propagation algorithm were introduced by scientists in order to improve the training procedure. Most important extensions include the introduction of bias into neural networks, smoothing the weight adjustment function and rescaling the activation function. \\
+If we want to consider bias in a model, we can regard it as a trainable quantity, just as is any other weight. In general, the bias term $b_i$ at the input to the $i$-th neuron is realized in term of a constant input $B$ with its relative weight:
+\begin{equation}
+b_i = w^b_i B.
+\end{equation}
+This algorithm sometimes tends to go through instability issues when computing weights and several smoothing techniques were proposed to deal with such problems. For instance, in \cite{sejnowski}, a smoothing term to modify equation \ref{graupe6p12} is given:
+\begin{align}
+&\Delta w_{ij}^{(m)} = \alpha \Delta w_{ij}^{(m-1)} + (1-\alpha)\phi_i(r)y_j(r-1)  \nonumber \\
+& w_{ij}^{(m+1)} = w_{ij}^{(m)} + \eta \Delta w_{ij}^{(m)},
+\end{align}
+where $\alpha \in \left(0,1 \right)$.
+Last, modifying the range of the sigmoid function, typically to $\left(-0.5,0.5\right)$ seems to improve converge speed of BP algorithm. 
 
+
+\chapter{Genetic Algorithms: a brief overview}
+Genetic Algorithms were invented by John Holland in the 1960s and can be considered a key building block of artificial intelligence. His aims were that of  formally studying the phenomenon of natural adaptation and that of importing such adaptation mechanisms into computer systems. In \cite{holland}, Genetic Algorithms (GA's) are presented as abstractions of biological evolution. Moreover, a theoretical framework for adaptation under GA's is described. \\
+Holland's GA is a method for evolving from one population of "chromosomes" to a new population by using an imitation of natural selection together with the genetic-inspired operators of crossover and mutation. In this chapter we briefly discuss how GA's works and why. Main reference for this part is \cite{mit}, whose author was one of Holland's students at MIT.
+\section{Definitions and Setting}
+The genome of the evolutionary model is represented by a multiset of size $N$:
+\begin{equation}
+\textbf{P}(t) = \{\vec{v}_1, \dots, \vec{v}_N \},
+\end{equation}
+whose elements (that are not necessarily distinct) are called chromosomes. Time variable $t\in \mathbb{N}$ denotes the $t$-th generation of the population. Each chromosome $\vec{v}_i$ is a bit vector of fixed length $n$:
+\begin{equation}
+\vec{v}_i = \left[v_i^{(1)}, \dots, v_i^{(n)} \right],
+\end{equation}
+where $v_i^{(j)} \in \{0,1\}$ $\forall j = 1, \dots, n$. We recall that there exist more advanced ways to represent chromosomes, but here we're limiting to the binary representation for simplicity. \\
+We now need to define some probabilities which are involved in the GA. Selection is based on the definition of a fitness function over the population:
+\begin{equation}
+f: \textbf{P}(t) \longrightarrow \mathbb{R}_0^{+}.
+\end{equation}
+We're now allowed to define total fitness and average fitness, namely
+\begin{align}
+F &= \sum_{\vec{v}\in \textbf{P}(t)}f(\vec{v}) \quad \text{and} \\
+\overline{F} &= \frac{F}{N}, \label{avgfit}
+\end{align}
+respectively. We can hence define the selection probability $P_S(\vec{v})$, for each chromosome $\vec{v}$:
+\begin{equation}
+P_S(\vec{v}) = \frac{f(v)}{F}.
+\end{equation}
+Note that \ref{avgfit}, despite not being explicitly computed in the algorithm, has great theoretical relevance (see ADD REF). \\
+The other probabilistic quantities involved are crossover probability $P_C$ and mutation probability $P_M$. The former can also be regarded as the fraction of elements of $\textbf{P}(t)$ that will go through reproduction, while the latter can be thought of as the percentage of bits (of all chromosomes) that will change due to random mutations. Both values are fixed and typically we have $P_C >> P_M$.
+
+\section{The Algorithm}
+Each execution of the Genetic Algorithm produces an offspring of chromosomes: it moves from  population $\textbf{P}(t)$ to $\textbf{P}(t+1)$. This evolution process happens in three main phases:
+\begin{enumerate}
+\item selection via \textit{Wheel of Fortune} model;
+\item reproduction via crossover;
+\item mutation.
+\end{enumerate}
+\subsection{Selection}
+As anticipated just above, in the first phase the algorithm mimics the behavior of wheel of fortune. First, a sequence $\{q_i\}_{i=0}^{N}$ is computed recursively in the following way:
+\begin{align}
+q_0 &= 0, \nonumber \\
+q_1 &= P_S(\vec{v}_1), \nonumber \\
+q_2 &= P_S(\vec{v}_1) + P_S(\vec{v}_2), \nonumber \\
+&\vdots \nonumber \\
+q_i &= \sum_{j=1}^{i}P_S(\vec{v}_j), \nonumber \\
+&\vdots \nonumber \\
+q_N &= \sum_{j=1}^{N}P_S(\vec{v}_j) = 1.
+\end{align}
+Such sequence determines a partition of the interval $\left[0,1\right]$ and the algorithm proceeds by "spinning" the wheel of fortune $N$ times . This means, a random number $r\in \left[0,1\right]$ is generated; if $r \leq 1$, then $\vec{v}_1$ is chosen; else if $q_{j-1} < r \leq q_j$ the chromosome of choice is $\vec{v}_j$. Notice that, with this procedure, a single chromosome may be selected several times. 
+\subsection{Reproduction}
+Second phase simulates biological crossover, thanks to which genetic recombination is guaranteed at every generation. For each chromosome $\vec{v}$ selected in previous phase
+\begin{itemize}
+\item a random number  $r\in \left[0,1\right]$ is generated;
+\item if $r < P_C$, then $\vec{v}$ is chosen for crossover.
+\end{itemize}
+Chromosomes chosen this way are then randomly coupled. Whenever their number is odd, another random chromosome can be added (or removed from the reproduction subset).\\
+For each couple $\vec{v}_A = \left[v_A^{(1)}, \dots, v_A^{(n)} \right] $ and $\vec{v}_B = \left[v_B^{(1)}, \dots, v_B^{(n)} \right] $, a random integer 
+$c \in \{1, 2, \dots, n - 1 \}$ is computed and the chromosomes are split in the following way:
+\begin{align}
+\vec{v}_A &= \left[v_A^{(1)}, \dots, v_A^{(c)} | v_A^{(c+1)}, \dots,  v_A^{(n)} \right]; \nonumber \\
+\vec{v}_B &= \left[v_B^{(1)}, \dots, v_B^{(c)} | v_B^{(c+1)}, \dots,  v_B^{(n)} \right].
+\end{align}
+After that, offspring chromosomes $\vec{w}_A$ and $\vec{w}_B$ are generated by swapping the blocks found above:
+\begin{align}
+\vec{w}_A &= \left[v_A^{(1)}, \dots, v_A^{(c)} | v_B^{(c+1)}, \dots,  v_B^{(n)} \right]; \nonumber \\
+\vec{w}_B &= \left[v_B^{(1)}, \dots, v_B^{(c)} | v_A^{(c+1)}, \dots,  v_A^{(n)} \right].
+\end{align}
+In other words
+\begin{equation}
+\vec{w}_A = \begin{cases}
+v_A^{(i)} \quad \text{if} \quad 1 \leq i \leq c \\
+v_B^{(i)} \quad \text{if} \quad c + 1 \leq i \leq n;
+\end{cases} 
+\end{equation}
+and
+\begin{equation}
+\vec{w}_B = \begin{cases}
+v_B^{(i)} \quad \text{if} \quad 1 \leq i \leq c \\
+v_A^{(i)} \quad \text{if} \quad c + 1 \leq i \leq n.
+\end{cases}
+\end{equation}
+\subsection{Mutation}
+For each chromosome $\vec{v}_i$ we consider its every bit $v_i^{(j)}$ $\forall j=1,\dots,n$ and the algorithm generates a random $r_j \in \left[0,1\right]$.
+If $r_j < P_M$, then the corresponding bit is changed to its two's complement (otherwise it's left unchanged). After these three phases we obtain a new population $\textbf{P}(t+1)$ with 
+\begin{equation}
+|\textbf{P}(t+1)|=|\textbf{P}(t)|=N.
+\end{equation}
 \chapter{Neural Cryptography 1: History}
 \section{Pioneers of Neural Cryptography}
 \newpage
@@ -348,7 +489,7 @@ with $\phi_k$ being as in \ref{lastphi}, to complete the derivation of the setti
 This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptoanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough. However, its importance lies in influencing subsequent works. (CITATIONS NEEDED!!!!!).
 
 \subsection{Genetic Algorithms in Neural Network Design}
-Main element in this research are feedforward neural nets with backpropagation, but the most interesting characteristic of Volna's approach is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
+Main element in this research are feedforward neural nets with Back Propagation, but the most interesting characteristic of Volna's approach is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
 The criterion of choice is the minimization of the sum of square of deviation of output from neural network. At first, the maximal architecture of the nets is proposed, then, at each step, to optimize the population it is necessary to solve the cryptographic problems of interest. Thereafter the process of genetic algorithms is applied. An optimal population is found either when it achieves the maximal generation or when fitness function achieves the maximal defined value. \\
 At this point, it is required to complete the "best" architecture by adapting weights and hence three digits are generated for every
 connection coming out from a unit. If the connection does not exist, three zeroes are assigned, else weights are computed this way:
@@ -755,8 +896,11 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 
 \bibitem[Rumelhart, Hinton and Williams (1986)]{back} {\sc Rumelhart, D.}, {\sc Hinton, G.} and {\sc Williams, R.} (1986). \textit{Learning representations by back-propagating errors}. Nature 323, 533–536.
 
+\bibitem[Sejnowski and Rosenberg (1987)]{sejnowski} {\sc Sejnowski, T. J.} and {\sc Rosenberg, C. R.} (1987). \textit{Parallel Networks that Learn to Pronounce English Text}. Complex Systems, 1.
+
 \bibitem[Mitchell (1998)]{mit} {\sc Mitchell, M.} (1998). \textit{An introduction to Genetic Algorithms}. MIT Press.
 
+\bibitem[Holland (1975)]{holland} {\sc Holland, J.} (1975). \textit{Adaptation in Natural and Artificial Systems}. MIT Press. 
 
 \bibitem[Volná (2000)]{volna} {\sc Volnà, E.} (2000). \textit{Using Neural Network in Cryptography}. University of Ostrava.
 
