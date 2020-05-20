@@ -421,7 +421,7 @@ respectively. We can hence define the selection probability $P_S(\vec{v})$, for 
 \begin{equation}
 P_S(\vec{v}) = \frac{f(v)}{F}.
 \end{equation}
-Note that \ref{avgfit}, despite not being explicitly computed in the algorithm, has great theoretical relevance (see ADD REF). \\
+Note that \ref{avgfit}, despite not being explicitly computed in the algorithm, has great theoretical relevance (see \ref{gabehavior}). \\
 The other probabilistic quantities involved are crossover probability $P_C$ and mutation probability $P_M$. The former can also be regarded as the fraction of elements of $\textbf{P}(t)$ that will go through reproduction, while the latter can be thought of as the percentage of bits (of all chromosomes) that will change due to random mutations. Both values are fixed and typically we have $P_C >> P_M$.
 
 \section{The Algorithm}
@@ -481,7 +481,57 @@ If $r_j < P_M$, then the corresponding bit is changed to its two's complement (o
 \begin{equation}
 |\textbf{P}(t+1)|=|\textbf{P}(t)|=N.
 \end{equation}
-\chapter{Neural Cryptography 1: History}
+
+\section{Holland Theorem}
+Despite GA's are quite simple to describe and implement, understanding their behavior appears to be quite complicated. According to Holland's theory, such algorithms work by discovering, emphasizing and recombining good "building blocks" (taken from chromosomes with high fitness). Such building blocks are formally named "schemas". 
+\subsection{Definitions}
+A schema is a set of bit strings that can be described as a template made up of the symbols $0$, $1$ and $*$, which denotes a "free entry". For example, the schema
+\begin{equation}
+\label{schemah}
+K = 1**1
+\end{equation}
+represents the set of all four-bit strings that begin and end with $1$. Vectors belonging to one of such sets are named instances of that schema. \\
+For a scheme $H$, we denote $o(H)$ the order of $H$, that is its number of defined bits ($\neq *$) and we let $d(H)$ be the schema's length (the distance between its outermost defined bits). In example before \ref{schemah}, we have $o(K)=2$ and $d(K)=3$.
+\subsection{Behavior of Genetic Algorithms}
+\label{gabehavior}
+After this few premises, we can discuss how the GA processes schemas. \\
+Any given bit string of length $l$ in an instance of $2^l$ different schemas. Thus, given a population of $N$ chromosomes, it contains instances of $k$ different schemes, with $2^l \leq k \leq N2^l$. This means that, at a given generation $t$, while the GA is explicitly evaluating the fitness of the $N$ chromosomes, it is actually implicitly estimating the average fitness of a much larger number of schemas (where the average fitness of a schema is defined to be the average fitness of all possible instances of that schema). Obviously, the estimates of schema average fitness are not calculated or stored by the GA, However, the algorithm's behavior can be described as though it was actually calculating and storing these averages. \\
+Let $H$ be a schema with at least one instance present in $\textbf{P}(t)$ and let $m(H,t)$ the number of instances of $H$ at time $t$. Moreover let $\hat{U}(H,t)$ be the observed average fitness. We want to compute 
+\begin{equation}
+\mathbb{E}\left[m(H, t + 1) \right],
+\end{equation}
+the expected number of instances of $H$ at time $t+1$. Assume that selection is carried out as described in previous section; the expected number of offspring of a chromosome $\vec{v}$ is equal to
+\begin{equation}
+\frac{f(\vec{v})}{\overline{F}}.
+\end{equation}
+We will write $\vec{v} \in H$ to denote "$\vec{v}$ is an instance of $H$". \\
+(For now) ignoring the effects of crossover and mutation, we have
+\begin{equation}
+\label{expectedmult}
+\mathbb{E}\left[m(H, t + 1) \right] = \sum_{\vec{v} \in H}\frac{f(\vec{v})}{\overline{F}} = \frac{\hat{U}(H,t)}{\overline{F}}m(H,t)
+\end{equation}
+by definition, since
+\begin{equation}
+\hat{U}(H,t) = \frac{\sum_{\vec{v} \in H}f(\vec{v})}{m(H,t)}.
+\end{equation}
+Thus even though the GA does not compute $\hat{U}(H,t)$ explicitly, the propagation of schema instances in the population depends on this quantity. \\
+Crossover and mutation can both destroy and create instances of $H$, but we limit to considering the disruptive effects. We say schema $H$ "survives" under crossover if at least one instance of such schema is present in the next generation. Letting $S_C(H)$ be the probability of such survival, with the customary notations we have
+\begin{equation}
+S_C(H) \geq 1 - P_C\left(\frac{d(H)}{n-1} \right).
+\end{equation}
+In short, the probability of survival under crossover is higher for short schemas. \\
+The effects of mutations can be quantified as follows. Let $S_M(H)$ be the probability that schema $H$ will survive under mutation. It can be expressed as
+\begin{equation}
+S_M(H) = (1-P_M)^{o(H)}.
+\end{equation}
+Above holds because mutation acts independently on each bit of each chromosome. In this case, longer schemes appear to be more resistant. \\
+These disruptive effects can be used to amend equation \ref{expectedmult}, in order to get a lower bound for $\mathbb{E}\left[m(H, t + 1) \right]$. Hence we get
+\begin{equation}
+\mathbb{E}\left[m(H, t + 1) \right] \geq \frac{\hat{U}(H,t)}{\overline{F}}m(H,t)\left( 1 - P_C\left(\frac{d(H)}{n-1} \right)\right)\left[ (1-P_M)^{o(H)}\right].
+\end{equation}
+Last result is known as Holland Theorem (or Schemata Theorem). It implies that short, high-average-fitness schemas will see their instances increase exponentially over time.
+
+\chapter{Neural Cryptography: History}
 \section{Pioneers of Neural Cryptography}
 \newpage
 
@@ -521,7 +571,7 @@ k - f_i^{\star} \quad \text{otherwise.}
 $$ 
 In the above expressions, $k, k_4$ and $k_5$ also denote constants.
 The genetic algorithm used by Volná makes use of standard crossover and mutation procedures, as the ones described in the specific chapter. Here we omit details. \\
-Adaptation of the best found network architecture is finished with backpropagation.
+Adaptation of the best found network architecture is finished with Back Propagation.
 
 \subsection{Volná's experiment}
 In this work, the parameters of the adapted neural network become the key of an encryption/decryption algorithm. Topology of such NN clearly depends on the training set that, in Volná's case, is represented in table ~\ref{table:traingset}, while the chain of chars of the plain text is equivalent to a binary value, that is 96 less than its ASCII code. The cipher text is a randomly generated chain of bits.
@@ -729,22 +779,6 @@ This means, such network must be the inverse of itself.
 More details on the training procedure can be found in the original paper.
 \chapter{Chapter title}
 
-\section{Section title}
-Body of text, with unnumbered equations 
-\begin{equation*}%\label{}
-Y=\beta_{0}+\beta_{1}X+\varepsilon
-\end{equation*} 
-if not referenced, or numbered equations
-\begin{equation}\label{eq1}
-Y=\beta_{0}+\beta_{1}X+\varepsilon
-\end{equation} 
-to be referenced like this \eqref{eq1} if needed. 
-
-Start of a new paragraph here, where you can have inline math $y=a+bx$. 
-
-
-
-
 \section{Another section}
 
 Tex of the section with example of theorem
@@ -837,30 +871,6 @@ $\\[0mm]
 
 which is referred as Algorithm \ref{algorithm}. 
 
-
-
-
-\bigskip 
-Example of table
-\begin{table}[htp]              % crea un floating body col nome Tabella nella
-                                % didascalia
-\centering                      % comando necessario per centrare la tabella
-\begin{tabular}%                % inizio vero e proprio della tabella
-{|rrrrrr|}                        % parametri di incolonnamento
-\hline                    % filetti orizzontali sopra la tabella
-                                % intestazione della tabella
-\multicolumn{3}{|c}{\rule{0pt}{2.5ex}Temperatura} % \rule serve per lasciare
-& \multicolumn{3}{c|}{Densit\`a} \\               % un po' di spazio sopra le parole
-    &\unit{\gradi C} & & & $\unit{t/m^3}$ &  \\
-\hline%                         % Filetto orizzontale per separare l'intestazione
-\hspace*{1.3em}& 0  &  & & 13,8 &  \\   % I numeri sono incolonnati %
-              & 10  &  & & 13,6 &  \\   % a destra; le colonne vuote
-              & 50  &  & & 13,5 &  \\   % servono per centrare le colonne
-              &100  &  & & 13,3 &  \\   % numeriche sotto le intestazioni
- \hline                           % Filetti di fine tabella
-\end{tabular}
-\caption[Densit\`a del mercurio]{Densit\`a del mercurio. Si pu\`o fare molto meglio usando il pacchetto \textsf{booktabs}.} \label{t:1}  % didascalia con label
-\end{table}
 
 
 %\selectlanguage{italian}

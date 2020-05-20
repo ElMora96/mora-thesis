@@ -20,23 +20,25 @@
 \contentsline {subsection}{\numberline {2.2.1}Selection}{19}{subsection.2.2.1}% 
 \contentsline {subsection}{\numberline {2.2.2}Reproduction}{19}{subsection.2.2.2}% 
 \contentsline {subsection}{\numberline {2.2.3}Mutation}{20}{subsection.2.2.3}% 
-\contentsline {chapter}{\numberline {3}Neural Cryptography 1: History}{21}{chapter.3}% 
-\contentsline {section}{\numberline {3.1}Pioneers of Neural Cryptography}{21}{section.3.1}% 
-\contentsline {section}{\numberline {3.2}Neural Networks in Cryptography: an interesting attempt}{22}{section.3.2}% 
-\contentsline {subsection}{\numberline {3.2.1}Genetic Algorithms in Neural Network Design}{22}{subsection.3.2.1}% 
-\contentsline {subsection}{\numberline {3.2.2}Volná's experiment}{23}{subsection.3.2.2}% 
-\contentsline {section}{\numberline {3.3}The KKK Key Exchange Protocol}{24}{section.3.3}% 
-\contentsline {subsection}{\numberline {3.3.1}The Protocol}{25}{subsection.3.3.1}% 
-\contentsline {subsection}{\numberline {3.3.2}More details on Synchronization}{26}{subsection.3.3.2}% 
-\contentsline {subsection}{\numberline {3.3.3}Attacking KKK}{28}{subsection.3.3.3}% 
-\contentsline {chapter}{\numberline {4}Adversarial Neural Cryptography}{29}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Google's Model}{29}{section.4.1}% 
-\contentsline {subsection}{\numberline {4.1.1}Cryptosystem Organization}{29}{subsection.4.1.1}% 
-\contentsline {subsection}{\numberline {4.1.2}ANC and selective protection}{31}{subsection.4.1.2}% 
-\contentsline {section}{\numberline {4.2}Improvements: CPA-ANC}{32}{section.4.2}% 
-\contentsline {subsection}{\numberline {4.2.1}Chosen-Plaintext Attack ANC}{32}{subsection.4.2.1}% 
-\contentsline {subsection}{\numberline {4.2.2}Neural Network Architecture}{32}{subsection.4.2.2}% 
-\contentsline {subsection}{\numberline {4.2.3}Method}{33}{subsection.4.2.3}% 
-\contentsline {chapter}{\numberline {5}Chapter title}{35}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Section title}{35}{section.5.1}% 
-\contentsline {section}{\numberline {5.2}Another section}{35}{section.5.2}% 
+\contentsline {section}{\numberline {2.3}Holland Theorem}{20}{section.2.3}% 
+\contentsline {subsection}{\numberline {2.3.1}Definitions}{21}{subsection.2.3.1}% 
+\contentsline {subsection}{\numberline {2.3.2}Behavior of Genetic Algorithms}{21}{subsection.2.3.2}% 
+\contentsline {chapter}{\numberline {3}Neural Cryptography: History}{23}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Pioneers of Neural Cryptography}{23}{section.3.1}% 
+\contentsline {section}{\numberline {3.2}Neural Networks in Cryptography: an interesting attempt}{24}{section.3.2}% 
+\contentsline {subsection}{\numberline {3.2.1}Genetic Algorithms in Neural Network Design}{24}{subsection.3.2.1}% 
+\contentsline {subsection}{\numberline {3.2.2}Volná's experiment}{25}{subsection.3.2.2}% 
+\contentsline {section}{\numberline {3.3}The KKK Key Exchange Protocol}{26}{section.3.3}% 
+\contentsline {subsection}{\numberline {3.3.1}The Protocol}{27}{subsection.3.3.1}% 
+\contentsline {subsection}{\numberline {3.3.2}More details on Synchronization}{28}{subsection.3.3.2}% 
+\contentsline {subsection}{\numberline {3.3.3}Attacking KKK}{30}{subsection.3.3.3}% 
+\contentsline {chapter}{\numberline {4}Adversarial Neural Cryptography}{31}{chapter.4}% 
+\contentsline {section}{\numberline {4.1}Google's Model}{31}{section.4.1}% 
+\contentsline {subsection}{\numberline {4.1.1}Cryptosystem Organization}{31}{subsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.1.2}ANC and selective protection}{33}{subsection.4.1.2}% 
+\contentsline {section}{\numberline {4.2}Improvements: CPA-ANC}{34}{section.4.2}% 
+\contentsline {subsection}{\numberline {4.2.1}Chosen-Plaintext Attack ANC}{34}{subsection.4.2.1}% 
+\contentsline {subsection}{\numberline {4.2.2}Neural Network Architecture}{34}{subsection.4.2.2}% 
+\contentsline {subsection}{\numberline {4.2.3}Method}{35}{subsection.4.2.3}% 
+\contentsline {chapter}{\numberline {5}Chapter title}{37}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Another section}{37}{section.5.1}% 
