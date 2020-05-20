@@ -28,13 +28,16 @@
 \BOOKMARK [2][]{subsection.3.3.1}{The Protocol}{section.3.3}% 28
 \BOOKMARK [2][]{subsection.3.3.2}{More details on Synchronization}{section.3.3}% 29
 \BOOKMARK [2][]{subsection.3.3.3}{Attacking KKK}{section.3.3}% 30
-\BOOKMARK [0][]{chapter.4}{Adversarial Neural Cryptography}{}% 31
-\BOOKMARK [1][]{section.4.1}{Google's Model}{chapter.4}% 32
-\BOOKMARK [2][]{subsection.4.1.1}{Cryptosystem Organization}{section.4.1}% 33
-\BOOKMARK [2][]{subsection.4.1.2}{ANC and selective protection}{section.4.1}% 34
-\BOOKMARK [1][]{section.4.2}{Improvements: CPA-ANC}{chapter.4}% 35
-\BOOKMARK [2][]{subsection.4.2.1}{Chosen-Plaintext Attack ANC}{section.4.2}% 36
-\BOOKMARK [2][]{subsection.4.2.2}{Neural Network Architecture}{section.4.2}% 37
-\BOOKMARK [2][]{subsection.4.2.3}{Method}{section.4.2}% 38
-\BOOKMARK [0][]{chapter.5}{Chapter title}{}% 39
-\BOOKMARK [1][]{section.5.1}{Another section}{chapter.5}% 40
+\BOOKMARK [0][]{chapter.4}{Neural Cryptanalysis}{}% 31
+\BOOKMARK [1][]{section.4.1}{Cryptanalysis of Simon Cipher using Neural Networks}{chapter.4}% 32
+\BOOKMARK [2][]{subsection.4.1.1}{Simon Cipher}{section.4.1}% 33
+\BOOKMARK [0][]{chapter.5}{Adversarial Neural Cryptography}{}% 34
+\BOOKMARK [1][]{section.5.1}{Google's Model}{chapter.5}% 35
+\BOOKMARK [2][]{subsection.5.1.1}{Cryptosystem Organization}{section.5.1}% 36
+\BOOKMARK [2][]{subsection.5.1.2}{ANC and selective protection}{section.5.1}% 37
+\BOOKMARK [1][]{section.5.2}{Improvements: CPA-ANC}{chapter.5}% 38
+\BOOKMARK [2][]{subsection.5.2.1}{Chosen-Plaintext Attack ANC}{section.5.2}% 39
+\BOOKMARK [2][]{subsection.5.2.2}{Neural Network Architecture}{section.5.2}% 40
+\BOOKMARK [2][]{subsection.5.2.3}{Method}{section.5.2}% 41
+\BOOKMARK [0][]{chapter.6}{Chapter title}{}% 42
+\BOOKMARK [1][]{section.6.1}{Another section}{chapter.6}% 43

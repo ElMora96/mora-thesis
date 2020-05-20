@@ -691,6 +691,20 @@ Shortly after sender $S$ and recipient $R$ synchronize, they can be certain of t
 An interesting experimental result: in the majority of tests led by the authors, at least one  of the attacking nets became synchronized with $S$ even before $S$ and $R$ became fully synchronized. \\
 Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the two parties'nets. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
 
+\chapter{Neural Cryptanalysis}
+Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing two examples of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see \ref{cpaanc}). \\
+\section{Cryptanalysis of Simon Cipher using Neural Networks}
+The study I'm considering in this section is \cite{jay}, in which its author describes a novel, complete approach of using neural networks in cryptoanalysis. The cryptosystem of interest belongs to the family of Simon block ciphers, publicly released by NSA in 2013. (ADD CIT.)  \\
+\subsection{Simon Cipher}
+Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithms, but it is good for the research's purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. 
+%(Add citation https://eprint.iacr.org/2013/404.pdf). 
+
+
+
+
+
+
+
 \chapter{Adversarial Neural Cryptography}
 After a long period without any substantial contribution to neural cryptography, a new, revolutionary approach made its appearance in 2016, thanks to Google's researchers. That is, neural networks can learn to protect the secrecy of their data from other neural networks: they discover forms of encryption and decryption, without being taught specific algorithms for these purposes. This new approach to cryptography has been named ANC (Adversarial Neural Cryptography).
 
@@ -749,6 +763,7 @@ Using strongly correlated values for $(A, B, C)$ and $D$, the authors were able 
 This section is dedicated to an extension of Abadi and Andersen's model. In fact, also this last model has some limitations, that are shown in \cite{brazilians}. Authors of this paper elaborated an extension to ANC, that is discusses in the following.
 
 \subsection{Chosen-Plaintext Attack ANC}
+\label{cpaanc}
 Main limitation to the security of original ANC model lies in Eve's job, that appears to be too hard. It must decrypt a random message having access only to the ciphertext. The consequence is that, under this methodology, Alice and Bob learn to protect against a weak adversary. It is however possible to strengthen Eve by letting it mount a CPA.  \\
 Eve chooses two plaintext messages, namely $P_0$ and $P_1$, and sends them to Alice. $\mathcal{A}$ chooses one of the messages randomly, encrypts it to $C$ and sends it to $\mathcal{B}$ and $\mathcal{E}$. The former decrypts the message using a NN, while the latter only outputs $0$ if it believes $P_0$ was encrypted or $1$ if it believes $P_1$ was encrypted.
 
@@ -926,6 +941,8 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 \bibitem[Coutinho et al.(2018)]{brazilians} {\sc Coutinho, M.}, {\sc Robson de Oliveira Albuquerque, R.}, {\sc Borges, F. }, {\sc Villalba, L. J. G.} and  {\sc Kim T. H.} (2018). \textit{Learning Perfectly Secure Cryptography to Protect Communications with Adversarial Neural Cryptography}. University of Brasília.
 
 \bibitem[Jayachandiran (2018)]{jay} {\sc Jayachandiran, K.} (2018). \textit{A Machine Learning Approach for Cryptanalysis}. Rochester Institute of Technology.
+
+\bibitem[Alani (2012)]{alani} {\sc Alani, M. M.} (2012). \textit{Neuro-cryptanalysis of DES}. World Congress on Internet Security (WorldCIS-2012)
 
 \bibitem[Gohr (2019)]{gohr} {\sc Gohr, A.} (2019). \textit{Improving Attacks on Round-Reduced Speck32/64 Using Deep Learning}. Bundesamt für Sicherheit in der Informationstechnik (BSI).
 
