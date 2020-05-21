@@ -692,17 +692,34 @@ An interesting experimental result: in the majority of tests led by the authors,
 Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the two parties'nets. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
 
 \chapter{Neural Cryptanalysis}
-Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing two examples of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see \ref{cpaanc}). \\
+Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see \ref{cpaanc}). \\
 \section{Cryptanalysis of Simon Cipher using Neural Networks}
-The study I'm considering in this section is \cite{jay}, in which its author describes a novel, complete approach of using neural networks in cryptoanalysis. The cryptosystem of interest belongs to the family of Simon block ciphers, publicly released by NSA in 2013. (ADD CIT.)  \\
+The study I'm considering in this section is \cite{jay}, in which its author describes a novel, complete approach of using neural networks in cryptoanalysis. The cryptosystem of interest belongs to the family of Simon block ciphers, publicly released by NSA in 2013. (ADD CIT.)  
+%(Add citation https://eprint.iacr.org/2013/404.pdf). \\
 \subsection{Simon Cipher}
-Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithms, but it is good for the research's purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. 
-%(Add citation https://eprint.iacr.org/2013/404.pdf). 
+Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithm, but it is good for the research's purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. \\
+Simon has has input block size of length $32$, with a key size of $64$ bits in length. In this study, Simon cipher is round-reduced: it encrypts the plaintexts with first a single round of the Feistel network and then with two rounds; same is for decryption. (ADD PICTURE)\\
+More precisely, the $32$ bits long plaintext $x$ is divided into two blocks of $16$ bits in length, namely $x_i$ and $x_{i+1}$, respectively. The former half is made to go through several left circular shift units, with $S^j$, $j = 1,2,8$, representing shift by one, two and eight bits respectively. A bitwise \textit{AND} is performed on the results of $S^1$ and $S^8$, followed by a bitwise \textit{XOR} with the second half $x_{i+1}$. The result of previous operation is again \textit{XOR}-ed with the result from $S^2$. \\
+In general, Simon creates a list of key words $k_0, k_1, \dots, k_T$, where $T$ is the number of rounds. Since in this case the algorithms is simplified to one round and two rounds of the cipher, the key schedules generate only one and two key words respectively. The corresponding key word from the key schedule is then \textit{XOR}-ed with the result of the last performed operation. In the final step of the round, the result from the last step is swapped with the input block $x_{i+1}$ and then passed on to the next round.
 
+\subsection{Neural Network Design}
+The architecture of choice is the multi-layer perceptron, with some extensions that we discuss in the following. \\
+Each neuron in the input layer corresponds to each bit of the plaintext and ciphertext pairs; that is $64$ input neurons. Same size for the output layer, in which each cell predicts whether the key bit is $0$ or $1$. The number of neurons in hidden layers, instead, varies up to $1024$. According to the authors of the aforementioned publication, this decision helped increase the accuracy of the model. For the same reason, all layers are fully-connected (FC).\\
+A few words about the activation function. It takes into account a bias assigned to the neuron and it's known in literature as Linear Rectifier, that is 
+\begin{equation}
+y = f(z)= z + b = \sum_j w_jx_j + b,
+\end{equation}
+where the $x_j$'s are the inputs with the corresponding weights $w_j$; and $b$ denotes the bias. Weights of the neurons are initialized randomly according to a uniform distribution over the interval $(0,1)$ and are updated after each iteration; same for the biases.
 
+\subsection{Data and Results}
+In the experiment described in \cite{jay}, training data consists in a large set of records, each of which is a $32$-bit, randomly generated plaintext, with the corresponding $32$-bit long ciphertext. Around 5 million records were generated with 1000 keys (where each key encrypted 5000 plaintexts). \\
+The neural nets describes in previous section are implemented using \textit{Keras}, configured to work on top of \textit{Tensorflow}. The project required the installation of the GPU versions of such softwares. In fact, not being run on a Cloud, the training of such networks clearly appears to be computationally expensive. \\
+(ADD TABLE WITH SAMPLE TRAINING DATA). \\
 
-
-
+The trained neural network model is then used to predict the key of the plaintext-ciphertext pairs. The accuracy of the network is measured by identifying the number of bits predicted by the neural network that are the same as the key bits in the original key. Better results were attained when considering a single round of the Speck cipher. In this case, after a considerable number of training epochs, an accuracy around 70\% was reached. \\
+A powerful extension of this project could be a design based on fuzzy classifiers that could be used along with the neural networks to yield probabilities for zeros and ones, rather than hard predictions that this model does. \\
+For example, another sensible improvement in using NN's to attack this kind of ciphers can be found in \citep{gohr}. In this paper, an efficient Chosen-Plaintext-Attack to Speck (the hardware version of Simon) is implemented by making use of convolutional neural networks. In this case, the attack reveals to be effective even against ciphertext created eight or nine rounds of the cipher. 
+(ADD MORE DETAILS? GOHR'S WORK IS VERY COMPLICATED).
 
 
 \chapter{Adversarial Neural Cryptography}
