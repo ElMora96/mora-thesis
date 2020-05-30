@@ -77,7 +77,7 @@
 \newtheorem{remark1}[theorem]{Remark} \newenvironment{remark}{\begin{remark1}\rm}{\hfill$\square$\end{remark1}}
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage[font=small]{caption}
-
+\usepackage{setspace} %spacing issues
 %%%%%%%% Esempio di composizione di tesi di laurea con PDFLATEX
 %
 %
@@ -186,7 +186,9 @@ To start off, an overview on biological neural network is needed, as ANN's in pr
 The biological neural network consists of interconnected nerve cells (called neurons), whose bodies are where most of the neural "computation" takes place. Neural activity passes from one neuron to another through electrical signals which travel from one cell to the following down the neuron's axon, that can be seen as a connection wire. However, the mechanism of signal transmission in not via electrical conduction, but via charge exchange that is transported by diffusion ions. At the terminal end of the axon, a synaptic gap takes place and an electro-chemical process allows communication with the other cell. \\
 Since a given neuron may have many synapses, it can connect to many other cells. Similarly, since there are many dendrites (input connections) per each neuron, a single nerve cell can receive signals from many other neurons. It is very important to notice that not all of such interconnections are equally weighted: some have a higher priority than others. Also some are inhibitory and some are excitory. These facts are also key feature of artificial neural networks, as I'll discuss in the following sections.
 \section{Principles}
-The theoretical principles of the artificial neural networks first appeared in \cite{mcculloch}. In this early work, five assumptions were formulated:
+\begin{singlespace}
+The theoretical principles of the artificial neural networks first appeared in the pioneering paper \cite{mcculloch}. In this early work, five fundamental assumptions were formulated:
+\end{singlespace}
 \begin{enumerate}
 \item the activity of an artificial neuron is all-or-nothing;
 \item a certain fixed number of synapses greater than one must be excited for a neuron to be excited;
@@ -206,10 +208,10 @@ The first complete neural computation model, that is called Perceptron, first ap
 z = \sum_{i}w_i x_i \\
 y = f_N(z),
 \end{align}
-where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. $y$, instead, denotes the cell's output, that is a nonlinear activation function $f_N$ (see \ref{percact} below) of the node output $z$. \\
+where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. $y$, instead, denotes the cell's output, that is a nonlinear activation function $f_N$ (see Subsection \ref{percact} below) of the node output $z$. \\
 It is customary to consider a network of $n$ Perceptrons; in this case, by letting $z_i$ be the summation output of the $i$-th Perceptron and its inputs $x_{i,j}$, the summation relation becomes
 \begin{equation}
-z_i = \sum_{j=1}^{m}w_{ij} x_{ij}, 
+z_i = \sum_{j=1}^{m}w_{ij} x_{ij}, \quad i \in \{1,\dots,n\},
 \end{equation}
 or, in vector form 
 \begin{equation}
@@ -219,15 +221,15 @@ z_i = \vec{w}_i^{\intercal}\vec{x}_i,
 where
 \begin{align*}
 \vec{w}_i = \left[w_{i1}, \dots, w_{in} \right]^\intercal \\
-\vec{x}_i = \left[x_{i1}, \dots, x_{in} \right]^\intercal.
+\vec{x}_i = \left[x_{i1}, \dots, x_{in} \right]^\intercal,
 \end{align*}
-
+for every $i \in \{1,\dots,n\}$. 
 \subsection{Activation functions}
 \label{percact}
 The Perceptron's cell's output differs from the summation output \ref{percout} by the activation operation of the neuron's body, just as the output of the biological cell differs from the weighted sum of its inputs. Such operation is in terms of an activation function $f_N(z_i)$, which is a non-linear operator yielding $i$-th neuron's output $y_i$ to satisfy certain limiting properties. Different functions are in use, but the most common choice is the sigmoid function, that is
 \begin{equation}
 \label{act-sigmoid}
-y_i = f_N(z_i) = \frac{1}{1 + e^{-z_i}}.
+y_i = f_N(z_i) = \frac{1}{1 + e^{-z_i}}, \quad i \in \{1,\dots,n\}.
 \end{equation}
 Under this choice, the following relations are satisfied (see figure TO ADD!!).
 \begin{align*}
@@ -238,7 +240,7 @@ z_i \to  \infty \quad &\Longleftrightarrow \quad y_i \to 1.
 Another popular activation function is
 \begin{equation}
 \label{act-tanh}
-y_i = \frac{1 + tanh(z_i)}{2} = \frac{1}{1 - e^{-2z_i}},
+y_i = \frac{1 + \tanh(z_i)}{2} = \frac{1}{1 - e^{-2z_i}},
 \end{equation}
 whose shape is similar to the one of the previous function. The simplest activation one could choose is the Heaviside step function:
 \begin{equation*}
@@ -247,22 +249,24 @@ y_i = H(z_i) = \begin{cases}
 0 \quad \text{otherwise.}
 \end{cases}
 \end{equation*}
-Main advantage of the former two over the latter is that they're (mathematically) smooth. \\
-In many applications the activation function's output is translated so that it ranges in $\left(-1, 1\right)$, rather than in $\left(0, 1 \right)$. In particular, sigmoid function \ref{act-sigmoid} becomes 
+Main advantage of the former two over the latter is that they are (mathematically) smooth. \\
+In many applications the activation function's output is translated so that it ranges in $\left(-1, 1\right)$, rather than in $\left(0, 1 \right)$. In particular, sigmoid function \eqref{act-sigmoid} becomes 
 \begin{equation}
 y_i = \frac{2}{1 + e^{-z_i}} -1 = tanh(z_i/2),
 \end{equation}
-while activation \ref{act-tanh} is transformed to 
+while activation \eqref{act-tanh} is transformed to 
 \begin{equation}
 y_i = tanh(z_i) = \frac{1 - e^{-2z_i}}{1 + e^{-2z_i}}.
 \end{equation}
 ADD SHORT DESCRIPTION OF BIAS!
 \subsection{Multi-Layer Perceptron}
 ADD A FEW WORDS ABOUT MLP, JUST FOR COMPLETENESS
+
+\newpage
 \section{Back Propagation Training Algorithm}
 Back Propagation (BP) algorithm was first proposed in \cite{back}, as a solution for setting weights (and hence for the training) of multi-layer Perceptrons. 
 The availability of a rigorous method to set intermediate weights, namely to train the hidden layers of neural networks, gave a major boost to the further development of such models. \\
-In the present section This algorithm is presented in detail. \\
+In the present section this algorithm is presented in detail. \\
 \subsection{The Algorithm}
 The BP algorithm starts with computing values of the output layer, which is by definition the only one whose desired outputs are available. Let $\epsilon$ be the the \textit{error-energy} at the output layer, that is
 \begin{equation}
@@ -271,9 +275,9 @@ The BP algorithm starts with computing values of the output layer, which is by d
 \end{equation}
 where $N$ is the number of neurons in the output layer. Consider the gradient of $\epsilon$:
 \begin{equation}
-\nabla \epsilon_k = \frac{\partial \epsilon}{\partial w_kj}.
+\nabla \epsilon_k = \frac{\partial \epsilon}{\partial w_{kj}}.
 \end{equation}
-Recall that $w_kj$ is denoting the weight of the $j$-th input to the $k$-th neuron. By the gradient descent procedure (ADD SOMETHING ABOUT THIS?), we have that 
+Recall that $w_{kj}$ is denoting the weight of the $j$-th input to the $k$-th neuron. By the gradient descent procedure (ADD SOMETHING ABOUT THIS?), we have that 
 \begin{equation}
 w_{kj}(m+1) = w_{kj}(m) + \Delta w_{kj}(m),
 \end{equation}
@@ -283,7 +287,7 @@ where
 \Delta w_{kj} = -\eta \frac{\partial \epsilon}{\partial w_{kj}}
 \end{equation}
 and $\eta \in \left(0,1 \right)$ is the rate parameter. Note that the minus sign indicates a down-hill direction towards a minimum. \\
-With the notations of \ref{percbs}, we can now substitute 
+With the notations of Subsection \ref{percbs}, we can now substitute 
 \begin{equation}
 \label{substitution}
 \frac{\partial \epsilon}{\partial w_{kj}} = \frac{\partial \epsilon}{\partial z_k} \frac{\partial z_k}{\partial w_{kj}}
@@ -293,7 +297,7 @@ and
 \label{graupe6p8}
 \frac{\partial z_k}{\partial w_{kj}} = x_j(p) = y_j(p -1),
 \end{equation}
-with $p$ denoting the output layer. This way, equation \ref{substitution} becomes 
+with $p$ denoting the output layer. This way, equation \eqref{substitution} becomes 
 \begin{equation}
 \label{newsubstitution}
 \frac{\partial \epsilon}{\partial w_{kj}} = \frac{\partial \epsilon}{\partial z_k}x_j(p) = \frac{\partial \epsilon}{\partial z_k} y_j(p-1).
@@ -303,21 +307,21 @@ We now have to define
 \label{phisub}
 \phi_k(p) = - \frac{\partial \epsilon}{\partial z_k},
 \end{equation}
-so that \ref{newsubstitution} yields 
+so that \eqref{newsubstitution} yields 
 \begin{equation}
 \frac{\partial \epsilon}{\partial w_{kj}} = - \phi_k(p)x_j(p) = -\phi_k(p)y_j(p-1).
 \end{equation}
-So by this last equation and \ref{deltasub} we get
+So by this last equation and \eqref{deltasub} we get
 \begin{equation}
 \label{graupe6p12}
 \Delta w_{kj} = \eta \phi_k(p)x_j(p) = \eta \phi_k(p)y_j(p-1).
 \end{equation}
-Furthermore, by \ref{phisub}:
+Furthermore, by \eqref{phisub}:
 \begin{equation}
 \label{newphi}
 \phi_k = - \frac{\partial \epsilon}{\partial z_k} = - \frac{\partial \epsilon}{\partial y_k} \frac{\partial y_k}{\partial z_k}.
 \end{equation}
-But, going back to error-energy definition \ref{errorenergy}
+But, going back to error-energy definition in \eqref{errorenergy}
 \begin{equation}
 \frac{\partial \epsilon}{\partial y_k} = -\left(d_k - y_k \right) = y_k - d_k,
 \end{equation}
@@ -330,33 +334,34 @@ and so we have that
 \label{graupe6p16}
 \frac{\partial y_k}{\partial z_k} = y_k(1 - y_k).
 \end{equation}
-Consequently, by equations \ref{newphi} and subsequent ones, 
+Consequently, by equations \eqref{newphi} and subsequent ones, 
 \begin{equation}
 \label{lastphi}
 \phi_k = y_k(1 - y_k)(d_k - y_k),
 \end{equation}
-such that, at the output layer, by \ref{deltasub} and \ref{substitution}
+such that, at the output layer, by \eqref{deltasub} and \eqref{substitution}
 \begin{equation}
 \Delta w_{kj} = -\eta \frac{\partial \epsilon}{\partial w_{kj}} = -\eta  \frac{\partial \epsilon}{\partial z_k} \frac{\partial z_k}{\partial w_{kj}},
 \end{equation}
-where, by \ref{newphi}
+where, by \eqref{newphi}
 \begin{equation}
 \Delta w_{kj}(p) = \eta \phi_k(p)y_j(p-1),
 \end{equation}
-with $\phi_k$ being as in \ref{lastphi}, to complete the derivation of the setting of output layer's weights. \\
+with $\phi_k$ being as in \eqref{lastphi}, to complete the derivation of the setting of output layer's weights. \\
 If we now consider, in general, the $i$-th input to the $j$-th neuron of the $r$-th hidden layer, we still have, as before
 \begin{equation}
-\Delta w_{ji} = -\eta \frac{\partial \epsilon}{\partial w_{ij}}.
+\Delta w_{ji} = -\eta \frac{\partial \epsilon}{\partial w_{ij}},
+\quad j \in \{1,\dots,N\}; \quad i \in\{1, \dots, n \}.
 \end{equation}
-Similarly to \ref{substitution} it holds
+Similarly to \eqref{substitution} it holds
 \begin{equation}
 \frac{\partial \epsilon}{\partial w_{ji}} = \frac{\partial \epsilon}{\partial z_j} \frac{\partial z_j}{\partial w_{ji}}
 \end{equation}
-and taking into account equation \ref{graupe6p8} and the expression of $\phi$ in \ref{newphi} we get to
+and taking into account equation in \eqref{graupe6p8} and the expression of $\phi$ in \eqref{newphi} we get to
 \begin{equation}
 \Delta w_{ji} = -\eta \frac{\partial \epsilon}{\partial z_j} y_i (r-1) = \eta \phi_j(r)y_i(r-1).
 \end{equation}
-This way, again by right-hand side of \ref{newphi}, we obtain
+This way, again by right-hand side of \eqref{newphi}, we obtain
 \begin{equation}
 \Delta w_{ji} = -\eta \left[ \frac{\partial \epsilon}{\partial y_j (r)} \frac{\partial y_j}{\partial z_j} \right]y_i(r-1),
 \end{equation}
@@ -370,7 +375,7 @@ We remark that, in above expression, summation over $k$ is over the neurons of l
 \label{graupe6p25}
 \frac{\partial \epsilon}{\partial y_j (r)}  = \sum_k \frac{\partial \epsilon}{\partial z_k (r+1)}w_{kj} = - \sum_k \phi_k(r+1)w_{kj}(r+1),
 \end{equation}
-since only $w_{kj}(r+1)$ is connected to $y_j(r)$. Consequently, by equations \ref{newphi}, \ref{graupe6p16} and \ref{graupe6p25}
+since only $w_{kj}(r+1)$ is connected to $y_j(r)$. Consequently, by equations \eqref{newphi}, \eqref{graupe6p16} and \eqref{graupe6p25}
 \begin{equation}
 \phi_j(r) = \frac{\partial y_j}{\partial z_j}\sum_k \phi_k(r+1)w_{kj}(r +1) = y_j(r)\left[1 -y_j(r)\right]\sum_k \phi_k(r+1)w_{kj}(r +1)
 \end{equation}
@@ -384,9 +389,9 @@ Back Propagation algorithm thus propagates up to the first layer ($r = 1$), iter
 A series of modifications to the Back Propagation algorithm were introduced by scientists in order to improve the training procedure. Most important extensions include the introduction of bias into neural networks, smoothing the weight adjustment function and rescaling the activation function. \\
 If we want to consider bias in a model, we can regard it as a trainable quantity, just as is any other weight. In general, the bias term $b_i$ at the input to the $i$-th neuron is realized in term of a constant input $B$ with its relative weight:
 \begin{equation}
-b_i = w^b_i B.
+b_i = w^b_i B, \quad i \in \{1,\dots,N\}.
 \end{equation}
-This algorithm sometimes tends to go through instability issues when computing weights and several smoothing techniques were proposed to deal with such problems. For instance, in \cite{sejnowski}, a smoothing term to modify equation \ref{graupe6p12} is given:
+This algorithm sometimes tends to go through instability issues when computing weights and several smoothing techniques were proposed to deal with such problems. For instance, in \cite{sejnowski}, a smoothing term to modify equation \eqref{graupe6p12} is given:
 \begin{align}
 &\Delta w_{ij}^{(m)} = \alpha \Delta w_{ij}^{(m-1)} + (1-\alpha)\phi_i(r)y_j(r-1)  \nonumber \\
 & w_{ij}^{(m+1)} = w_{ij}^{(m)} + \eta \Delta w_{ij}^{(m)},
@@ -405,9 +410,9 @@ The genome of the evolutionary model is represented by a multiset of size $N$:
 \end{equation}
 whose elements (that are not necessarily distinct) are called chromosomes. Time variable $t\in \mathbb{N}$ denotes the $t$-th generation of the population. Each chromosome $\vec{v}_i$ is a bit vector of fixed length $n$:
 \begin{equation}
-\vec{v}_i = \left[v_i^{(1)}, \dots, v_i^{(n)} \right],
+\vec{v}_i = \left[v_i^{(1)}, \dots, v_i^{(n)} \right], \quad i \in \{1, \dots, N\},
 \end{equation}
-where $v_i^{(j)} \in \{0,1\}$ $\forall j = 1, \dots, n$. We recall that there exist more advanced ways to represent chromosomes, but here we're limiting to the binary representation for simplicity. \\
+where $v_i^{(j)} \in \{0,1\}$, $\forall j = 1, \dots, n$. We recall that there exist more advanced ways to represent chromosomes, but here we are limiting to the binary representation for simplicity. \\
 We now need to define some probabilities which are involved in the GA. Selection is based on the definition of a fitness function over the population:
 \begin{equation}
 f: \textbf{P}(t) \longrightarrow \mathbb{R}_0^{+}.
@@ -421,7 +426,7 @@ respectively. We can hence define the selection probability $P_S(\vec{v})$, for 
 \begin{equation}
 P_S(\vec{v}) = \frac{f(v)}{F}.
 \end{equation}
-Note that \ref{avgfit}, despite not being explicitly computed in the algorithm, has great theoretical relevance (see \ref{gabehavior}). \\
+Note that \eqref{avgfit}, despite not being explicitly computed in the algorithm, has great theoretical relevance (see Subsection \ref{gabehavior}). \\
 The other probabilistic quantities involved are crossover probability $P_C$ and mutation probability $P_M$. The former can also be regarded as the fraction of elements of $\textbf{P}(t)$ that will go through reproduction, while the latter can be thought of as the percentage of bits (of all chromosomes) that will change due to random mutations. Both values are fixed and typically we have $P_C >> P_M$.
 
 \section{The Algorithm}
@@ -476,7 +481,7 @@ v_A^{(i)} \quad \text{if} \quad c + 1 \leq i \leq n.
 \end{cases}
 \end{equation}
 \subsection{Mutation}
-For each chromosome $\vec{v}_i$ we consider its every bit $v_i^{(j)}$ $\forall j=1,\dots,n$ and the algorithm generates a random $r_j \in \left[0,1\right]$.
+For each chromosome $\vec{v}_i$ we consider its every bit $v_i^{(j)}$, $\forall j=1,\dots,n$ and the algorithm generates a random $r_j \in \left[0,1\right]$.
 If $r_j < P_M$, then the corresponding bit is changed to its two's complement (otherwise it's left unchanged). After these three phases we obtain a new population $\textbf{P}(t+1)$ with 
 \begin{equation}
 |\textbf{P}(t+1)|=|\textbf{P}(t)|=N.
@@ -491,7 +496,7 @@ A schema is a set of bit strings that can be described as a template made up of 
 K = 1**1
 \end{equation}
 represents the set of all four-bit strings that begin and end with $1$. Vectors belonging to one of such sets are named instances of that schema. \\
-For a scheme $H$, we denote $o(H)$ the order of $H$, that is its number of defined bits ($\neq *$) and we let $d(H)$ be the schema's length (the distance between its outermost defined bits). In example before \ref{schemah}, we have $o(K)=2$ and $d(K)=3$.
+For a scheme $H$, we denote $o(H)$ the order of $H$, that is its number of defined bits ($\neq *$) and we let $d(H)$ be the schema's length (the distance between its outermost defined bits). In example before \eqref{schemah}, we have $o(K)=2$ and $d(K)=3$.
 \subsection{Behavior of Genetic Algorithms}
 \label{gabehavior}
 After this few premises, we can discuss how the GA processes schemas. \\
@@ -522,10 +527,10 @@ S_C(H) \geq 1 - P_C\left(\frac{d(H)}{n-1} \right).
 In short, the probability of survival under crossover is higher for short schemas. \\
 The effects of mutations can be quantified as follows. Let $S_M(H)$ be the probability that schema $H$ will survive under mutation. It can be expressed as
 \begin{equation}
-S_M(H) = (1-P_M)^{o(H)}.
+S_M(H) = (1-P_M)^{o(H)},
 \end{equation}
-Above holds because mutation acts independently on each bit of each chromosome. In this case, longer schemes appear to be more resistant. \\
-These disruptive effects can be used to amend equation \ref{expectedmult}, in order to get a lower bound for $\mathbb{E}\left[m(H, t + 1) \right]$. Hence we get
+where we recall that $o(H)$ is the number of defined bits in the schema. Holds because mutation acts independently on each bit of each chromosome. In this case, longer schemes appear to be more resistant. \\
+These disruptive effects can be used to amend equation \eqref{expectedmult}, in order to get a lower bound for $\mathbb{E}\left[m(H, t + 1) \right]$. Hence we get
 \begin{equation}
 \mathbb{E}\left[m(H, t + 1) \right] \geq \frac{\hat{U}(H,t)}{\overline{F}}m(H,t)\left( 1 - P_C\left(\frac{d(H)}{n-1} \right)\right)\left[ (1-P_M)^{o(H)}\right].
 \end{equation}
@@ -926,48 +931,48 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 
 \bibitem[Ethier and Kurtz(1986)]{EK86}  {\sc Ethier, S.N.} and {\sc Kurtz, T.G.} (1986). \emph{Markov processes: characterization and convergence}. Wiley, New York.
 
-\bibitem[Graupe (2007)]{graupe} {\sc Graupe, D.} (2007). \textit{Principles of Artificial Neural Networks (2nd Edition)}. Word Scientific Publishing, Singapore.
+\bibitem[Graupe(2007)]{graupe} {\sc Graupe, D.} (2007). \textit{Principles of Artificial Neural Networks (2nd Edition)}. Word Scientific Publishing, Singapore.
  
-\bibitem[Anthony (2001)]{anthony} {\sc Anthony, M. } (2001). \textit{Discrete Mathematics of Neural Networks}. Society for Industrial and Applied Mathematics, Philadelphia.
+\bibitem[Anthony(2001)]{anthony} {\sc Anthony, M. } (2001). \textit{Discrete Mathematics of Neural Networks}. Society for Industrial and Applied Mathematics, Philadelphia.
 
-\bibitem[McCulloch and Pitts (1943)]{mcculloch} {\sc McCulloch, W.} and {\sc Pitts, W}. (1943). \textit{A logical calculus of the ideas immanent in nervous activity}. Bulletin of Mathematical Biophysics 5, 115-133.
+\bibitem[McCulloch and Pitts(1943)]{mcculloch} {\sc McCulloch, W.} and {\sc Pitts, W}. (1943). \textit{A logical calculus of the ideas immanent in nervous activity}. Bulletin of Mathematical Biophysics 5, 115-133.
 
-\bibitem[Hebb (1949)]{hebb} {\sc Hebb, D. O.} (1949). \textit{The organization of behavior; a neuropsychological theory}. Wiley, New York.
+\bibitem[Hebb(1949)]{hebb} {\sc Hebb, D. O.} (1949). \textit{The organization of behavior; a neuropsychological theory}. Wiley, New York.
 
-\bibitem[Rosenblatt (1958)]{rosenblatt} {\sc Rosenblatt, F.} (1958) \textit{The perceptron: A probabilistic model for information storage and organization in the brain}. Psychological Review, 65.
+\bibitem[Rosenblatt(1958)]{rosenblatt} {\sc Rosenblatt, F.} (1958) \textit{The perceptron: A probabilistic model for information storage and organization in the brain}. Psychological Review, 65.
 
-\bibitem[Rumelhart, Hinton and Williams (1986)]{back} {\sc Rumelhart, D.}, {\sc Hinton, G.} and {\sc Williams, R.} (1986). \textit{Learning representations by back-propagating errors}. Nature 323, 533–536.
+\bibitem[Rumelhart, Hinton and Williams(1986)]{back} {\sc Rumelhart, D.}, {\sc Hinton, G.} and {\sc Williams, R.} (1986). \textit{Learning representations by back-propagating errors}. Nature 323, 533–536.
 
-\bibitem[Sejnowski and Rosenberg (1987)]{sejnowski} {\sc Sejnowski, T. J.} and {\sc Rosenberg, C. R.} (1987). \textit{Parallel Networks that Learn to Pronounce English Text}. Complex Systems, 1.
+\bibitem[Sejnowski and Rosenberg(1987)]{sejnowski} {\sc Sejnowski, T. J.} and {\sc Rosenberg, C. R.} (1987). \textit{Parallel Networks that Learn to Pronounce English Text}. Complex Systems, 1.
 
-\bibitem[Mitchell (1998)]{mit} {\sc Mitchell, M.} (1998). \textit{An introduction to Genetic Algorithms}. MIT Press.
+\bibitem[Mitchell(1998)]{mit} {\sc Mitchell, M.} (1998). \textit{An introduction to Genetic Algorithms}. MIT Press.
 
-\bibitem[Holland (1975)]{holland} {\sc Holland, J.} (1975). \textit{Adaptation in Natural and Artificial Systems}. MIT Press. 
+\bibitem[Holland(1975)]{holland} {\sc Holland, J.} (1975). \textit{Adaptation in Natural and Artificial Systems}. MIT Press. 
 
-\bibitem[Volná (2000)]{volna} {\sc Volnà, E.} (2000). \textit{Using Neural Network in Cryptography}. University of Ostrava.
+\bibitem[Volná(2000)]{volna} {\sc Volnà, E.} (2000). \textit{Using Neural Network in Cryptography}. University of Ostrava.
 
-\bibitem[Volná (1998)]{volna2} {\sc Volnà, E.} (1998).\textit{Learning algorithm which learns both architectures and weights of feedforward neural networks.} Neural Network World. Int. Journal on Neural and Mass-Parallel Compo and Inf. Systems.
+\bibitem[Volná(1998)]{volna2} {\sc Volnà, E.} (1998).\textit{Learning algorithm which learns both architectures and weights of feedforward neural networks.} Neural Network World. Int. Journal on Neural and Mass-Parallel Compo and Inf. Systems.
 
-\bibitem[Kanter, Kinzel and Kanter (2001)]{kanter} {\sc Kanter, I.}, {\sc Kinzel, W.} and {\sc Kanter, E.} (2001). \textit{Secure exchange of information by synchronization of neural networks}. Bar Ilan University.
+\bibitem[Kanter, Kinzel and Kanter(2001)]{kanter} {\sc Kanter, I.}, {\sc Kinzel, W.} and {\sc Kanter, E.} (2001). \textit{Secure exchange of information by synchronization of neural networks}. Bar Ilan University.
 
-\bibitem[Klimov, Mityagin and Shamir (2002)]{shamir} {\sc Klimov, A.}, {\sc Mityagin, A.} and {\sc Shamir, A.} (2002). \textit{Analysis of Neural Cryptography}. Weizmann Institute.
+\bibitem[Klimov, Mityagin and Shamir(2002)]{shamir} {\sc Klimov, A.}, {\sc Mityagin, A.} and {\sc Shamir, A.} (2002). \textit{Analysis of Neural Cryptography}. Weizmann Institute.
 
 
-\bibitem[Abadi and Andersen (2016)]{google} {\sc Abadi, M.} and {\sc Andersen, D. G.} (2016). \textit{Learning to protect communications with Adversarial Neural Cryptography}. Google Brain.
+\bibitem[Abadi and Andersen(2016)]{google} {\sc Abadi, M.} and {\sc Andersen, D. G.} (2016). \textit{Learning to protect communications with Adversarial Neural Cryptography}. Google Brain.
 
 \bibitem[Coutinho et al.(2018)]{brazilians} {\sc Coutinho, M.}, {\sc Robson de Oliveira Albuquerque, R.}, {\sc Borges, F. }, {\sc Villalba, L. J. G.} and  {\sc Kim T. H.} (2018). \textit{Learning Perfectly Secure Cryptography to Protect Communications with Adversarial Neural Cryptography}. University of Brasília.
 
-\bibitem[Jayachandiran (2018)]{jay} {\sc Jayachandiran, K.} (2018). \textit{A Machine Learning Approach for Cryptanalysis}. Rochester Institute of Technology.
+\bibitem[Jayachandiran(2018)]{jay} {\sc Jayachandiran, K.} (2018). \textit{A Machine Learning Approach for Cryptanalysis}. Rochester Institute of Technology.
 
-\bibitem[Alani (2012)]{alani} {\sc Alani, M. M.} (2012). \textit{Neuro-cryptanalysis of DES}. World Congress on Internet Security (WorldCIS-2012)
+\bibitem[Alani(2012)]{alani} {\sc Alani, M. M.} (2012). \textit{Neuro-cryptanalysis of DES}. World Congress on Internet Security (WorldCIS-2012)
 
-\bibitem[Gohr (2019)]{gohr} {\sc Gohr, A.} (2019). \textit{Improving Attacks on Round-Reduced Speck32/64 Using Deep Learning}. Bundesamt für Sicherheit in der Informationstechnik (BSI).
+\bibitem[Gohr(2019)]{gohr} {\sc Gohr, A.} (2019). \textit{Improving Attacks on Round-Reduced Speck32/64 Using Deep Learning}. Bundesamt für Sicherheit in der Informationstechnik (BSI).
 
-\bibitem[Nielsen and Chuang (2000)]{nielsen} {\sc Nielsen, M. A.} and {\sc Chuang, I. L.} (2000). \textit{Quantum Computation and Quantum Information}. Cambridge University Press.
+\bibitem[Nielsen and Chuang(2000)]{nielsen} {\sc Nielsen, M. A.} and {\sc Chuang, I. L.} (2000). \textit{Quantum Computation and Quantum Information}. Cambridge University Press.
 
-\bibitem[Bernstein, Buchmann and Dahmen (2009)]{pqc} {\sc Bernstein, D. J.}, {\sc Buchmann, J.} and {\sc Dahmen, E.} (2009). \textit{Post-Quantum Cryptography}. Springer.
+\bibitem[Bernstein, Buchmann and Dahmen(2009)]{pqc} {\sc Bernstein, D. J.}, {\sc Buchmann, J.} and {\sc Dahmen, E.} (2009). \textit{Post-Quantum Cryptography}. Springer.
 
-\bibitem[Shi et al. (2020)]{china} {\sc Shi, J.}, {\sc Chen, S.}, {\sc Lu, Y.}, {\sc Feng, Y.}, {\sc Shi, R.}, {\sc Yang, Y.} and {\sc Li, J.} (2020). \textit{An Approach to Cryptography Based on Continuous-Variable Quantum Neural Network}. Nature.
+\bibitem[Shi et al.(2020)]{china} {\sc Shi, J.}, {\sc Chen, S.}, {\sc Lu, Y.}, {\sc Feng, Y.}, {\sc Shi, R.}, {\sc Yang, Y.} and {\sc Li, J.} (2020). \textit{An Approach to Cryptography Based on Continuous-Variable Quantum Neural Network}. Nature.
 
 \end{thebibliography}
 
