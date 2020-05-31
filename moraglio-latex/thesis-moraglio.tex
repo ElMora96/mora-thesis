@@ -87,7 +87,7 @@
 
 %%%%%%% Definizioni locali
 \newtheorem{osservazione}{Osservazione}% Standard LaTeX
-
+\newcommand{\sign}{\text{sign}}
 
 \begin{document}\errorcontextlines=9
 %%%%%%% Questi comandi è meglio metterli dentro l'ambiente
@@ -548,15 +548,18 @@ Main element in this research are feedforward neural nets with Back Propagation,
 The criterion of choice is the minimization of the sum of square of deviation of output from neural network. At first, the maximal architecture of the nets is proposed, then, at each step, to optimize the population it is necessary to solve the cryptographic problems of interest. Thereafter the process of genetic algorithms is applied. An optimal population is found either when it achieves the maximal generation or when fitness function achieves the maximal defined value. \\
 At this point, it is required to complete the "best" architecture by adapting weights and hence three digits are generated for every
 connection coming out from a unit. If the connection does not exist, three zeroes are assigned, else weights are computed this way:
-\begin{equation}
-w_{ij,kl} = \eta[e_2(e_1 2^1 + e_0 2^0)],
-\end{equation}
+\begin{align}
+w_{ij,kl} = \eta[e_2(e_1 2^1 + e_0 2^0)]; \quad i,k\in\{1,\dots,L\}, \\
+  j\in\{1,\dots, n_i\}, \nonumber \\
+  l \in\{1, \dots, n_k\}, \nonumber 
+\end{align}
 where $w_{ij,kl} = w(x_{ij}, x_{kl})$ is the weight value between the $j$-th unit in the $i$-th layer and the $l$-th unit in the $k$-th layer and
 \begin{align*}
     \eta &= \text{learning parameter;} \quad \eta \in (0,1)\\
-    e_i &= \text{random digits} \quad (i=0,1)\\
+    e_0, e_1 &= \text{random digits} \\
   	e_2 &= \text{sign bit}.
 \end{align*}
+$L$ denotes the total number of layers, while $n_i$ and $n_k$ are the number of units in layers $i$ and $k$, respectively. Recall that these values are determined by the execution of the genetic algorithm. \\
 Error between the desired and the real output is the computed and stored in the vector $\vec{E}$ . On the basis of it, the algorithm computes the fitness precursor value $f_i^{\star}$, for each individual $i = 1, \dots, N$, that is
 \begin{equation}
 f_i^{\star} = k_1(E_i)^2 + k_2(U_i)^2 + k_3(L_i)^2,
@@ -633,7 +636,7 @@ Going back to the model, the architecture used by both sender and recipient is a
 Fix for simplicity $K = 3$ and let $w_{kj}^S$, $w_{kj}^R$ be the secret information of sender and recipient, respectively (that is, the initial values for the weights). Hence this consists of $3N$ integer numbers for each of the two participants. \\
 Each network is then trained with the output of its partner. At each step, both for synchronization and for encryption/decryption steps, a new common public input vector is needed. Given $\vec{x_{kj}}$, output is computed in two steps. In the first one, states of hidden units are computed as 
 \begin{equation}
-y_k^{S/R} = sgn\left(\sum_{j=1}^{N}w_{kj}^{S/R}x_{kj}\right),
+y_k^{S/R} = \sign\left(\sum_{j=1}^{N}w_{kj}^{S/R}x_{kj}\right),
 \end{equation}
 with the convention $y_k^S = 1$ and $y_k^R = -1$ whenever argument of the sign function is zero. In second step, output is computed as the product of the hidden units:
 \begin{equation}
@@ -642,7 +645,7 @@ O^{S/R} = \prod_{k=1}^{3}y_k^{S/R}.
 Sender and recipient send their outputs to each other and in case they do not agree on them (if $O^SO^R<0$), weight are updated according to the following Hebbian rule:
 \begin{align}
 \text{if} \quad \left(O^{S/R}y_k^{S/R}>0\right) \quad &\text{then} \quad w_{kj}^{S/R} \leftarrow w_{kj}^{S/R} -O^{S/R} x_{kj}; \nonumber \\
-\text{if} \quad \left(|w_{kj}^{S/R}|>L\right) \quad &\text{then} \quad w_{kj}^{S/R} \leftarrow sgn\left(w_{kj}^{S/R}\right)L.
+\text{if} \quad \left(|w_{kj}^{S/R}|>L\right) \quad &\text{then} \quad w_{kj}^{S/R} \leftarrow \sign\left(w_{kj}^{S/R}\right)L.
 \label{hebblearn}
 \end{align}
 Note that this algorithm only updates weights belonging to the hidden units which are in the same state as that of their output unit. \\
@@ -652,13 +655,13 @@ As soon as the weights are antiparallel, the initialization of the cryptosystem 
 \subsection{More details on Synchronization}
 \label{ssc:synchro}
 In Kanter's work, many experiments are reported to show the effectiveness of synchronization process. However, I decided to omit these details since, as I anticipated in previous section, the "sacred cow" of cryptography Adi Shamir provided us with a mathematical proof of it. \\
-The full treatment of this problem found in \cite{shamir} relies on the properties of random walks in bounded domains. Another assumption: learning rule \ref{hebblearn} would complicate the notation, as it forces the mutually learning NN's into anti-parallel states. Instead, a dual scheme in which the two parties eventually become identical is proposed. Given input vectors $\vec{x_{kj}}$, hidden outputs are calculated as
+The full treatment of this problem found in \cite{shamir} relies on the properties of random walks in bounded domains. Another assumption: learning rule \eqref{hebblearn} would complicate the notation, as it forces the mutually learning NN's into anti-parallel states. Instead, a dual scheme in which the two parties eventually become identical is proposed. Given input vectors $\vec{x_{kj}}$, hidden outputs are calculated as
 \begin{equation}
-y_k^{S/R} = sgn\left(\sum_{j=1}^{N}w_{kj}^{S/R}x_{kj}\right),
+y_k^{S/R} = \sign\left(\sum_{j=1}^{N}w_{kj}^{S/R}x_{kj}\right),
 \end{equation}
 but with the standard convention 
 \begin{equation}
-sgn(x) = \begin{cases}
+\sign(x) = \begin{cases}
 1 \qquad \text{if} \quad x \geq 0 \\
 -1 \quad \text{otherwise.}
 \end{cases}
@@ -681,7 +684,7 @@ L \qquad \text{if} \quad w>L \\
 In other words, above function rescales weights to the prefixed bounds whenever any of them exceeds the allowed values. \\
 After these premises, we can show how the two participants converge and why a third net cannot converge to the same parameters by following the same learning procedure. \\
  We start off by considering an oversimplified model of a single Perceptron with a single weight. \iftrue Let $w^{S/R}_{t}$  be the current weights and denote inputs $x_{t} \in \{-1,1\} $. \fi Each weight's update process can be described as a random walk with absorbing boundaries $-L,L$, starting from a random point $w^{S/R}_{0}\in\{-L,\dots ,L\}$. \\
-At each round $t$, sender and receiver decide either to move their respective weights in the same direction (determined by $x_t$), or not to vary them. In first case, if any of $w^{S/R}_t$ tries to step beyond the fixed boundaries, it remains stuck at it (due to \ref{rebound}), while the other one gets nearer.  If none of the the weights is absorbed, we have $|w_{t+1}^S - w_{t+1}^R| = |w_{t}^S - w_{t}^R|$, else their distance is reduced by one. Since a random walk is expected to hit its boundaries infinitely often, the weights'paths admit a mixing time. \\
+At each round $t$, sender and receiver decide either to move their respective weights in the same direction (determined by $x_t$), or not to vary them. In first case, if any of $w^{S/R}_t$ tries to step beyond the fixed boundaries, it remains stuck at it (due to \eqref{rebound}), while the other one gets nearer.  If none of the the weights is absorbed, we have $|w_{t+1}^S - w_{t+1}^R| = |w_{t}^S - w_{t}^R|$, else their distance is reduced by one. Since a random walk is expected to hit its boundaries infinitely often, the weights'paths admit a mixing time. \\
 A simple generalization: consider the case of a single Perceptron with multiple weights. Here, the two weight vectors move in the same direction determined by inputs in a multidimensional rectangle, and along each coordinate the distance is either preserved or reduced by one. When all these distances are reduced to zero, the two random walks mix. \\
 The general case of neural networks with multiple Perceptrons is more complicated, since the two parties may update different subsets of their perceptrons in each round. The complete treatment of such problem can be found in the publication to which I'm referring, but I decided to omit these details.
 
@@ -689,7 +692,7 @@ The general case of neural networks with multiple Perceptrons is more complicate
 \subsection{Attacking KKK}
 \label{ssc:atk}
 The creators of \textit{KKK} claimed its security basing on their experiments. In fact, simulations shown clearly that it was computationally unfeasible for an attacker to intercept any of the parties' parameters, if such eventual attacker relied on the same neural network structure as the ones used in communication. \\
-In Shamir's paper there's also a mathematical proof of this impossibility, but most interesting content of such work is in its last section. This is dedicated to the cryptanalysis of \textit{KKK}, which can indeed be broken by using other types of attack. \\
+In Shamir's paper there is also a mathematical proof of this impossibility, but most interesting content of such work is in its last section. This is dedicated to the cryptanalysis of \textit{KKK}, which can indeed be broken by using other types of attack. \\
 For example, many successful cryptanalytic applications of Genetic Algorithms can be found in literature. \\
 In this case, a large population of NN's with the same structure as the two participants is simulated. These nets are then trained with the same inputs of the two communicant ones. Networks whose outputs mimic those of the two parties breed and multiply, while unsuccessful networks die. \\
 Shortly after sender $S$ and recipient $R$ synchronize, they can be certain of this fact (since their outputs keep coinciding) and the same can be checked for any of the attacker's neural networks. \\
@@ -697,7 +700,7 @@ An interesting experimental result: in the majority of tests led by the authors,
 Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the two parties'nets. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
 
 \chapter{Neural Cryptanalysis}
-Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see \ref{cpaanc}). \\
+Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see Subsection \ref{cpaanc}). \\
 \section{Cryptanalysis of Simon Cipher using Neural Networks}
 The study I'm considering in this section is \cite{jay}, in which its author describes a novel, complete approach of using neural networks in cryptoanalysis. The cryptosystem of interest belongs to the family of Simon block ciphers, publicly released by NSA in 2013. (ADD CIT.)  
 %(Add citation https://eprint.iacr.org/2013/404.pdf). \\
@@ -794,14 +797,14 @@ A specific network architecture for this model is proposed, based on the continu
 Consider mapping bit $0$ to angle $0$ and bit $1$ to angle $\pi$ (XOR can be seen as the sum of the angles). Generalizing bits to a continuous space, the following defines the mapping of a bit $b$ into an angle: 
 \begin{equation}
 \label{eq:bit-to-angle}
-f(b) = arccos(1 - 2b)
+f(b) = \text{arccos}(1 - 2b)
 \end{equation}
 Then consider its inverse:
 \begin{equation}
 \label{eq:angle-to-bit}
-f^{-1}(a) = \frac{1 - cos(a)}{2}
+f^{-1}(a) = \frac{1 - \text{cos}(a)}{2}
 \end{equation}
-The new net, named \textit{CryptoNet}, takes as input $P$ and $K$ and, for each bit, applies \ref{eq:bit-to-angle}. Next step is a weight matrix (write $W$) multiplication, followed by the inverse transformation \ref{eq:angle-to-bit}; output is $C$. Note bits $C_i \in (0,1)$. \textit{CryptoNet} will be denote mathematically as the function
+The new net, named \textit{CryptoNet}, takes as input $P$ and $K$ and, for each bit, applies \eqref{eq:bit-to-angle}. Next step is a weight matrix (write $W$) multiplication, followed by the inverse transformation \eqref{eq:angle-to-bit}; output is $C$. Note bits $C_i \in (0,1)$. \textit{CryptoNet} will be denote mathematically as the function
 \begin{equation}
 C = \zeta_n(W, P, K),
 \end{equation}

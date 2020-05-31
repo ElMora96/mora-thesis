@@ -28,22 +28,22 @@
 \contentsline {section}{\numberline {3.2}Neural Networks in Cryptography: an interesting attempt}{24}{section.3.2}% 
 \contentsline {subsection}{\numberline {3.2.1}Genetic Algorithms in Neural Network Design}{24}{subsection.3.2.1}% 
 \contentsline {subsection}{\numberline {3.2.2}Volná's experiment}{25}{subsection.3.2.2}% 
-\contentsline {section}{\numberline {3.3}The KKK Key Exchange Protocol}{26}{section.3.3}% 
+\contentsline {section}{\numberline {3.3}The KKK Key Exchange Protocol}{27}{section.3.3}% 
 \contentsline {subsection}{\numberline {3.3.1}The Protocol}{27}{subsection.3.3.1}% 
 \contentsline {subsection}{\numberline {3.3.2}More details on Synchronization}{28}{subsection.3.3.2}% 
 \contentsline {subsection}{\numberline {3.3.3}Attacking KKK}{30}{subsection.3.3.3}% 
-\contentsline {chapter}{\numberline {4}Neural Cryptanalysis}{31}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Cryptanalysis of Simon Cipher using Neural Networks}{31}{section.4.1}% 
-\contentsline {subsection}{\numberline {4.1.1}Simon Cipher}{31}{subsection.4.1.1}% 
-\contentsline {subsection}{\numberline {4.1.2}Neural Network Design}{32}{subsection.4.1.2}% 
-\contentsline {subsection}{\numberline {4.1.3}Data and Results}{33}{subsection.4.1.3}% 
-\contentsline {chapter}{\numberline {5}Adversarial Neural Cryptography}{35}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Google's Model}{35}{section.5.1}% 
-\contentsline {subsection}{\numberline {5.1.1}Cryptosystem Organization}{35}{subsection.5.1.1}% 
-\contentsline {subsection}{\numberline {5.1.2}ANC and selective protection}{37}{subsection.5.1.2}% 
-\contentsline {section}{\numberline {5.2}Improvements: CPA-ANC}{38}{section.5.2}% 
-\contentsline {subsection}{\numberline {5.2.1}Chosen-Plaintext Attack ANC}{38}{subsection.5.2.1}% 
-\contentsline {subsection}{\numberline {5.2.2}Neural Network Architecture}{38}{subsection.5.2.2}% 
-\contentsline {subsection}{\numberline {5.2.3}Method}{39}{subsection.5.2.3}% 
-\contentsline {chapter}{\numberline {6}Chapter title}{41}{chapter.6}% 
-\contentsline {section}{\numberline {6.1}Another section}{41}{section.6.1}% 
+\contentsline {chapter}{\numberline {4}Neural Cryptanalysis}{33}{chapter.4}% 
+\contentsline {section}{\numberline {4.1}Cryptanalysis of Simon Cipher using Neural Networks}{33}{section.4.1}% 
+\contentsline {subsection}{\numberline {4.1.1}Simon Cipher}{33}{subsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.1.2}Neural Network Design}{34}{subsection.4.1.2}% 
+\contentsline {subsection}{\numberline {4.1.3}Data and Results}{35}{subsection.4.1.3}% 
+\contentsline {chapter}{\numberline {5}Adversarial Neural Cryptography}{37}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Google's Model}{37}{section.5.1}% 
+\contentsline {subsection}{\numberline {5.1.1}Cryptosystem Organization}{37}{subsection.5.1.1}% 
+\contentsline {subsection}{\numberline {5.1.2}ANC and selective protection}{39}{subsection.5.1.2}% 
+\contentsline {section}{\numberline {5.2}Improvements: CPA-ANC}{40}{section.5.2}% 
+\contentsline {subsection}{\numberline {5.2.1}Chosen-Plaintext Attack ANC}{40}{subsection.5.2.1}% 
+\contentsline {subsection}{\numberline {5.2.2}Neural Network Architecture}{40}{subsection.5.2.2}% 
+\contentsline {subsection}{\numberline {5.2.3}Method}{41}{subsection.5.2.3}% 
+\contentsline {chapter}{\numberline {6}Chapter title}{43}{chapter.6}% 
+\contentsline {section}{\numberline {6.1}Another section}{43}{section.6.1}% 
