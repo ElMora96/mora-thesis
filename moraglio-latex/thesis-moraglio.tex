@@ -398,8 +398,68 @@ This algorithm sometimes tends to go through instability issues when computing w
 \end{align}
 where $\alpha \in \left(0,1 \right)$.
 Last, modifying the range of the sigmoid function, typically to $\left(-0.5,0.5\right)$ seems to improve converge speed of BP algorithm. 
+\section{Adam}
+\subsection{The Algorithm}
+Here the theory of \textit{Adam} optimizer is presented according to the original publication  where it was first proposed. Pseudocode for this algorithm is reported below. \\
+\begin{algorithm}[H]
+\label{algo:adam}
+\SetAlgoLined
+%\KwResult{Write here the result }
+ \textbf{Require:} $\alpha$: Stepsize\;
+ \textbf{Require:} $\beta_1,\beta_2 \in \left[0,1\right)$: Exponential decay rates\;
+ \textbf{Require:} $f(\theta)$: Stochastic objective function with parameters $\theta$\;
+ \textbf{Require:} $\theta_0$: Initial parameter vector\;
+ $m_0 \leftarrow 0$ (Initialize first moment vector)\;
+ $v_0 \leftarrow 0$ (Initialize second moment vector)\;
+ $t \leftarrow 0$ (Initialize time step)\;
+ \While{$\theta_t$ not converged}{
+  $t \leftarrow t + 1$\;
+  $g_t \leftarrow \nabla_{\theta}f_t(\theta_{t-1})$ (Get gradients)\; 
+  $m_t \leftarrow \beta_1m_{t-1} + (1-\beta_1)g_t$ (Biased first moment est.)\;
+  $v_t \leftarrow \beta_2v_{t-1} + (1 -\beta_2)g_t^2$ (Biased second moment est.)\;
+  $\hat{m}_t \leftarrow 	\frac{m_t}{1 - \beta_1^t}$ (Bias-corrected first moment est.)\;
+  $\hat{v}_t \leftarrow 	\frac{v_t}{1 - \beta_2^t}$ (Bias-corrected second moment est.)\;
+  $\theta_t \leftarrow \theta_{t-1} - \alpha\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}$ (Update parameters)\;
+ }
+ \Return{$\theta_t$}
+ \caption{\textit{Adam} stochastic optimization algorithm. $g_t^{2}$ indicates the elementwise square $g_t \cdot g_t$.}
+\end{algorithm}
 
-
+Let $f(\theta)$ be a noisy objective function: a stochastic scalar function that is differentiable with respect to parameters $\theta$. The stochasticity might come from the evaluation at random subsamples (minibatches)of datapoints, or arise from inherent function noise.\\
+We are interested in minimizing the expected value of such function, that is $\mathbb{E}\left[f(\theta)\right]$. Denote by $f_1(\theta), \dots,f_T(\theta)$ the realizations of the function at subsequent time steps $1,\dots, T$. Let $g_t = \nabla_{\theta}f_t(\theta)$ be the gradient, that is the vector of partial derivatives of $f$ (w.r.t. $\theta$) evaluated at time step $t$. \\
+The algorithms updates exponential moving averages of the gradient and of the squared gradient; denote these estimates by $m_t$ and $v_t$, respectively. Exponential decay rates of these moving averages are controlled by the hyper parameters $\beta_1,\beta_2 \in \left[0,1\right)$. The moving average themselves are estimates of the mean and the uncentered variance (the second moment) of the gradient. Since these estimates are initialized as vectors of zeros, they are biased towards zero, especially during the initial time steps and when the decay rates are small (i.e. $\beta_1,\beta_2 \approx 1$). This initialization bias can however be easily counteracted, resulting in bias-corrected estimates $\hat{m}_t$ and $\hat{v}_t$, as described in the following. \\
+Recall that $g_1,\dots,g_T$ denote the gradients at subsequent time steps; each can be seen as a draw from an underlying gradient distribution $p(g_t)$. Consider the second moment estimate. As can be seen in pseudocode \ref{algo:adam}, the exponential moving average is initialized as $v_0 = 0$. First note that the update at time step $t$, $v_t = \beta_2v_{t-1} + (1 -\beta_2)g_t^{2}$, can be written as a function of the gradients at all previous time steps:
+\begin{equation}
+\label{adam:update}
+v_t = (1 - \beta_2)\sum_{i=1}^{t}\beta_2^{t-i}g_i^2.
+\end{equation}
+We wish to know how $\mathbb{E}\left[v_t\right]$, the expected value of the exponential moving average at time step $t$, relates to the the true second moment $\mathbb{E}\left[g_t^2 \right]$, so we can correct for discrepancy between the two. Taking expectations of both sides of equation \eqref{adam:update}, we have
+\begin{align}
+\mathbb{E}\left[v_t\right] &= \mathbb{E}\left[ (1 - \beta_2)\sum_{i=1}^{t}\beta_2^{t-i}g_i^2\right] = \\
+&= \mathbb{E}\left[g_t^2 \right](1 - \beta_2)\sum_{i=1}^{t}\beta_2^{t-i} + \zeta = \\
+&= \mathbb{E}\left[g_t^2 \right](1 - \beta_2^t)\ + \zeta,
+\end{align}
+where $\zeta = 0$ if the true second moment $\mathbb{E}\left[g_t^2 \right]$ is stationary. If not, $\zeta$ can be kept small since the exponential decay rate $\beta_2$ can (and should) be chosen such that the exponential moving average assigns small weights to gradients far in the past. What is left is the term $(1 - \beta_2^t)$ which is caused by initializing the running average with zero. In algorithm \ref{algo:adam} we therefore divide by this term to correct the initialization bias. \\
+Going back to \textit{Adam}'s update rule, we have to focus on its careful choice of stepsizes. Assuming $\epsilon = 0$, the effective step taken in the parameter space at time step $t$ is 
+\begin{equation}
+\Delta_t = \alpha\frac{\hat{m}_t}{\sqrt{\hat{v}_t}}.
+\end{equation}
+The effective step size has two upper bounds:
+\begin{equation}
+\begin{cases}
+|\Delta_t| \leq \alpha\frac{1 - \beta_1}{\sqrt{1 - \beta_2}} \quad &\text{if} \quad (1-\beta_1) > \sqrt{1 - \beta_2}; \\
+|\Delta_t| \leq \alpha \quad &\text{otherwise.}
+\end{cases}
+\end{equation}
+The first case only happens in the most severe case of sparsity: when the gradient has been zero at all time steps except at the current time step. Otherwise, the effective step size will be smaller. In more common scenarios, we will have that 
+$$\frac{\hat{m}_t}{\sqrt{v_t}} \approx \pm 1,$$
+since 
+$$\frac{|\mathbb{E}\left[g\right]|}{\sqrt{\mathbb{E}\left[g^2 \right]}}\leq 1.$$
+Hence the effective magnitude of the steps taken in the parameter space at each time step are approximately bounded by the stepsize setting $\alpha$. \\
+The effective step size $\Delta_t$ is also invariant to the scale of the gradients; rescaling the gradients $g$ with factor $c$ won't lead to changes:
+\begin{equation}
+\frac{c\hat{m}_t}{\sqrt{c^2\hat{v}_t}} = \frac{\hat{m}_t}{\sqrt{\hat{v_t}}}.
+\end{equation}
 \chapter{Genetic Algorithms: a brief overview}
 Genetic Algorithms were invented by John Holland in the 1960s and can be considered a key building block of artificial intelligence. His aims were that of  formally studying the phenomenon of natural adaptation and that of importing such adaptation mechanisms into computer systems. In \cite{holland}, Genetic Algorithms (GA's) are presented as abstractions of biological evolution. Moreover, a theoretical framework for adaptation under GA's is described. \\
 Holland's GA is a method for evolving from one population of "chromosomes" to a new population by using an imitation of natural selection together with the genetic-inspired operators of crossover and mutation. In this chapter we briefly discuss how GA's works and why. Main reference for this part is \cite{mit}, whose author was one of Holland's students at MIT.
