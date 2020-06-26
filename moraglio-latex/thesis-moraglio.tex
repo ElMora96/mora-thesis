@@ -205,8 +205,8 @@ Notice that above historical principles do not all apply to most modern neural n
 \label{percbs}
 The first complete neural computation model, that is called Perceptron, first appeared in \citep{rosenblatt} and serves as a building block to most later models. The Perceptron posses the fundamental structure of a neural cell, of several weighted input connections and a single output channel. The input/output relations are defined to be
 \begin{align}
-z = \sum_{i}w_i x_i \\
-y = f_N(z),
+z = \sum_{i}w_i x_i \quad \text{(summation output)} \label{summation}\\
+y = f_N(z) \quad \text{(cell output)},
 \end{align}
 where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. $y$, instead, denotes the cell's output, that is a nonlinear activation function $f_N$ (see Subsection \ref{percact} below) of the node output $z$. \\
 It is customary to consider a network of $n$ Perceptrons; in this case, by letting $z_i$ be the summation output of the $i$-th Perceptron and its inputs $x_{i,j}$, the summation relation becomes
@@ -240,7 +240,7 @@ z_i \to  \infty \quad &\Longleftrightarrow \quad y_i \to 1.
 Another popular activation function is
 \begin{equation}
 \label{act-tanh}
-y_i = \frac{1 + \tanh(z_i)}{2} = \frac{1}{1 - e^{-2z_i}},
+y_i = \frac{1 + \tanh(z_i)}{2} = \frac{1}{1 + e^{-2z_i}},
 \end{equation}
 whose shape is similar to the one of the previous function. The simplest activation one could choose is the Heaviside step function:
 \begin{equation*}
@@ -252,21 +252,23 @@ y_i = H(z_i) = \begin{cases}
 Main advantage of the former two over the latter is that they are (mathematically) smooth. \\
 In many applications the activation function's output is translated so that it ranges in $\left(-1, 1\right)$, rather than in $\left(0, 1 \right)$. In particular, sigmoid function \eqref{act-sigmoid} becomes 
 \begin{equation}
-y_i = \frac{2}{1 + e^{-z_i}} -1 = tanh(z_i/2),
+y_i = \frac{2}{1 + e^{-z_i}} -1 = \tanh(z_i/2),
 \end{equation}
 while activation \eqref{act-tanh} is transformed to 
 \begin{equation}
-y_i = tanh(z_i) = \frac{1 - e^{-2z_i}}{1 + e^{-2z_i}}.
+y_i = \tanh(z_i) = \frac{1 - e^{-2z_i}}{1 + e^{-2z_i}}.
 \end{equation}
-ADD SHORT DESCRIPTION OF BIAS!
-\subsection{Multi-Layer Perceptron}
-ADD A FEW WORDS ABOUT MLP, JUST FOR COMPLETENESS
+We recall that in many neural network models, a bias term is added to the summation output, so that \eqref{summation} becomes:
+\begin{equation}
+z = b + \sum_{i}w_i x_i,
+\end{equation}
+where $b$ is subject to the same training procedures as the the weights of the net. \\ Such training algorithms revealed themselves to be challenging for researchers, especially from the introduction of the so called Multi-Layer Perceptron (MLP). In fact, already in the late 1960s, limitations of single-layer architectures were shown (see \cite{minpapert}), together with the possibility of solving more complicated problems using MLP's. However, finding efficient algorithms to adjust the weights of such nets was problematic and took several years. Some examples of solutions to these problems are presented in the following sections.
 
 \newpage
 \section{Back Propagation Training Algorithm}
 Back Propagation (BP) algorithm was first proposed in \cite{back}, as a solution for setting weights (and hence for the training) of multi-layer Perceptrons. 
 The availability of a rigorous method to set intermediate weights, namely to train the hidden layers of neural networks, gave a major boost to the further development of such models. \\
-In the present section this algorithm is presented in detail. \\
+In this section this algorithm is presented in detail. \\
 \subsection{The Algorithm}
 The BP algorithm starts with computing values of the output layer, which is by definition the only one whose desired outputs are available. Let $\epsilon$ be the the \textit{error-energy} at the output layer, that is
 \begin{equation}
@@ -277,7 +279,7 @@ where $N$ is the number of neurons in the output layer. Consider the gradient of
 \begin{equation}
 \nabla \epsilon_k = \frac{\partial \epsilon}{\partial w_{kj}}.
 \end{equation}
-Recall that $w_{kj}$ is denoting the weight of the $j$-th input to the $k$-th neuron. By the gradient descent procedure (ADD SOMETHING ABOUT THIS?), we have that 
+Recall that $w_{kj}$ denotes the weight of the $j$-th input to the $k$-th neuron. By the gradient descent procedure (ADD SOMETHING ABOUT THIS?), we have that 
 \begin{equation}
 w_{kj}(m+1) = w_{kj}(m) + \Delta w_{kj}(m),
 \end{equation}
@@ -357,7 +359,7 @@ Similarly to \eqref{substitution} it holds
 \begin{equation}
 \frac{\partial \epsilon}{\partial w_{ji}} = \frac{\partial \epsilon}{\partial z_j} \frac{\partial z_j}{\partial w_{ji}}
 \end{equation}
-and taking into account equation in \eqref{graupe6p8} and the expression of $\phi$ in \eqref{newphi} we get to
+and taking into account equation in \eqref{graupe6p8} and the expression of $\phi$ in \eqref{newphi} we get
 \begin{equation}
 \Delta w_{ji} = -\eta \frac{\partial \epsilon}{\partial z_j} y_i (r-1) = \eta \phi_j(r)y_i(r-1).
 \end{equation}
@@ -397,7 +399,9 @@ This algorithm sometimes tends to go through instability issues when computing w
 & w_{ij}^{(m+1)} = w_{ij}^{(m)} + \eta \Delta w_{ij}^{(m)},
 \end{align}
 where $\alpha \in \left(0,1 \right)$.
-Last, modifying the range of the sigmoid function, typically to $\left(-0.5,0.5\right)$ seems to improve converge speed of BP algorithm. 
+Last, modifying the range of the sigmoid function, typically to $\left(-0.5,0.5\right)$ seems to improve the convergence rate of BP algorithm. 
+\newpage 
+
 \section{Adam}
 \subsection{The Algorithm}
 Here the theory of \textit{Adam} optimizer is presented according to the original publication  where it was first proposed. Pseudocode for this algorithm is reported below. \\
@@ -507,14 +511,14 @@ q_i &= \sum_{j=1}^{i}P_S(\vec{v}_j), \nonumber \\
 &\vdots \nonumber \\
 q_N &= \sum_{j=1}^{N}P_S(\vec{v}_j) = 1.
 \end{align}
-Such sequence determines a partition of the interval $\left[0,1\right]$ and the algorithm proceeds by "spinning" the wheel of fortune $N$ times . This means, a random number $r\in \left[0,1\right]$ is generated; if $r \leq 1$, then $\vec{v}_1$ is chosen; else if $q_{j-1} < r \leq q_j$ the chromosome of choice is $\vec{v}_j$. Notice that, with this procedure, a single chromosome may be selected several times. 
+Such sequence determines a partition of the interval $\left[0,1\right]$ and the algorithm proceeds by "spinning" the wheel of fortune $N$ times . This means, a random number $r\in \left[0,1\right]$ is generated; if $r \leq 1$, then $\vec{v}_1$ is chosen; else if $q_{j-1} < r \leq q_j$ the chosen chromosome is $\vec{v}_j$. Notice that, with this procedure, a single chromosome may be selected several times. 
 \subsection{Reproduction}
 Second phase simulates biological crossover, thanks to which genetic recombination is guaranteed at every generation. For each chromosome $\vec{v}$ selected in previous phase
 \begin{itemize}
 \item a random number  $r\in \left[0,1\right]$ is generated;
 \item if $r < P_C$, then $\vec{v}$ is chosen for crossover.
 \end{itemize}
-Chromosomes chosen this way are then randomly coupled. Whenever their number is odd, another random chromosome can be added (or removed from the reproduction subset).\\
+Recall that $P_C$ is a fixed selection probability. Chromosomes chosen this way are then randomly coupled. Whenever their number is odd, another random chromosome can be added (or removed from the reproduction subset).\\
 For each couple $\vec{v}_A = \left[v_A^{(1)}, \dots, v_A^{(n)} \right] $ and $\vec{v}_B = \left[v_B^{(1)}, \dots, v_B^{(n)} \right] $, a random integer 
 $c \in \{1, 2, \dots, n - 1 \}$ is computed and the chromosomes are split in the following way:
 \begin{align}
@@ -542,7 +546,7 @@ v_A^{(i)} \quad \text{if} \quad c + 1 \leq i \leq n.
 \end{equation}
 \subsection{Mutation}
 For each chromosome $\vec{v}_i$ we consider its every bit $v_i^{(j)}$, $\forall j=1,\dots,n$ and the algorithm generates a random $r_j \in \left[0,1\right]$.
-If $r_j < P_M$, then the corresponding bit is changed to its two's complement (otherwise it's left unchanged). After these three phases we obtain a new population $\textbf{P}(t+1)$ with 
+If $r_j < P_M$, then the corresponding bit is changed to its two's complement (otherwise it's left unchanged), where we recall that $P_M$ denotes the mutation probability. After these three phases we obtain a new population $\textbf{P}(t+1)$ with 
 \begin{equation}
 |\textbf{P}(t+1)|=|\textbf{P}(t)|=N.
 \end{equation}
@@ -570,7 +574,7 @@ the expected number of instances of $H$ at time $t+1$. Assume that selection is 
 \frac{f(\vec{v})}{\overline{F}}.
 \end{equation}
 We will write $\vec{v} \in H$ to denote "$\vec{v}$ is an instance of $H$". \\
-(For now) ignoring the effects of crossover and mutation, we have
+Ignoring (only for now) the effects of crossover and mutation, we have
 \begin{equation}
 \label{expectedmult}
 \mathbb{E}\left[m(H, t + 1) \right] = \sum_{\vec{v} \in H}\frac{f(\vec{v})}{\overline{F}} = \frac{\hat{U}(H,t)}{\overline{F}}m(H,t)
@@ -589,7 +593,7 @@ The effects of mutations can be quantified as follows. Let $S_M(H)$ be the proba
 \begin{equation}
 S_M(H) = (1-P_M)^{o(H)},
 \end{equation}
-where we recall that $o(H)$ is the number of defined bits in the schema. Holds because mutation acts independently on each bit of each chromosome. In this case, longer schemes appear to be more resistant. \\
+where we recall that $o(H)$ is the number of defined bits in the schema. This formula holds because mutation acts independently on each bit of each chromosome. In this case, longer schemes appear to be more resistant. \\
 These disruptive effects can be used to amend equation \eqref{expectedmult}, in order to get a lower bound for $\mathbb{E}\left[m(H, t + 1) \right]$. Hence we get
 \begin{equation}
 \mathbb{E}\left[m(H, t + 1) \right] \geq \frac{\hat{U}(H,t)}{\overline{F}}m(H,t)\left( 1 - P_C\left(\frac{d(H)}{n-1} \right)\right)\left[ (1-P_M)^{o(H)}\right].
@@ -601,7 +605,7 @@ Last result is known as Holland Theorem (or Schemata Theorem). It implies that s
 \newpage
 
 \section{Neural Networks in Cryptography: an interesting attempt}
-This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptoanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough. However, its importance lies in influencing subsequent works. (CITATIONS NEEDED!!!!!).
+This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough. However, its importance lies in influencing subsequent works. (CITATIONS NEEDED!!!!!).
 
 \subsection{Genetic Algorithms in Neural Network Design}
 Main element in this research are feedforward neural nets with Back Propagation, but the most interesting characteristic of Volna's approach is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
@@ -620,7 +624,7 @@ where $w_{ij,kl} = w(x_{ij}, x_{kl})$ is the weight value between the $j$-th uni
   	e_2 &= \text{sign bit}.
 \end{align*}
 $L$ denotes the total number of layers, while $n_i$ and $n_k$ are the number of units in layers $i$ and $k$, respectively. Recall that these values are determined by the execution of the genetic algorithm. \\
-Error between the desired and the real output is the computed and stored in the vector $\vec{E}$ . On the basis of it, the algorithm computes the fitness precursor value $f_i^{\star}$, for each individual $i = 1, \dots, N$, that is
+Error between the desired and the real output is then computed and stored in the vector $\vec{E}$ . On the basis of it, the algorithm computes the fitness precursor value $f_i^{\star}$, for each individual $i = 1, \dots, N$, that is
 \begin{equation}
 f_i^{\star} = k_1(E_i)^2 + k_2(U_i)^2 + k_3(L_i)^2,
 \end{equation}
@@ -693,8 +697,8 @@ Here, a new concept appears in neurocryptography: synchronization of two nets to
 Object of the above cited work is a key-exchange protocol based on a learning process of feedforward neural networks. The two NN's participating in the communication start from private key vectors $E_k(0)$ and $D_k(0)$. Mutual learning from the exchange of public information leads the two nets to develop a common, time dependent key: $E_k(t) = - D_k(t)$. This is then used for both encryption and decryption. \\
 This phenomenon, known as synchronization of synaptic weights, has the core feature of speed. In fact, experiments of the authors show that such synchronizing is faster than the process of tracking the weights of one of the networks by an eavesdropper. It must be said that the inventors weren't able to find a mathematical proof of this, that instead was published little later by other cryptographers in \cite{shamir}. In this same work, all of the limitations of \textit{KKK} are also shown, but we'll deal with this in the following subsections (Synchronization: \ref{ssc:synchro}; Attacks: \ref{ssc:atk}).  \\
 Going back to the model, the architecture used by both sender and recipient is a tree parity machine, a two-layered perceptron with $K$ hidden units, $K \times N$ input neurons and a single output. Input units take binary values $x_{kj} = \pm 1$, $k = 1,\dots, K$ and $j = 1, \dots, N$. The $K$ binary hidden units are denoted by $y_k$, $k = 1,\dots, K$, while the integer weight from the $j$-th input unit from the $k$-th hidden unit is denoted $w_{kj}\in\{-L,\dots,L\}$. Output $O$ is the product of the state of the hidden neurons. (ADD FIGURE!!!) \\
-Fix for simplicity $K = 3$ and let $w_{kj}^S$, $w_{kj}^R$ be the secret information of sender and recipient, respectively (that is, the initial values for the weights). Hence this consists of $3N$ integer numbers for each of the two participants. \\
-Each network is then trained with the output of its partner. At each step, both for synchronization and for encryption/decryption steps, a new common public input vector is needed. Given $\vec{x_{kj}}$, output is computed in two steps. In the first one, states of hidden units are computed as 
+Fix for simplicity $K = 3$ and let $w_{kj}^S$, $w_{kj}^R$ be the secret information of sender and recipient, respectively (that is, the initial values for the weights). Hence this consists of $3N$ integer numbers for each of the two participants.  Note that, from now on, superscript $S$ will denote sender, while $R$ will denote recipient. \\
+Each network is then trained with the output of its partner. At each step, both for synchronization and for encryption/decryption steps, a new common public input vector is needed. Given $\vec{x}_{kj}$, output is computed in two steps. In the first one, states of hidden units are computed as 
 \begin{equation}
 y_k^{S/R} = \sign\left(\sum_{j=1}^{N}w_{kj}^{S/R}x_{kj}\right),
 \end{equation}
@@ -715,7 +719,7 @@ As soon as the weights are antiparallel, the initialization of the cryptosystem 
 \subsection{More details on Synchronization}
 \label{ssc:synchro}
 In Kanter's work, many experiments are reported to show the effectiveness of synchronization process. However, I decided to omit these details since, as I anticipated in previous section, the "sacred cow" of cryptography Adi Shamir provided us with a mathematical proof of it. \\
-The full treatment of this problem found in \cite{shamir} relies on the properties of random walks in bounded domains. Another assumption: learning rule \eqref{hebblearn} would complicate the notation, as it forces the mutually learning NN's into anti-parallel states. Instead, a dual scheme in which the two parties eventually become identical is proposed. Given input vectors $\vec{x_{kj}}$, hidden outputs are calculated as
+The full treatment of this problem found in \cite{shamir} relies on the properties of random walks in bounded domains. Another assumption: learning rule \eqref{hebblearn} would complicate the notation, as it forces the mutually learning NN's into anti-parallel states. Instead, a dual scheme in which the two parties eventually become identical is proposed. Given input vectors $\vec{x}_{kj}$, hidden outputs are calculated as
 \begin{equation}
 y_k^{S/R} = \sign\left(\sum_{j=1}^{N}w_{kj}^{S/R}x_{kj}\right),
 \end{equation}
@@ -743,36 +747,36 @@ L \qquad \text{if} \quad w>L \\
 \end{equation}
 In other words, above function rescales weights to the prefixed bounds whenever any of them exceeds the allowed values. \\
 After these premises, we can show how the two participants converge and why a third net cannot converge to the same parameters by following the same learning procedure. \\
- We start off by considering an oversimplified model of a single Perceptron with a single weight. \iftrue Let $w^{S/R}_{t}$  be the current weights and denote inputs $x_{t} \in \{-1,1\} $. \fi Each weight's update process can be described as a random walk with absorbing boundaries $-L,L$, starting from a random point $w^{S/R}_{0}\in\{-L,\dots ,L\}$. \\
-At each round $t$, sender and receiver decide either to move their respective weights in the same direction (determined by $x_t$), or not to vary them. In first case, if any of $w^{S/R}_t$ tries to step beyond the fixed boundaries, it remains stuck at it (due to \eqref{rebound}), while the other one gets nearer.  If none of the the weights is absorbed, we have $|w_{t+1}^S - w_{t+1}^R| = |w_{t}^S - w_{t}^R|$, else their distance is reduced by one. Since a random walk is expected to hit its boundaries infinitely often, the weights'paths admit a mixing time. \\
-A simple generalization: consider the case of a single Perceptron with multiple weights. Here, the two weight vectors move in the same direction determined by inputs in a multidimensional rectangle, and along each coordinate the distance is either preserved or reduced by one. When all these distances are reduced to zero, the two random walks mix. \\
-The general case of neural networks with multiple Perceptrons is more complicated, since the two parties may update different subsets of their perceptrons in each round. The complete treatment of such problem can be found in the publication to which I'm referring, but I decided to omit these details.
+ We start off by considering an oversimplified model of a single Perceptron with a single weight. \iftrue Let $w^{S/R}_{t}$  be the current weights and denote inputs $x_{t} \in \{-1,1\} $. \fi The update process of each weight can be described as a random walk with absorbing boundaries $-L,L$, starting from a random point $w^{S/R}_{0}\in\{-L,\dots ,L\}$. \\
+At each round $t$, sender and receiver decide either to move their respective weights in the same direction (determined by $x_t$), or not to vary them. In first case, if any of $w^{S/R}_t$ tries to step beyond the fixed boundaries, it remains stuck at it (due to \eqref{rebound}), while the other one gets nearer.  If none of the the weights is absorbed, we have $|w_{t+1}^S - w_{t+1}^R| = |w_{t}^S - w_{t}^R|$, else their distance is reduced by one. Since a random walk is expected to hit its boundaries infinitely often, the paths of the weights admit a mixing time. \\
+A simple generalization: consider the case of a single perceptron with multiple weights. Here, the two weight vectors move in the same direction determined by inputs in a multidimensional rectangle, and along each coordinate the distance is either preserved or reduced by one. When all these distances are reduced to zero, the two random walks mix. \\
+The general case of neural networks with multiple Perceptrons is more complicated, since the two parties may update different subsets of their perceptrons in each round. The complete treatment of such problem can be found in \cite{shamir} but I decided to omit these details.
 
 
 \subsection{Attacking KKK}
 \label{ssc:atk}
-The creators of \textit{KKK} claimed its security basing on their experiments. In fact, simulations shown clearly that it was computationally unfeasible for an attacker to intercept any of the parties' parameters, if such eventual attacker relied on the same neural network structure as the ones used in communication. \\
+The creators of \textit{KKK} claimed its security basing on their experiments. In fact, simulations shown clearly that it was computationally unfeasible for an attacker to intercept any of the parameters related to the two parties, if such eventual attacker relied on the same neural network structure as the ones used in communication. \\
 In Shamir's paper there is also a mathematical proof of this impossibility, but most interesting content of such work is in its last section. This is dedicated to the cryptanalysis of \textit{KKK}, which can indeed be broken by using other types of attack. \\
 For example, many successful cryptanalytic applications of Genetic Algorithms can be found in literature. \\
 In this case, a large population of NN's with the same structure as the two participants is simulated. These nets are then trained with the same inputs of the two communicant ones. Networks whose outputs mimic those of the two parties breed and multiply, while unsuccessful networks die. \\
-Shortly after sender $S$ and recipient $R$ synchronize, they can be certain of this fact (since their outputs keep coinciding) and the same can be checked for any of the attacker's neural networks. \\
+Shortly after sender $S$ and recipient $R$ synchronize, they can be sure of this fact (since their outputs keep coinciding) and the same can be checked for any of the attacker's neural networks. \\
 An interesting experimental result: in the majority of tests led by the authors, at least one  of the attacking nets became synchronized with $S$ even before $S$ and $R$ became fully synchronized. \\
 Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the two parties'nets. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
 
 \chapter{Neural Cryptanalysis}
 Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see Subsection \ref{cpaanc}). \\
 \section{Cryptanalysis of Simon Cipher using Neural Networks}
-The study I'm considering in this section is \cite{jay}, in which its author describes a novel, complete approach of using neural networks in cryptoanalysis. The cryptosystem of interest belongs to the family of Simon block ciphers, publicly released by NSA in 2013. (ADD CIT.)  
+The paper I am considering in this section is \cite{jay}, in which the author describes a novel, complete approach of using neural networks in cryptanalysis. The cryptosystem of interest belongs to the family of Simon block ciphers, publicly released by NSA in 2013. (ADD CIT.)  
 %(Add citation https://eprint.iacr.org/2013/404.pdf). \\
 \subsection{Simon Cipher}
-Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithm, but it is good for the research's purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. \\
+Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithm, but it is good for research purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. \\
 Simon has has input block size of length $32$, with a key size of $64$ bits in length. In this study, Simon cipher is round-reduced: it encrypts the plaintexts with first a single round of the Feistel network and then with two rounds; same is for decryption. (ADD PICTURE)\\
 More precisely, the $32$ bits long plaintext $x$ is divided into two blocks of $16$ bits in length, namely $x_i$ and $x_{i+1}$, respectively. The former half is made to go through several left circular shift units, with $S^j$, $j = 1,2,8$, representing shift by one, two and eight bits respectively. A bitwise \textit{AND} is performed on the results of $S^1$ and $S^8$, followed by a bitwise \textit{XOR} with the second half $x_{i+1}$. The result of previous operation is again \textit{XOR}-ed with the result from $S^2$. \\
 In general, Simon creates a list of key words $k_0, k_1, \dots, k_T$, where $T$ is the number of rounds. Since in this case the algorithms is simplified to one round and two rounds of the cipher, the key schedules generate only one and two key words respectively. The corresponding key word from the key schedule is then \textit{XOR}-ed with the result of the last performed operation. In the final step of the round, the result from the last step is swapped with the input block $x_{i+1}$ and then passed on to the next round.
 
 \subsection{Neural Network Design}
 The architecture of choice is the multi-layer perceptron, with some extensions that we discuss in the following. \\
-Each neuron in the input layer corresponds to each bit of the plaintext and ciphertext pairs; that is $64$ input neurons. Same size for the output layer, in which each cell predicts whether the key bit is $0$ or $1$. The number of neurons in hidden layers, instead, varies up to $1024$. According to the authors of the aforementioned publication, this decision helped increase the accuracy of the model. For the same reason, all layers are fully-connected (FC).\\
+Each neuron in the input layer corresponds to each bit of the plaintext and ciphertext pairs; that is $64$ input neurons. Same size for the output layer, in which each cell predicts whether the key bit is $0$ or $1$. The number of neurons in hidden layers, instead, varies up to $1024$. According to the author of \cite{jay}, this decision helped increase the accuracy of the model. For the same reason, all layers are fully-connected (FC).\\
 A few words about the activation function. It takes into account a bias assigned to the neuron and it's known in literature as Linear Rectifier, that is 
 \begin{equation}
 y = f(z)= z + b = \sum_j w_jx_j + b,
@@ -1002,7 +1006,9 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 
 \bibitem[Hebb(1949)]{hebb} {\sc Hebb, D. O.} (1949). \textit{The organization of behavior; a neuropsychological theory}. Wiley, New York.
 
-\bibitem[Rosenblatt(1958)]{rosenblatt} {\sc Rosenblatt, F.} (1958) \textit{The perceptron: A probabilistic model for information storage and organization in the brain}. Psychological Review, 65.
+\bibitem[Rosenblatt(1958)]{rosenblatt} {\sc Rosenblatt, F.} (1958). \textit{The perceptron: A probabilistic model for information storage and organization in the brain}. Psychological Review, 65.
+
+\bibitem[Minsky and Papert(1969)]{minpapert} {\sc MInsky, M.} and {\sc Papert, S. A.} (1969). \textit{Perceptrons: An Introduction to Computational Geometry}. MIT Press.
 
 \bibitem[Rumelhart, Hinton and Williams(1986)]{back} {\sc Rumelhart, D.}, {\sc Hinton, G.} and {\sc Williams, R.} (1986). \textit{Learning representations by back-propagating errors}. Nature 323, 533–536.
 
