@@ -493,6 +493,8 @@ Last, modifying the range of the sigmoid function, typically to $\left(-0.5,0.5\
 \newpage 
 
 \section{Adam}
+In this section we present Adam, a recent method for stochastic optimization that first appeared in \cite{adam}. This method computes individual adaptive learning rates for different parameters from estimates of first and second moments of the gradients; the name Adam is derived from adaptive moment estimation. 
+Such algorithm is well-suited for the training of neural networks and indeed it is applied to most modern architectures; following chapters of this work include examples of such NNs.
 \subsection{The Algorithm}
 Here the theory of \textit{Adam} optimizer is presented according to the original publication  where it was first proposed. Pseudocode for this algorithm is reported below. \\
 \begin{algorithm}[H]
@@ -1105,6 +1107,7 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 
 \bibitem[Sejnowski and Rosenberg(1987)]{sejnowski} {\sc Sejnowski, T. J.} and {\sc Rosenberg, C. R.} (1987). \textit{Parallel Networks that Learn to Pronounce English Text}. Complex Systems, 1.
 
+\bibitem[Kingma and Ba(2015)]{adam} {\sc Kingma, D.P.} and {\sc Lei Ba, J.} (2015). \textit{Adam: a method for stochatic optimization}. CoRR.
 \bibitem[Mitchell(1998)]{mit} {\sc Mitchell, M.} (1998). \textit{An introduction to Genetic Algorithms}. MIT Press.
 
 \bibitem[Holland(1975)]{holland} {\sc Holland, J.} (1975). \textit{Adaptation in Natural and Artificial Systems}. MIT Press. 
