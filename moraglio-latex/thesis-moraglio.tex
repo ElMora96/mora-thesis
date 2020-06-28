@@ -65,6 +65,7 @@
   }
 %
 
+\usepackage{appendix} %appendices
 \usepackage{mathrsfs,amssymb,amsfonts,amsthm,amsmath,amsbsy}
 \usepackage{natbib}
 \newtheorem{theorem}{Theorem}[section]
@@ -206,7 +207,7 @@ Notice that above historical principles do not all apply to most modern neural n
 The first complete neural computation model, that is called Perceptron, first appeared in \citep{rosenblatt} and serves as a building block to most later models. The Perceptron posses the fundamental structure of a neural cell, of several weighted input connections and a single output channel. The input/output relations are defined to be
 \begin{align}
 z = \sum_{i}w_i x_i \quad \text{(summation output)} \label{summation}\\
-y = f_N(z) \quad \text{(cell output)},
+y = f_N(z) \quad \text{(cell output)}, \label{nonlinear}
 \end{align}
 where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. $y$, instead, denotes the cell's output, that is a nonlinear activation function $f_N$ (see Subsection \ref{percact} below) of the node output $z$. \\
 It is customary to consider a network of $n$ Perceptrons; in this case, by letting $z_i$ be the summation output of the $i$-th Perceptron and its inputs $x_{i,j}$, the summation relation becomes
@@ -264,9 +265,98 @@ z = b + \sum_{i}w_i x_i,
 \end{equation}
 where $b$ is subject to the same training procedures as the the weights of the net. \\ Such training algorithms revealed themselves to be challenging for researchers, especially from the introduction of the so called Multi-Layer Perceptron (MLP). In fact, already in the late 1960s, limitations of single-layer architectures were shown (see \cite{minpapert}), together with the possibility of solving more complicated problems using MLP's. However, finding efficient algorithms to adjust the weights of such nets was problematic and took several years. Some examples of solutions to these problems are presented in the following sections.
 
+\subsection{Least Mean Square Training}
+We first discuss a simple algorithm to set weights of the so-called Adaline (ADAptive LInear NEuron) network. Such model first appeared in \cite{widrow} and it has the basic structure of a bipolar perceptron. The nonlinear operator of equation \eqref{nonlinear} is here a simple threshold element, to yield the Adaline output $y$ as
+\begin{equation}
+y = \sign(z).
+\end{equation}
+The training of such NN is according to the following procedure, that is called Least Mean Square (LMS). Given $L$ training sets:
+\begin{equation}
+\vec{x}_1,\dots,\vec{x}_L; \quad d_1, \dots, d_L,
+\end{equation}
+where
+\begin{equation}
+\vec{x}_i = \left[x_{i1}, \dots, x_{in} \right]^\intercal, \quad i \in \{1,\dots, L\},
+\end{equation}
+$i$ denoting the $i$-th set, $n$ being the number of inputs and $d_i$ denoting the desired output of the neuron, we define a training cost, such that:
+\begin{align}
+J(\vec{w}) &= \mathbb{E}\left[ e_k^2\right] \approx \frac{1}{L}\sum_{k=1}^{L}e_k^2; \label{trainingcost} \\
+\vec{w} &= \left[w_{1}, \dots, w_{n} \right]^\intercal,
+\end{align}
+where $e_k$ denotes training error at the $k$-th set, namely
+\begin{equation}
+e_k = d_k - z_k, \quad k \in \{1,\dots, L\},
+\end{equation}
+and $z_k$ being the neuron's actual output. \\
+Following the above notation we have that 
+\begin{equation}
+\mathbb{E}\left[e_k^2\right] = \mathbb{E}\left[d_k^2\right] + \vec{w}^{\intercal}\mathbb{E}\left[\vec{x}_k\vec{x}_k^{\intercal}\right]\vec{w} - 2\vec{w}^{\intercal}\mathbb{E}\left[d_k\vec{x}_k\right],
+\end{equation}
+with
+\begin{align}
+\mathbb{E}\left[XX^{\intercal} \right] &= R \label{expectdesign}\\
+\mathbb{E}\left[\vec{d}X\right] = \vec{p},
+\end{align}
+where $X$ denotes the input matrix, to yield the gradient of $J$ such that
+\begin{equation}
+\label{lmsgrad}
+\nabla J = \frac{\partial J(\vec{w})}{\partial \vec{w}} = 2R\vec{w} - 2\vec{p}.
+\end{equation}
+Hence, the optimal LMS setting of the weights becomes
+\begin{equation}
+\nabla J = 0,
+\end{equation}
+which, by equation \eqref{lmsgrad} satisfies the weight setting of 
+\begin{equation}
+\vec{w}^{LMS} = R^{-1}\vec{p}.
+\end{equation}
+Note that above LMS procedure employs expecting whereas the training data is limited to a small number of $L$ sets, such that the sample averages will be inaccurate estimates of the true expectations. 
+
+\subsection{Gradient Descent Training}
+The gradient descent training procedure, also known in literature as steepest descent procedure, attempts to provide weight-setting estimates from one training set to the next, starting with $L=n+1$ training sets, where $n$ is the number of inputs. Note that, from $n$ weights, it is imperative that 
+\begin{equation}
+L > n + 1
+\end{equation}
+Denoting a weights vector setting after the $m$-th training set, $m \in \{1, \dots, L\}$, as $\vec{w}(m)$, then 
+\begin{equation}
+\label{steepestdescent}
+\vec{w}(m+1) = \vec{w}(m) + \Delta\vec{w}(m),
+\end{equation}
+where $\Delta\vec{w}$ is the variation in $\vec{w}(m)$, given by
+\begin{equation}
+\label{variation}
+\Delta\vec{w}(m) = \mu \nabla J\left(\vec{w}(m)\right).
+\end{equation}
+In the above equation, $\mu$ is the rate parameter whose setting discussed below, and $\nabla J$ denotes the gradient of the training cost as defined in \eqref{trainingcost}. With these conventions, the steepest descent procedure of \eqref{steepestdescent} follows the steps below.
+\begin{enumerate}
+\item Apply input vector $\vec{x}_m$ and the desired output $d_m$ for the $m$-th training set .
+\item Determine $e_m^2$, that is
+\begin{align}
+e_m^2  &= \left[d_m - \vec{w}(m)^{\intercal}\vec{x}(m) \right]^2 =  \\ 
+& = d_m^2 -2d_m\vec{w}(m)^{\intercal}\vec{x}(m) + \vec{w}(m)^{\intercal}\vec{x}(m)\vec{x}(m)^{\intercal}\vec{w}(m)
+\end{align}
+
+\item Evaluate
+\begin{align}
+\nabla J &= \frac{\partial e_m^2}{\partial \vec{w}(m)} = 2\vec{x}(m)\vec{w}(m)^{\intercal}\vec{x}(m) - 2d_m\vec{x}(m) = \\
+		&= -2\left[d_m - \vec{w}(m)^{\intercal}\vec{x}(m) \right]\vec{x}(m) = -2e_m\vec{x}(m),
+\end{align}
+thus obtaining an approximation to $\nabla J$ by using $e_m^2$ as the approximate to $J$.
+
+\item Update $\vec{w}(m+1)$ via equations \eqref{steepestdescent} and \eqref{variation}, namely
+\begin{equation}
+\vec{w}(m+1) = \vec{w}(m) -2\mu e_m\vec{x}(m).
+\end{equation}
+Here $\mu$ is chosen to satisfy 
+\begin{equation}
+\frac{1}{\lambda_{max}} > \mu > 0,
+\end{equation}
+where $\lambda_{max}$ is the maximum eigenvalue of matrix $R$ of equation \eqref{expectdesign}.
+\end{enumerate}
+In the following sections we will discuss more advanced training algorithms, that are designed to be compatible with multiple-layer architectures.
 \newpage
 \section{Back Propagation Training Algorithm}
-Back Propagation (BP) algorithm was first proposed in \cite{back}, as a solution for setting weights (and hence for the training) of multi-layer Perceptrons. 
+Back Propagation (BP) algorithm was first proposed in \cite{back}, as a solution for setting weights (and hence for the training) of multi-layer perceptrons. 
 The availability of a rigorous method to set intermediate weights, namely to train the hidden layers of neural networks, gave a major boost to the further development of such models. \\
 In this section this algorithm is presented in detail. \\
 \subsection{The Algorithm}
@@ -1008,6 +1098,7 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 
 \bibitem[Rosenblatt(1958)]{rosenblatt} {\sc Rosenblatt, F.} (1958). \textit{The perceptron: A probabilistic model for information storage and organization in the brain}. Psychological Review, 65.
 
+\bibitem[Widrow and Hoff(1960)]{widrow} {\sc Widrow, B.} and {\sc Hoff, M. E.} (1960). \textit{Adaptive Switching Circuits}. IRE WESCON Convention Record, 96-104.
 \bibitem[Minsky and Papert(1969)]{minpapert} {\sc MInsky, M.} and {\sc Papert, S. A.} (1969). \textit{Perceptrons: An Introduction to Computational Geometry}. MIT Press.
 
 \bibitem[Rumelhart, Hinton and Williams(1986)]{back} {\sc Rumelhart, D.}, {\sc Hinton, G.} and {\sc Williams, R.} (1986). \textit{Learning representations by back-propagating errors}. Nature 323, 533–536.
