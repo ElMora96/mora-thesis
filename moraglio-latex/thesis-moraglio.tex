@@ -263,7 +263,7 @@ We recall that in many neural network models, a bias term is added to the summat
 \begin{equation}
 z = b + \sum_{i}w_i x_i,
 \end{equation}
-where $b$ is subject to the same training procedures as the the weights of the net. \\ Such training algorithms revealed themselves to be challenging for researchers, especially from the introduction of the so called Multi-Layer Perceptron (MLP). In fact, already in the late 1960s, limitations of single-layer architectures were shown (see \cite{minpapert}), together with the possibility of solving more complicated problems using MLP's. However, finding efficient algorithms to adjust the weights of such nets was problematic and took several years. Some examples of solutions to these problems are presented in the following sections.
+where $b$ is subject to the same training procedures as the the weights of the net. \\ Such training algorithms revealed themselves to be challenging for researchers, especially from the introduction of the so called Multi-Layer Perceptron (MLP). In fact, already in the late 1960s, limitations of single-layer architectures were shown (see \cite{minpapert}), together with the possibility of solving more complicated problems using MLP's. However, finding efficient algorithms to adjust the weights of such nets was problematic and took several years. Some examples of solutions to these problems are presented in the following sections. All of such algorithms are thought to work in discrete time, while taking into account partial derivatives of the quantities of interest. Please read appendix \ref{fdmappendix} for further detail about Finite Difference Methods (FDMs).
 
 \subsection{Least Mean Square Training}
 We first discuss a simple algorithm to set weights of the so-called Adaline (ADAptive LInear NEuron) network. Such model first appeared in \cite{widrow} and it has the basic structure of a bipolar perceptron. The nonlinear operator of equation \eqref{nonlinear} is here a simple threshold element, to yield the Adaline output $y$ as
@@ -313,6 +313,7 @@ which, by equation \eqref{lmsgrad} satisfies the weight setting of
 Note that above LMS procedure employs expecting whereas the training data is limited to a small number of $L$ sets, such that the sample averages will be inaccurate estimates of the true expectations. 
 
 \subsection{Gradient Descent Training}
+\label{gdtsection}
 The gradient descent training procedure, also known in literature as steepest descent procedure, attempts to provide weight-setting estimates from one training set to the next, starting with $L=n+1$ training sets, where $n$ is the number of inputs. Note that, from $n$ weights, it is imperative that 
 \begin{equation}
 L > n + 1
@@ -365,11 +366,11 @@ The BP algorithm starts with computing values of the output layer, which is by d
 \label{errorenergy}
 \epsilon = \frac{1}{2}\sum_{k=1}^{N}e_k^2  =\frac{1}{2}\sum_{k=1}^{N}\left(d_k - y_k\right)^2,
 \end{equation}
-where $N$ is the number of neurons in the output layer. Consider the gradient of $\epsilon$:
+where $N$ is the number of neurons in the output layer. We also recall $d_k$ is the desired output and $e_k$ the error at the $k$-th entry . Consider the gradient of $\epsilon$:
 \begin{equation}
 \nabla \epsilon_k = \frac{\partial \epsilon}{\partial w_{kj}}.
 \end{equation}
-Recall that $w_{kj}$ denotes the weight of the $j$-th input to the $k$-th neuron. By the gradient descent procedure (ADD SOMETHING ABOUT THIS?), we have that 
+Recall that $w_{kj}$ denotes the weight of the $j$-th input to the $k$-th neuron. By the gradient descent procedure (see Subsection \ref{gdtsection}), we have that 
 \begin{equation}
 w_{kj}(m+1) = w_{kj}(m) + \Delta w_{kj}(m),
 \end{equation}
@@ -1005,81 +1006,94 @@ Example of remark
 Example of lemma
 \end{lemma}
 
+\begin{appendices}
 
+\chapter{Finite Differences Methods}
+\label{fdmappendix}
+In numerical analysis, Finite Difference Methods (FDMs) are discretizations used for solving differential equations by approximating them with difference equations that finite-difference approximate the derivatives of interest. In the first chapter of this work, some algorithms for neural network training are presented which rely on the solution of partial differential equations (PDEs).  \\
+In the present appendix we discuss the theoretical bases of finite difference methods applied to PDEs. The results presented here are taken from the second chapter of \cite{fdm}, where a much wider treatment of these methods can be found.
+\section{An introductory example}
+When a finite difference method (FDM) is used to treat numerically a partial differential equation, the differentiable solution is approximated by some grid function, in example, by a function that is defined only at a finite number of grid points that lie in the underlying domain and its boundary. Each derivative that appears in the partial differential equation has to be replaced
+by a suitable divided difference of function values at the chosen grid points. Such approximations of derivatives by difference formulas can be generated in various ways; in case they are generated by a Taylor expansions, the approach is generally known in literature as finite difference method. \\
+As an introduction to FDMs, consider the following example. We are interested in computing an approximation to a sufficiently
+smooth function $u$ that for given $f$ satisfies Poisson’s equation in the unit square and vanishes on its boundary:
+\begin{align}
+\label{poissonfdm}
+-\Delta u = f \quad &\text{in} \quad \Omega := (0,1)^2 \subset \mathbb{R}^2, \nonumber \\
+u = 0 \quad &\text{on} \quad \Gamma := \partial \Omega.
+\end{align}
+FDMs provide values $u_{i,j}$ that approximate the desired function values $U(x_{i,j})$ at the grid points $\{x_{i,j}\}$. Let the grid points in our example be 
+\begin{equation}
+x_{i,j} = (ih, jh)^{\intercal} \in \mathbb{R}^2, \quad i,j \in \{0,1,\dots, N\}.
+\end{equation}
+Here $h = \frac{1}{N}$, $N \in \mathbb{N}$, is the mesh size of the grid. \\
+At grid points lying on the boundary $\Gamma$ the given function values (which here are homogeneous) can be immediately taken as the point values of the grid functions. All derivatives in problem \eqref{poissonfdm} have however to be approximated by difference quotients. From Taylor's theorem we obtain
+\begin{align}
+\frac{\partial^2u}{\partial x_1^2}(x_{i,j}) &\approx \frac{1}{h^2}\left(u(x_{i-1,j}) -2u(x_{i,j}) + u(x_{i+1,j}) \right), \\
+\frac{\partial^2u}{\partial x_2^2}(x_{i,j}) &\approx \frac{1}{h^2}\left(u(x_{i,j-1}) -2u(x_{i,j}) + u(x_{i,j+1}) \right).
+\end{align}
+If these formulas are used to replace the partial derivatives at the inner grid points and the given boundary values are taken into account, then an approximate description of the original boundary value problem \eqref{poissonfdm} is given by the
+system of linear equations
+\begin{align}
+&4u_{i,j} - u_{i-1,j} -u_{i+1,j} -u_{i,j-1} -u_{i,j+1} = h^2f(x_{i,j}), \nonumber \\
+&u_{0,j} = u_{N,j} = u_{i,0} = u_{i,N} = 0; \quad i,j \in \{1,\dots,N-1\}.
+\end{align}
+For any $N\in \mathbb{N}$ this linear system has a unique solution $u_{i,j}$ Under certain smoothness assumptions on the desired solution $u$ of the original problem one has $u_{i,j} \approx u(x_{i,j})$.
 
-
-
-
-\newpage
-Example of pseudo code of algorithm
-
-\IncMargin{5mm}
-\begin{algorithm}[t]
-%\footnotesize
-% \SetAlgoLined
-\vspace{2mm}
-\hspace{-5mm} \KwData{$y_{t_{j}}=(y_{t_{j},1},\ldots,y_{t_{j},m_{t_{j}}})$}
-\hspace{-5mm} Set parameters $\alpha=\theta P_{0}$, $\theta>0$, $P_{0}\in M_{1}(\mathbb{Y})$\\[0mm]
-
- \SetKwBlock{Begin}{Initialise}{end}
- \Begin{
-$y\leftarrow\emptyset$, $y^{*}=\emptyset$, $m\leftarrow0$, $M\leftarrow0$, $M\leftarrow\{0\}$, $K_{m}\leftarrow0$, 
-$w_{0}\leftarrow1$\\
-}
-
- \SetKwBlock{Begin}{For $j=0,\ldots,J$}{end}
- \Begin{
- \SetKwBlock{Begin}{Title set of instructions 1}{end}
- \Begin{
-read data $y_{t_{j}}$\\
-$m\leftarrow m+\text{card}(y_{t_{j}})$\\
-%compute distinct values $y_{t_{j}}^{*}$ in $y_{t_{j}}$\\
-%update total no.~of items $m\leftarrow\text{card}(y)$\\
-$y^{*}\leftarrow$ distinct values in $y^{*}\cap y_{t_{j}}$\\
-$K_{m}=\text{card}(y^{*})$
-}
-
- \SetKwBlock{Begin}{Title set of instructions 2}{end}
- \Begin{
- 
- \SetKwBlock{Begin}{for $M\in M$}{end}
-  \Begin{
-$n\leftarrow t(y_{t_{j}},M)$\\
-$w_{n}\leftarrow
-w_{M}\,\mathrm{PU}_{\alpha}(y_{t_{j}}\mid y)
-$\\[0mm]
-%$\sum_{n\in t(y_{m+1:m+n},M)}\hat w_{n}\Pi_{\alpha+\sum_{i=1}^{K_{m+n}}n_{i}\delta_{y_{i}^{*}}}$\\
-%assign weight $\hat w_{n}$ to mixture component $\Pi_{\alpha+\sum_{i=1}^{K_{m}}n_{i}\delta_{y_{i}^{*}}}$\\[-1.5mm]
-   }
-    $M\leftarrow t(y_{t_{j}},M)$\\
- \SetKwBlock{Begin}{for $M\in M$}{end}
-  \Begin{       $w_{M}\leftarrow w_{M}/\sum_{\ell \in M}w_{\ell}$
-  }
-    $X_{t_{j}}\mid y,y_{t_{j}}\sim    \sum_{M\in M}w_{M}\Pi_{\alpha+\sum_{i=1}^{K_{m}}m_{i}\delta_{y_{i}^{*}}}$
-%$w_{M}\leftarrow0$ for $M\notin M$
- }
- 
-\textbf{Return} $y\leftarrow y\cup y_{t_{j}}$
-   }
- \caption{Algorithm title}
- \label{algorithm}
-\end{algorithm}
-
-which is referred as Algorithm \ref{algorithm}. 
-
+\section{Method of Finite Differences applied to PDEs: Basic Concepts}
+Let us consider the very simple domain $\Omega := (0,1)^n \subset \mathbb{R}^n$. Denote its closure by $\overline{\Omega}$. For the discretization of $\overline{\Omega}$ a set $\overline{\Omega}_h$ of grid points has to be
+selected, e.g., we may chose an equidistant grid that is defined by the points
+of intersection obtained when one translates the coordinate axes through consecutive equidistant steps with step size $h=\frac{1}{N}$. Here $N\in \mathbb{N}$ denotes the number of shifted grid lines in each coordinate direction. \\
+We distinguish between those grid points lying in the domain $\Omega$ and those at the boundary $\Gamma$ by setting
+\begin{equation}
+\Omega_h := \overline{\Omega}_h \cap \Omega \quad \text{and} \quad \Gamma_h := \overline{\Omega}_h \cap \Gamma.
+\end{equation}
+Unlike the continuous problem, whose solution $u$ is defined on all of $\overline{\Omega}$, the discretization leads to a discrete solution
+\begin{equation}
+u_h: \overline{\Omega}_h \longrightarrow \mathbb{R}
+\end{equation}
+that is defined only at a finite number of grid points. Such mappings are called grid functions. \\
+To deal properly with grid functions we introduce the following function spaces:
+\begin{align}
+U_h &= \{u_h:\overline{\Omega}_h \longrightarrow \mathbb{R} \}, \\
+U_h^0 &= \{u_h \in U_h : u_h|_{\Gamma_h} = 0 \}, \\
+V_h &= \{v_h: \Omega_h \longrightarrow \mathbb{R} \}.
+\end{align}
+To shorten the writing of formulas for difference quotients, let us define the following difference operators where the discretization step size is $h > 0$:
+\begin{align}
+(D_j^+u)(x)&:= \frac{1}{h}\left(u(x +he^j) - u(x) \right); \quad \text{(forward difference quotient)} \nonumber \\
+(D_j^-u)(x)&:= \frac{1}{h}\left(u(x) - u(x -he^j) \right); \quad \text{(backward difference quotient)} \nonumber \\
+D_j^0 &:= \frac{1}{2}\left(D_j^+ + D_j^- \right); \quad \text{(central difference quotient).} \nonumber
+\end{align}
+In the above formulas $e^j$ denotes the unit vector in the positive direction of the $j$-th coordinate axis. \\
+How can difference approximations be generated? For sufficiently smooth functions $u:\mathbb{R}^n \longrightarrow \mathbb{R}$, by a Taylor expansion one has
+\begin{equation}
+\label{tsfdm}
+u(x + z) = \sum_{k=0}^{m}\frac{1}{k!}\left(\sum_{j=1}^n z_j \frac{\partial}{\partial x_j} \right)^ku(x) + R_m(x,z).
+\end{equation}
+Here the remainder $R_m(x,z)$ can be written in the Lagrange form, namely
+\begin{equation}
+R_m(x,z) = \frac{1}{(m+1)!}\left(\sum_{j=1}^n z_j \frac{\partial}{\partial x_j} \right)^{(m+1)} \times u(x + \theta z); \quad \exists \theta = \theta (x,z) \in (0,1).
+\end{equation}
+If derivatives are replaced by approximating difference formulas that are derived from \eqref{tsfdm}, one can deduce estimates for the consequent error. Further detail can be found in \cite{fdm}. \\
+Going back to difference approximation of derivatives, Taylor theorem provides a systematic tool for the generation of such approximations, for example one could show
+\begin{equation}
+\frac{\partial u}{\partial x_j}(x) = \frac{1}{2h}\left(-3u(x) +4u(x +4u(x +he^j) - u(x +2he^j) \right) + O(h^2).
+\end{equation}
+In general, any given partial differential equation problem, including its boundary and/or initial conditions, can be expressed as an abstract operator equation
+\begin{equation}
+Fu = f,
+\end{equation}
+with appropriately chosen function spaces $U$ and $V$, a mapping $F: U \longrightarrow V$ and $f \in V$. The related discrete problem can be stated analogously as 
+\begin{equation}
+F_h u_h = f_h,
+\end{equation}
+with $F_h: U_h \longrightarrow V_h$, $f_h \in V_h$, and discrete spaces $U_h, V_h$.
+\end{appendices}
 
 
 %\selectlanguage{italian}
 
-
-
-
-\newpage
-Items in the bibliography to be referenced like this \cite{EK86} and this \cite{EK81}, check the different style for books and articles. 
-
-Abbreviations of Journal names can be found at this link
-
-msc2010.org/MSC2010-CD/extras/serials.pdf
 
 
 
@@ -1137,6 +1151,7 @@ msc2010.org/MSC2010-CD/extras/serials.pdf
 
 \bibitem[Shi et al.(2020)]{china} {\sc Shi, J.}, {\sc Chen, S.}, {\sc Lu, Y.}, {\sc Feng, Y.}, {\sc Shi, R.}, {\sc Yang, Y.} and {\sc Li, J.} (2020). \textit{An Approach to Cryptography Based on Continuous-Variable Quantum Neural Network}. Nature.
 
+\bibitem[Grossmann, Roos and Stynes(2005)]{fdm} {\sc Grossmann, C.}, {\sc Roos H.} and {\sc Stynes, M.} (2005). \textit{Numerical Treatment of Partial Differential Equations (3rd Ed.)}. Springer.
 \end{thebibliography}
 
 
