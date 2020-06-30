@@ -140,7 +140,7 @@
 \vskip 0.7cm
 
 \begin{center} %THESIS TITLE
-\Large \bf Thesis Title\\
+\Large \bf Rudiments of Neural Cryptography\\
 
 \end{center}
 
@@ -694,14 +694,18 @@ These disruptive effects can be used to amend equation \eqref{expectedmult}, in 
 Last result is known as Holland Theorem (or Schemata Theorem). It implies that short, high-average-fitness schemas will see their instances increase exponentially over time.
 
 \chapter{Neural Cryptography: History}
-\section{Pioneers of Neural Cryptography}
+\section{Introduction}
+Cryptography is one of the most crucial aspects for cybersecurity and it is becoming increasingly indispensable in information age. In classical cryptosystems, cryptography algorithms are mostly based on classical hard-to-solve problems in number theory. \\
+However, several researchers have combined neural network with classical cryptography for the multivariate structural and nondirectional features of neural network. More precisely, the concept of cryptography based on NNs was firstly introduced in \cite{lauria}.Then branches of applications and related works of cryptography with different NN models were proposed subsequently. In particular, it came out network stochastic synchronization provides a possibility for mutual learning between neural networks, allowing researchers to build secure communication channels. \\
+In the last few years, main ingredients of neural cryptography have been ported to Quantum Neural Networks (QNN); an interesting example can be found in \cite{china}. QNNs are indeed famous for their advantages in fast learning and improving the efficiency of information processing. \\
+In this chapter we discuss some of the fist neural cryptosystems.
 \newpage
 
 \section{Neural Networks in Cryptography: an interesting attempt}
-This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough. However, its importance lies in influencing subsequent works. (CITATIONS NEEDED!!!!!).
+This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough: synchronization-based approach was not yet developed at the time of this publication. However, this work contains interesting key-concepts of neural cryptography. 
 
 \subsection{Genetic Algorithms in Neural Network Design}
-Main element in this research are feedforward neural nets with Back Propagation, but the most interesting characteristic of Volna's approach is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
+Main element in this research are feedforward neural nets with Back Propagation, but the most interesting characteristic of the approach chosen by Volna is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
 The criterion of choice is the minimization of the sum of square of deviation of output from neural network. At first, the maximal architecture of the nets is proposed, then, at each step, to optimize the population it is necessary to solve the cryptographic problems of interest. Thereafter the process of genetic algorithms is applied. An optimal population is found either when it achieves the maximal generation or when fitness function achieves the maximal defined value. \\
 At this point, it is required to complete the "best" architecture by adapting weights and hence three digits are generated for every
 connection coming out from a unit. If the connection does not exist, three zeroes are assigned, else weights are computed this way:
@@ -783,12 +787,12 @@ Going back to the protocol, the key will include the adapted neural network para
 \newpage
 
 \section{The KKK Key Exchange Protocol}
-We now deal with the first complete cryptosystem based on neural networks. It has been later referred to as \textit{KKK}, from the surnames of its inventors. It first appeared in \cite{kanter}, a year later than Volná's work. \\
+We now deal with the first complete cryptosystem based on neural networks. It has been later referred to as \textit{KKK}, from the surnames of its inventors. It first appeared in \cite{kanter}, a year later than the work of Volná. \\
 Here, a new concept appears in neurocryptography: synchronization of two nets to build a secure communication channel.
 
 \subsection{The Protocol}
-Object of the above cited work is a key-exchange protocol based on a learning process of feedforward neural networks. The two NN's participating in the communication start from private key vectors $E_k(0)$ and $D_k(0)$. Mutual learning from the exchange of public information leads the two nets to develop a common, time dependent key: $E_k(t) = - D_k(t)$. This is then used for both encryption and decryption. \\
-This phenomenon, known as synchronization of synaptic weights, has the core feature of speed. In fact, experiments of the authors show that such synchronizing is faster than the process of tracking the weights of one of the networks by an eavesdropper. It must be said that the inventors weren't able to find a mathematical proof of this, that instead was published little later by other cryptographers in \cite{shamir}. In this same work, all of the limitations of \textit{KKK} are also shown, but we'll deal with this in the following subsections (Synchronization: \ref{ssc:synchro}; Attacks: \ref{ssc:atk}).  \\
+Object of the aforementioned work is a key-exchange protocol based on a learning process of feedforward neural networks. The two NNs participating in the communication start from private key vectors $E_k(0)$ and $D_k(0)$. Mutual learning from the exchange of public information leads the two nets to develop a common, time dependent key: $E_k(t) = - D_k(t)$. This is then used for both encryption and decryption. \\
+This phenomenon, known as synchronization of synaptic weights, has the core feature of speed. In fact, experiments of the authors show that such synchronizing is faster than the process of tracking the weights of one of the networks by an eavesdropper. It must be said that the inventors were not able to find a mathematical proof of this, that instead was published little later by other cryptographers in \cite{shamir}. In this same work, all of the limitations of \textit{KKK} are also shown, but we will deal with this in the following subsections (Synchronization: \ref{ssc:synchro}; Attacks: \ref{ssc:atk}).  \\
 Going back to the model, the architecture used by both sender and recipient is a tree parity machine, a two-layered perceptron with $K$ hidden units, $K \times N$ input neurons and a single output. Input units take binary values $x_{kj} = \pm 1$, $k = 1,\dots, K$ and $j = 1, \dots, N$. The $K$ binary hidden units are denoted by $y_k$, $k = 1,\dots, K$, while the integer weight from the $j$-th input unit from the $k$-th hidden unit is denoted $w_{kj}\in\{-L,\dots,L\}$. Output $O$ is the product of the state of the hidden neurons. (ADD FIGURE!!!) \\
 Fix for simplicity $K = 3$ and let $w_{kj}^S$, $w_{kj}^R$ be the secret information of sender and recipient, respectively (that is, the initial values for the weights). Hence this consists of $3N$ integer numbers for each of the two participants.  Note that, from now on, superscript $S$ will denote sender, while $R$ will denote recipient. \\
 Each network is then trained with the output of its partner. At each step, both for synchronization and for encryption/decryption steps, a new common public input vector is needed. Given $\vec{x}_{kj}$, output is computed in two steps. In the first one, states of hidden units are computed as 
@@ -811,7 +815,7 @@ As soon as the weights are antiparallel, the initialization of the cryptosystem 
 
 \subsection{More details on Synchronization}
 \label{ssc:synchro}
-In Kanter's work, many experiments are reported to show the effectiveness of synchronization process. However, I decided to omit these details since, as I anticipated in previous section, the "sacred cow" of cryptography Adi Shamir provided us with a mathematical proof of it. \\
+In the work by Kanter, many experiments are reported to show the effectiveness of synchronization process. However, I decided to omit these details since, as I anticipated in previous section, the "sacred cow" of cryptography Adi Shamir provided us with a mathematical proof of it. \\
 The full treatment of this problem found in \cite{shamir} relies on the properties of random walks in bounded domains. Another assumption: learning rule \eqref{hebblearn} would complicate the notation, as it forces the mutually learning NN's into anti-parallel states. Instead, a dual scheme in which the two parties eventually become identical is proposed. Given input vectors $\vec{x}_{kj}$, hidden outputs are calculated as
 \begin{equation}
 y_k^{S/R} = \sign\left(\sum_{j=1}^{N}w_{kj}^{S/R}x_{kj}\right),
@@ -840,21 +844,21 @@ L \qquad \text{if} \quad w>L \\
 \end{equation}
 In other words, above function rescales weights to the prefixed bounds whenever any of them exceeds the allowed values. \\
 After these premises, we can show how the two participants converge and why a third net cannot converge to the same parameters by following the same learning procedure. \\
- We start off by considering an oversimplified model of a single Perceptron with a single weight. \iftrue Let $w^{S/R}_{t}$  be the current weights and denote inputs $x_{t} \in \{-1,1\} $. \fi The update process of each weight can be described as a random walk with absorbing boundaries $-L,L$, starting from a random point $w^{S/R}_{0}\in\{-L,\dots ,L\}$. \\
+ We start off by considering an oversimplified model of a single perceptron with a single weight. \iftrue Let $w^{S/R}_{t}$  be the current weights and denote inputs $x_{t} \in \{-1,1\} $. \fi The update process of each weight can be described as a random walk with absorbing boundaries $-L,L$, starting from a random point $w^{S/R}_{0}\in\{-L,\dots ,L\}$. \\
 At each round $t$, sender and receiver decide either to move their respective weights in the same direction (determined by $x_t$), or not to vary them. In first case, if any of $w^{S/R}_t$ tries to step beyond the fixed boundaries, it remains stuck at it (due to \eqref{rebound}), while the other one gets nearer.  If none of the the weights is absorbed, we have $|w_{t+1}^S - w_{t+1}^R| = |w_{t}^S - w_{t}^R|$, else their distance is reduced by one. Since a random walk is expected to hit its boundaries infinitely often, the paths of the weights admit a mixing time. \\
 A simple generalization: consider the case of a single perceptron with multiple weights. Here, the two weight vectors move in the same direction determined by inputs in a multidimensional rectangle, and along each coordinate the distance is either preserved or reduced by one. When all these distances are reduced to zero, the two random walks mix. \\
-The general case of neural networks with multiple Perceptrons is more complicated, since the two parties may update different subsets of their perceptrons in each round. The complete treatment of such problem can be found in \cite{shamir} but I decided to omit these details.
+The general case of neural networks with multiple perceptrons is more complicated, since the two parties may update different subsets of their perceptrons in each round. The complete treatment of such problem can be found in \cite{shamir} but I decided to omit these details.
 
 
 \subsection{Attacking KKK}
 \label{ssc:atk}
 The creators of \textit{KKK} claimed its security basing on their experiments. In fact, simulations shown clearly that it was computationally unfeasible for an attacker to intercept any of the parameters related to the two parties, if such eventual attacker relied on the same neural network structure as the ones used in communication. \\
-In Shamir's paper there is also a mathematical proof of this impossibility, but most interesting content of such work is in its last section. This is dedicated to the cryptanalysis of \textit{KKK}, which can indeed be broken by using other types of attack. \\
+In the paper by Shamir there is also a mathematical proof of this impossibility, but most interesting content of such work is in its last section. This is dedicated to the cryptanalysis of \textit{KKK}, which can indeed be broken by using other types of attack. \\
 For example, many successful cryptanalytic applications of Genetic Algorithms can be found in literature. \\
-In this case, a large population of NN's with the same structure as the two participants is simulated. These nets are then trained with the same inputs of the two communicant ones. Networks whose outputs mimic those of the two parties breed and multiply, while unsuccessful networks die. \\
-Shortly after sender $S$ and recipient $R$ synchronize, they can be sure of this fact (since their outputs keep coinciding) and the same can be checked for any of the attacker's neural networks. \\
+In this case, a large population of NNs with the same structure as the two participants is simulated. These nets are then trained with the same inputs of the two communicant ones. Networks whose outputs mimic those of the two parties breed and multiply, while unsuccessful networks die. \\
+Shortly after sender $S$ and recipient $R$ synchronize, they can be sure of this fact (since their outputs keep coinciding) and the same can be checked for any neural network of the attacker. \\
 An interesting experimental result: in the majority of tests led by the authors, at least one  of the attacking nets became synchronized with $S$ even before $S$ and $R$ became fully synchronized. \\
-Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the two parties'nets. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
+Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the nets of the two parties. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
 
 \chapter{Neural Cryptanalysis}
 Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see Subsection \ref{cpaanc}). \\
@@ -1125,6 +1129,8 @@ with $F_h: U_h \longrightarrow V_h$, $f_h \in V_h$, and discrete spaces $U_h, V_
 \bibitem[Mitchell(1998)]{mit} {\sc Mitchell, M.} (1998). \textit{An introduction to Genetic Algorithms}. MIT Press.
 
 \bibitem[Holland(1975)]{holland} {\sc Holland, J.} (1975). \textit{Adaptation in Natural and Artificial Systems}. MIT Press. 
+
+\bibitem[Lauria(1990)]{lauria} {\sc Lauria, F. E.} (1990). \textit{On neurocrytology.} Proceedings of the Third Italian Workshop on Parallel Architectures and Neural Networks, 337-343.
 
 \bibitem[Volná(2000)]{volna} {\sc Volnà, E.} (2000). \textit{Using Neural Network in Cryptography}. University of Ostrava.
 
