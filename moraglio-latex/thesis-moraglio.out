@@ -36,16 +36,20 @@
 \BOOKMARK [2][]{subsection.4.1.1}{Simon Cipher}{section.4.1}% 36
 \BOOKMARK [2][]{subsection.4.1.2}{Neural Network Design}{section.4.1}% 37
 \BOOKMARK [2][]{subsection.4.1.3}{Data and Results}{section.4.1}% 38
-\BOOKMARK [0][]{chapter.5}{Adversarial Neural Cryptography}{}% 39
-\BOOKMARK [1][]{section.5.1}{Google's Model}{chapter.5}% 40
-\BOOKMARK [2][]{subsection.5.1.1}{Cryptosystem Organization}{section.5.1}% 41
-\BOOKMARK [2][]{subsection.5.1.2}{ANC and selective protection}{section.5.1}% 42
-\BOOKMARK [1][]{section.5.2}{Improvements: CPA-ANC}{chapter.5}% 43
-\BOOKMARK [2][]{subsection.5.2.1}{Chosen-Plaintext Attack ANC}{section.5.2}% 44
-\BOOKMARK [2][]{subsection.5.2.2}{Neural Network Architecture}{section.5.2}% 45
-\BOOKMARK [2][]{subsection.5.2.3}{Method}{section.5.2}% 46
-\BOOKMARK [0][]{chapter.6}{Chapter title}{}% 47
-\BOOKMARK [1][]{section.6.1}{Another section}{chapter.6}% 48
-\BOOKMARK [0][]{Appendix.1.A}{Finite Differences Methods}{}% 49
-\BOOKMARK [1][]{section.1.A.1}{An introductory example}{Appendix.1.A}% 50
-\BOOKMARK [1][]{section.1.A.2}{Method of Finite Differences applied to PDEs: Basic Concepts}{Appendix.1.A}% 51
+\BOOKMARK [1][]{section.4.2}{Cryptanalysis of Speck Cipher using Neural Networks}{chapter.4}% 39
+\BOOKMARK [2][]{subsection.4.2.1}{Speck Cipher}{section.4.2}% 40
+\BOOKMARK [2][]{subsection.4.2.2}{Differential Attacks}{section.4.2}% 41
+\BOOKMARK [2][]{subsection.4.2.3}{Neural Distinguishers for Speck}{section.4.2}% 42
+\BOOKMARK [0][]{chapter.5}{Adversarial Neural Cryptography}{}% 43
+\BOOKMARK [1][]{section.5.1}{Google's Model}{chapter.5}% 44
+\BOOKMARK [2][]{subsection.5.1.1}{Cryptosystem Organization}{section.5.1}% 45
+\BOOKMARK [2][]{subsection.5.1.2}{ANC and selective protection}{section.5.1}% 46
+\BOOKMARK [1][]{section.5.2}{Improvements: CPA-ANC}{chapter.5}% 47
+\BOOKMARK [2][]{subsection.5.2.1}{Chosen-Plaintext Attack ANC}{section.5.2}% 48
+\BOOKMARK [2][]{subsection.5.2.2}{Neural Network Architecture}{section.5.2}% 49
+\BOOKMARK [2][]{subsection.5.2.3}{Method}{section.5.2}% 50
+\BOOKMARK [0][]{chapter.6}{Chapter title}{}% 51
+\BOOKMARK [1][]{section.6.1}{Another section}{chapter.6}% 52
+\BOOKMARK [0][]{Appendix.1.A}{Finite Differences Methods}{}% 53
+\BOOKMARK [1][]{section.1.A.1}{An introductory example}{Appendix.1.A}% 54
+\BOOKMARK [1][]{section.1.A.2}{Method of Finite Differences applied to PDEs: Basic Concepts}{Appendix.1.A}% 55

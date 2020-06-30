@@ -37,19 +37,23 @@
 \contentsline {subsection}{\numberline {3.3.3}Attacking KKK}{36}{subsection.3.3.3}% 
 \contentsline {chapter}{\numberline {4}Neural Cryptanalysis}{39}{chapter.4}% 
 \contentsline {section}{\numberline {4.1}Cryptanalysis of Simon Cipher using Neural Networks}{39}{section.4.1}% 
-\contentsline {subsection}{\numberline {4.1.1}Simon Cipher}{39}{subsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.1.1}Simon Cipher}{40}{subsection.4.1.1}% 
 \contentsline {subsection}{\numberline {4.1.2}Neural Network Design}{40}{subsection.4.1.2}% 
 \contentsline {subsection}{\numberline {4.1.3}Data and Results}{41}{subsection.4.1.3}% 
-\contentsline {chapter}{\numberline {5}Adversarial Neural Cryptography}{43}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Google's Model}{43}{section.5.1}% 
-\contentsline {subsection}{\numberline {5.1.1}Cryptosystem Organization}{43}{subsection.5.1.1}% 
-\contentsline {subsection}{\numberline {5.1.2}ANC and selective protection}{45}{subsection.5.1.2}% 
-\contentsline {section}{\numberline {5.2}Improvements: CPA-ANC}{46}{section.5.2}% 
-\contentsline {subsection}{\numberline {5.2.1}Chosen-Plaintext Attack ANC}{46}{subsection.5.2.1}% 
-\contentsline {subsection}{\numberline {5.2.2}Neural Network Architecture}{46}{subsection.5.2.2}% 
-\contentsline {subsection}{\numberline {5.2.3}Method}{47}{subsection.5.2.3}% 
-\contentsline {chapter}{\numberline {6}Chapter title}{49}{chapter.6}% 
-\contentsline {section}{\numberline {6.1}Another section}{49}{section.6.1}% 
-\contentsline {chapter}{\numberline {A}Finite Differences Methods}{51}{Appendix.1.A}% 
-\contentsline {section}{\numberline {A.1}An introductory example}{51}{section.1.A.1}% 
-\contentsline {section}{\numberline {A.2}Method of Finite Differences applied to PDEs: Basic Concepts}{52}{section.1.A.2}% 
+\contentsline {section}{\numberline {4.2}Cryptanalysis of Speck Cipher using Neural Networks}{42}{section.4.2}% 
+\contentsline {subsection}{\numberline {4.2.1}Speck Cipher}{42}{subsection.4.2.1}% 
+\contentsline {subsection}{\numberline {4.2.2}Differential Attacks}{42}{subsection.4.2.2}% 
+\contentsline {subsection}{\numberline {4.2.3}Neural Distinguishers for Speck}{44}{subsection.4.2.3}% 
+\contentsline {chapter}{\numberline {5}Adversarial Neural Cryptography}{45}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Google's Model}{45}{section.5.1}% 
+\contentsline {subsection}{\numberline {5.1.1}Cryptosystem Organization}{45}{subsection.5.1.1}% 
+\contentsline {subsection}{\numberline {5.1.2}ANC and selective protection}{47}{subsection.5.1.2}% 
+\contentsline {section}{\numberline {5.2}Improvements: CPA-ANC}{48}{section.5.2}% 
+\contentsline {subsection}{\numberline {5.2.1}Chosen-Plaintext Attack ANC}{48}{subsection.5.2.1}% 
+\contentsline {subsection}{\numberline {5.2.2}Neural Network Architecture}{48}{subsection.5.2.2}% 
+\contentsline {subsection}{\numberline {5.2.3}Method}{49}{subsection.5.2.3}% 
+\contentsline {chapter}{\numberline {6}Chapter title}{51}{chapter.6}% 
+\contentsline {section}{\numberline {6.1}Another section}{51}{section.6.1}% 
+\contentsline {chapter}{\numberline {A}Finite Differences Methods}{53}{Appendix.1.A}% 
+\contentsline {section}{\numberline {A.1}An introductory example}{53}{section.1.A.1}% 
+\contentsline {section}{\numberline {A.2}Method of Finite Differences applied to PDEs: Basic Concepts}{54}{section.1.A.2}% 

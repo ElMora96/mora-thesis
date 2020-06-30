@@ -863,7 +863,7 @@ Other examples of successful attacks to the \textit{KKK} protocol are the one ba
 \chapter{Neural Cryptanalysis}
 Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see Subsection \ref{cpaanc}). \\
 \section{Cryptanalysis of Simon Cipher using Neural Networks}
-The paper I am considering in this section is \cite{jay}, in which the author describes a novel, complete approach of using neural networks in cryptanalysis. The cryptosystem of interest belongs to the family of Simon block ciphers, publicly released by NSA in 2013. (ADD CIT.)  
+The paper I am considering in this section is \cite{jay}, in which the author describes a novel, complete approach of using neural networks in cryptanalysis. The cryptosystem of interest belongs to the recent family of Simon block ciphers, publicly released by NSA in \cite{nsa}. Such publication also introduces the family of Speck block ciphers, that is Simon's sister algorithm. Essentially, Simon has been optimized for performance in hardware implementations, while Speck has been optimized for software implementations.
 %(Add citation https://eprint.iacr.org/2013/404.pdf). \\
 \subsection{Simon Cipher}
 Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithm, but it is good for research purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. \\
@@ -881,14 +881,71 @@ y = f(z)= z + b = \sum_j w_jx_j + b,
 where the $x_j$'s are the inputs with the corresponding weights $w_j$; and $b$ denotes the bias. Weights of the neurons are initialized randomly according to a uniform distribution over the interval $(0,1)$ and are updated after each iteration; same for the biases.
 
 \subsection{Data and Results}
-In the experiment described in \cite{jay}, training data consists in a large set of records, each of which is a $32$-bit, randomly generated plaintext, with the corresponding $32$-bit long ciphertext. Around 5 million records were generated with 1000 keys (where each key encrypted 5000 plaintexts). \\
-The neural nets describes in previous section are implemented using \textit{Keras}, configured to work on top of \textit{Tensorflow}. The project required the installation of the GPU versions of such softwares. In fact, not being run on a Cloud, the training of such networks clearly appears to be computationally expensive. \\
-(ADD TABLE WITH SAMPLE TRAINING DATA). \\
+In the experiment described in \cite{jay}, training data consists in a large set of records, each of which is a $32$-bit, randomly generated plaintext, with the corresponding $32$-bit long ciphertext. An example can be seen in table \ref{trainingsim}. Around 5 million records were generated with 1000 keys (where each key encrypted 5000 plaintexts). \\
+The neural nets describes in previous section are implemented using \textit{Keras}, configured to work on top of \textit{Tensorflow}. The project required the installation of the GPU versions of such softwares. In fact, not being run on a Cloud, the training of such networks clearly appears to be computationally expensive. 
+
+\begin{table}[h!]
+\centering 
+\tiny
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Plaintext}} & \multicolumn{1}{c|}{\textbf{Cyphertext}} & \multicolumn{1}{c|}{\textbf{Key}}                                                                           \\ \hline
+11110010001101100000010100000001         & 01010001000111101111100000010010         & \begin{tabular}[c]{@{}l@{}}11000000001010010011101101111101\\ 11011010011111110100010011101000\end{tabular} \\ \hline
+01100101011100100110100001011011         & 11000001010110010111111001001101         & \begin{tabular}[c]{@{}l@{}}11101110100100011010000001011000\\ 10111011001101100101001101101011\end{tabular} \\ \hline
+00000101110101101011011001000011         & 10101110001000010110100110000001         & \begin{tabular}[c]{@{}l@{}}01101110000101111011000010011110\\ 10011110110010000001101100001010\end{tabular} \\ \hline
+01010001000100001011010000101101         & 11001100101010011010110001100001         & \begin{tabular}[c]{@{}l@{}}00011101101000001011010001111110\\ 01100111001101110110110001000001\end{tabular} \\ \hline
+00110101101100100001111101001100         & 11010010110010110010110101010011         & \begin{tabular}[c]{@{}l@{}}01001000100110100010110010001011\\ 01010100000001111101111001101110\end{tabular} \\ \hline
+\end{tabular}
+\caption{Sample training records.}
+\label{trainingsim}
+\end{table}
+
 
 The trained neural network model is then used to predict the key of the plaintext-ciphertext pairs. The accuracy of the network is measured by identifying the number of bits predicted by the neural network that are the same as the key bits in the original key. Better results were attained when considering a single round of the Speck cipher. In this case, after a considerable number of training epochs, an accuracy around 70\% was reached. \\
 A powerful extension of this project could be a design based on fuzzy classifiers that could be used along with the neural networks to yield probabilities for zeros and ones, rather than hard predictions that this model does. \\
-For example, another sensible improvement in using NN's to attack this kind of ciphers can be found in \citep{gohr}. In this paper, an efficient Chosen-Plaintext-Attack to Speck (the hardware version of Simon) is implemented by making use of convolutional neural networks. In this case, the attack reveals to be effective even against ciphertext created eight or nine rounds of the cipher. 
-(ADD MORE DETAILS? GOHR'S WORK IS VERY COMPLICATED).
+
+\section{Cryptanalysis of Speck Cipher using Neural Networks}
+Another sensible improvement in using NN's to attack these block ciphers can be found in \citep{gohr}. In this paper, efficients attack to Speck (the hardware version of Simon) is implemented by making use of convolutional neural networks. In this case, the attack reveals to be effective even against ciphertext created with up to eleven rounds of the cipher.
+
+\subsection{Speck Cipher}
+As we mentioned before, Speck is an iterated block cipher firstly appeared in \cite{nsa} with the aim of building a cipher efficient in software implementations in IoT (Internet of Things) devices. Just like its sister algorithm Simon, it is a composition of the basic functions of modular addition (mod $2^k$), bitwise rotation and bitwise addition applied to $k$-bit strings. More precisely, denote by $\oplus$ bitwise addition, and modular addition modulo $2^k$ by $\boxplus$. Moreover let $\ll$ and $\gg$ denote bitwise rotation of a fixed-size word to the left and to the right, respectively.  \\
+The round function of Speck,
+\begin{equation}
+F: \mathbb{F}_2^k \times \mathbb{F}_2^{2k} \longrightarrow \mathbb{F}_2^{2k},
+\end{equation}
+takes as input a $k$-bit subkey $K$ and a cipher state consisting of two $k$-bit words $(L_i,R_i)$ and produces from this the next round state $(L_{i+1}, R_{i+1})$. With the above conventions, such step can be summarized as follows:
+\begin{align}
+L_{i+1} &= \left((L_i \gg \alpha) \boxplus R_i \right) \oplus K, \\
+R_{i+1} &= \left(R_i \ll \beta \right) \oplus L_{i+1}.
+\end{align}
+Here $\alpha$ and $\beta$ are constants specific to each member of the Speck cipher family. The round function is applied a fixed number of times. For example, in the original version of Speck32/64, 22 rounds are performed.
+
+\subsection{Differential Attacks}
+Let us first introduce some notations and conventions related to (neural) differential attacks. In these type of attacks, neural networks are essentially trained to distinguish the output of Speck with a given input difference from random data. In \cite{gohr}, differential cryptanalysis means cryptanalysis with regards to bitwise differences in the in the adversary-controlled input to the cipher under study (and here is why this can be considered a Chosen-Plaintext Attack). \\
+Let $F: \{0,1\}^n \longrightarrow \{0,1\}^m$ be a map. Then, a differential transition for $F$ is a pair
+\begin{equation}
+\left(\Delta_{\text{in}},\Delta_{\text{out}} \right) \in \{0,1\}^n \times \{0,1\}^m.
+\end{equation}
+The probability $\mathbb{P}\left( \Delta_{\text{in}} \rightarrow \Delta_{\text{out}}\right)$ of the differential transition $F:\Delta_{\text{in}} \mapsto \Delta_{\text{out}} $ is defined as
+\begin{equation}
+\mathbb{P}\left( \Delta_{\text{in}} \rightarrow \Delta_{\text{out}}\right) =
+\frac{\#\left(\{x \in \{0,1\}^n: F(x) \oplus F(x \oplus \Delta_{\text{in}} ) = \Delta_{\text{out}} \} \right)}{2^n},
+\end{equation}
+where $\#(\mathcal{S})$ denotes the cardinality of set $\mathcal{S}$. For a cipher iteratively constructed by repeated application of a round function, a differential trail is a sequence of differential transitions, given by a sequence of differences $\Delta_0, \Delta_1, \dots, \Delta_n$. \\
+In this setting, a differential attack is any attack that uses nonrandom properties of the output of a cryptographic primitive when it is being given input data with a known difference distribution. In particular, multiple differential attacks are attacks where information from an arbitrary set of differential transitions is exploited in order to maximize the gain of the resulting attack. \\
+A distinguisher is a classifier $\mathcal{C}$ that accepts as input $d$ data sampled independently from a finite sample space $\Omega$ according to one of $n$ probability distributions $\mathcal{D}_i$, $i \in \{1,\dots,n\}$, and outputs a guess of $i$ (for the submitted input item $d$). \\
+Multiple differential attacks build cryptographic distinguishers by using a set $\mathcal{S}$ of differential transitions for some cryptographic function $F$ to characterise its behavior. The basic idea is that each transition 
+\begin{equation}
+\{\Delta_i \mapsto \delta_j\} \in \mathcal{S}
+\end{equation} 
+has associated with it a probability $p_{ij}$ of being observed given the experimental setting the cipher is being studied in and another probability $\overline{p}_{ij}$ given the opposite situation. Given some observed data $\mathcal{O}$ from the experiment, Bayesian inference can then be used to determine the origin of the data. Further information about such inference procedures and algorithms can be found in the original publication.
+\subsection{Neural Distinguishers for Speck}
+Main innovation in the work of Gohr consists in using convolutional neural networks to develop distinguish attacks to be used against Speck. Here we report a few details about network structure, training and obtained results. \\
+Input layer of the NN consist of $64$ units arranged in a $4\times16$ array. In fact, a pair $(C_0,C_1)$ of ciphertexts can be written as a sequence of four sixteen-bit words $(w_0,w_1,w_2,w_3)$, mirroring the word-oriented structure of Speck. \\
+Above layer is followed by a residual tower of two-layer convolutional neural networks, preceded by a single bit-sliced convolution and followed by a densely connected prediction head. Depth of the residual towers varies according to the number of rounds fixed for the cipher, while the prediction head consists of two hidden layers and one output unit, using sigmoid activation. \\
+Training and validation data was obtained by generating uniformly distributed keys $K_i$ and plaintext pairs $P_i$, with a fixed input difference $\Delta$, as well as a vector of binary-valued labels $Y_i$. To produce training or validation data for $k$-round Speck, pair $P_i$ was then encrypted for $k$ rounds if $Y_i$ was set, while otherwise the second plaintext of the pair was replaced with a freshly generated random plaintext. \\
+Training was run on large datasets consisting in $10^7$ samples each; the author however reported relatively short training times. With this procedure, an averall performance of around $55\%$ for the classifier is reported. This result is indeed quite poor; Gohr hence improved the algorithm using an approach called "Key Ranking". With this extension, that is not reported in the present work, accuracy is increased up to $92\%$. \\
+In \cite{gohr} a partial key-recovery attack is also proposed, by extending the distinguisher discussed in the present section. 
 
 
 \chapter{Adversarial Neural Cryptography}
@@ -1146,6 +1203,8 @@ with $F_h: U_h \longrightarrow V_h$, $f_h \in V_h$, and discrete spaces $U_h, V_
 \bibitem[Coutinho et al.(2018)]{brazilians} {\sc Coutinho, M.}, {\sc Robson de Oliveira Albuquerque, R.}, {\sc Borges, F. }, {\sc Villalba, L. J. G.} and  {\sc Kim T. H.} (2018). \textit{Learning Perfectly Secure Cryptography to Protect Communications with Adversarial Neural Cryptography}. University of Brasília.
 
 \bibitem[Jayachandiran(2018)]{jay} {\sc Jayachandiran, K.} (2018). \textit{A Machine Learning Approach for Cryptanalysis}. Rochester Institute of Technology.
+
+\bibitem[Beaulieu et al.(2013)]{nsa} {\sc Beaulieu, R.}, {\sc Shors, D.}, {\sc Smith, J.}, {\sc Treatman-Clark, S.}, {\sc Weeks, B.} and {\sc Wingers, L.} (2013). \textit{The Simon and Speck Families of Lightweight Block Ciphers}. National Security Agency.
 
 \bibitem[Alani(2012)]{alani} {\sc Alani, M. M.} (2012). \textit{Neuro-cryptanalysis of DES}. World Congress on Internet Security (WorldCIS-2012)
 
