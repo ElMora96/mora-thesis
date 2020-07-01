@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.5.13)  30 JUN 2020 20:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.5.13)  1 JUL 2020 21:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1112,9 +1112,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 904--906
 Chapter 5.
 [45
 
-] [46] [47] [48] [49] [50
+] [46] [47]
+Underfull \hbox (badness 10000) in paragraph at lines 1012--1014
 
-]
+ []
+
+[48] [49] [50]
 Chapter 6.
 [51
 
@@ -1131,19 +1134,19 @@ Underfull \vbox (badness 1168) has occurred while \output is active []
 [54] [55] [56] [57
 
 ]
-Underfull \hbox (badness 1412) in paragraph at lines 1207--1208
+Underfull \hbox (badness 1412) in paragraph at lines 1222--1223
 \T1/lmr/m/sc/13.19997 B. \T1/lmr/m/n/13.19997 and \T1/lmr/m/sc/13.19997 Wingers
 , L. \T1/lmr/m/n/13.19997 (2013). \T1/lmr/m/it/13.19997 The Si-mon and Speck Fa
 m-i-lies of
  []
 
 [58]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1225.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1240.
  [59]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1225.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1240.
  (./thesis-moraglio.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1225.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1225.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1240.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1240.
 
 Package rerunfilecheck Info: File `thesis-moraglio.out' has not changed.
 (rerunfilecheck)             Checksum: B4D001E61D05ADBEEC74B7C1E389A0F0;3873.
@@ -1154,10 +1157,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 23114 strings out of 492167
- 391523 string characters out of 6131558
- 513818 words of memory out of 5000000
- 26918 multiletter control sequences out of 15000+600000
+ 23110 strings out of 492167
+ 391471 string characters out of 6131558
+ 513802 words of memory out of 5000000
+ 26913 multiletter control sequences out of 15000+600000
  653154 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  62i,15n,106p,915b,541s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1182,10 +1185,10 @@ onts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lm
 sy7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/share/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis-moraglio.pdf (59 pages, 1794758 bytes).
+Output written on thesis-moraglio.pdf (59 pages, 1795968 bytes).
 PDF statistics:
- 1018 PDF objects out of 1200 (max. 8388607)
- 920 compressed objects within 10 object streams
- 290 named destinations out of 1000 (max. 500000)
+ 1024 PDF objects out of 1200 (max. 8388607)
+ 926 compressed objects within 10 object streams
+ 291 named destinations out of 1000 (max. 500000)
  446 words of extra memory for PDF output out of 10000 (max. 10000000)
 

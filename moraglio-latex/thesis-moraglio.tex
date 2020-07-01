@@ -957,10 +957,10 @@ The research I'm considering is \cite{google}. In this paper, a new cryptosystem
 \subsection{Cryptosystem Organization}
 Let's start with some notation. In this scenario, we consider the problem of the secure communication between Alice and Bob, denote them $\mathcal{A}$ and 
 $\mathcal{B}$, respectively. Consider also a third participant, Eve ($\mathcal{E})$), who wishes to eavesdrop on their communication. Such adversary is passive, that means it can only intercept communications. \\
-In this scenario, Alice wishes to send a private message $P$  ("Plaintext") to Bob. Such message must be regarded as an input to $\mathcal{A}$, together with a key $K$. This key is also known by $\mathcal{B}$, that uses it to decipher $\mathcal{A}$'s output; denote it $C$ ("Ciphertext"). Also Eve knows $C$ and tries to recover $P$ from it, but $E$ cannot know $K$. Hence let $P_{Bob}$ and $P_{Eve}$ be the respective outputs. \\
+In this scenario, Alice wishes to send a private message $P$  ("Plaintext") to Bob. Such message must be regarded as an input to $\mathcal{A}$, together with a key $K$. This key is also known by $\mathcal{B}$, that uses it to decipher $\mathcal{A}$'s output; denote it $C$ ("Ciphertext"). Also Eve knows $C$ and tries to recover $P$ from it, but $\mathcal{E}$ cannot know $K$. Hence let $P_{\mathcal{B}}$ and $P_{\mathcal{E}}$ be the respective outputs. \\
 Alice, Bob, and Eve are represented by, guess what, neural networks, based on a "Mix and Trasform" architecture. This structure has a first fully-connected
-(FC) layer, where the number of outputs is equal to the number of inputs. $P$ and $K$ are fed into this layer, that enables mixing between the bits of these two vectors. Such layer is followed by a sequence of convolutional layers, the last of which produces an output of a size suitable for a plaintext or ciphertext.  These neural networks have parameters, which we write $\theta_{\mathcal{A}}$, $\theta_{\mathcal{B}}$ and $\theta_{\mathcal{E}}$. Moreover, $P$, $C$, $K$, $P_{Bob}$ and $P_{Eve}$ are vectors of float numbers; in particular values are allowed to range in $(-1, 1)$. \\
-Eve's objective is to reconstruct $P$, that is, to minimize the distance between $P$ and $P_{Eve}$. Alice and Bob want to communicate clearly (to minimize the error between $P$ and $P_{Bob}$ ), but also to hide their communication from $\mathcal{E}$. $\mathcal{A}$ and $\mathcal{B}$ are hence trained jointly to communicate securely and to defeat Eve: here lies the biggest innovation in ANC. \\
+(FC) layer, where the number of outputs is equal to the number of inputs. $P$ and $K$ are fed into this layer, that enables mixing between the bits of these two vectors. Such layer is followed by a sequence of convolutional layers, the last of which produces an output of a size suitable for a plaintext or ciphertext.  These neural networks have parameters, which we write $\theta_{\mathcal{A}}$, $\theta_{\mathcal{B}}$ and $\theta_{\mathcal{E}}$. Moreover, $P$, $C$, $K$, $P_{\mathcal{B}}$ and $P_{\mathcal{E}}$ are vectors of float numbers; in particular values are allowed to range in $(-1, 1)$. \\
+Eve's objective is to reconstruct $P$, that is, to minimize the distance between $P$ and $P_{\mathcal{E}}$. Alice and Bob want to communicate clearly (to minimize the error between $P$ and $P_{\mathcal{B}}$ ), but also to hide their communication from $\mathcal{E}$. $\mathcal{A}$ and $\mathcal{B}$ are hence trained jointly to communicate securely and to defeat Eve: here lies the biggest innovation in ANC. \\
 Since we want Alice and Bob to be trained against the best possible version of Eve, we need to assume a probability distribution on plaintexts and keys. After that, we can rephrase the parties' objectives in terms of expectation. \\
 Denote Alice and Bob's output as $A(\theta_{\mathcal{A}}, P, K)$ and $B(\theta_{\mathcal{B}}, C, K)$, respectively. Similarly, write $E(\theta_{\mathcal{E}}, C)$ for Eve's output. As anticipated above, we need to choose a distance function on the space of plaintexts. In this model, assuming such $P$'s have length $N$, we take
 \begin{equation}
@@ -972,13 +972,15 @@ L_{\mathcal{E}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{E}}, P, K \right) = 
 \end{equation*}
 we can define the "true" loss function for $\mathcal{E}$ by taking expectations over the distributions of the $P$'s and $K$'s:
 \begin{equation}
+\label{eveloss}
 L_{\mathcal{E}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{E}}\right) = \mathbb{E}_{P,K} \left[ d\left(P, E(\theta_{\mathcal{E}}, A(\theta_{\mathcal{A}}, P, K) ) \right)\right].
 \end{equation}
 The optimal configuration for Eve, $O_{\mathcal{E}}$, can hence be found by minimizing the above loss (given a configuration of $\mathcal{A}$) .
 \begin{equation}
 O_{\mathcal{E}}\left(\theta_{\mathcal{A}} \right) = \textrm{argmin}_{\theta_{\mathcal{E}}}L_{\mathcal{E}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{E}}\right)
 \end{equation}
-Similarly, a per-example loss for Bob is defined and then extended to the distributions of plaintexts and keys:
+Here $\textrm{argmin}_{\theta_{\mathcal{E}}}$ indicates the parameter set $\theta_{\mathcal{E}}$ that minimizes the loss of $\mathcal{E}$, as defined in \eqref{eveloss}.\\
+Similarly to the case of Eve, a per-example loss for Bob is defined and then extended to the distributions of plaintexts and keys:
 \begin{align}
 L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}, P, K \right) = d\left(P, B(\theta_{\mathcal{B}}, A(\theta_{\mathcal{A}}, P, K), K ) \right) \nonumber \\ 
 L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}\right) = \mathbb{E}_{P,K}\left[ d\left(P, B(\theta_{\mathcal{B}}, A(\theta_{\mathcal{A}}, P, K), K ) \right)\right].
@@ -1007,12 +1009,20 @@ This section is dedicated to an extension of Abadi and Andersen's model. In fact
 
 \subsection{Chosen-Plaintext Attack ANC}
 \label{cpaanc}
-Main limitation to the security of original ANC model lies in Eve's job, that appears to be too hard. It must decrypt a random message having access only to the ciphertext. The consequence is that, under this methodology, Alice and Bob learn to protect against a weak adversary. It is however possible to strengthen Eve by letting it mount a CPA.  \\
-Eve chooses two plaintext messages, namely $P_0$ and $P_1$, and sends them to Alice. $\mathcal{A}$ chooses one of the messages randomly, encrypts it to $C$ and sends it to $\mathcal{B}$ and $\mathcal{E}$. The former decrypts the message using a NN, while the latter only outputs $0$ if it believes $P_0$ was encrypted or $1$ if it believes $P_1$ was encrypted.
+Main limitation to the security of original ANC model lies in the job of Eve, that appears to be too hard. It must decrypt a random message having access only to the ciphertext. The consequence is that, under this methodology, Alice and Bob learn to protect against a weak adversary. It is however possible to strengthen Eve by letting it mount a CPA.  \\
+Eve chooses two plaintext messages, namely $P_0$ and $P_1$, and sends them to Alice. $\mathcal{A}$ chooses one of the messages randomly, encrypts it to $C$ and sends it to $\mathcal{B}$ and $\mathcal{E}$. The former decrypts the message using a NN, while the latter only outputs $0$ if it believes $P_0$ was encrypted or $1$ if it believes $P_1$ was encrypted. \\
+
 
 \subsection{Neural Network Architecture}
-A specific network architecture for this model is proposed, based on the continuous extension of logic operator XOR, built to learn an OTP algorithm. \\
-Consider mapping bit $0$ to angle $0$ and bit $1$ to angle $\pi$ (XOR can be seen as the sum of the angles). Generalizing bits to a continuous space, the following defines the mapping of a bit $b$ into an angle: 
+A specific network architecture for this model is proposed, based on the continuous extension of logic operator XOR, built to learn a One-Time Pad algorithm (OTP). \\
+We recall that the OTP encryption method is a binary additive stream cipher, where generally a stream of (random) keys is generated and then combined with the plaintext for encryption or with the ciphertext for decryption by a XOR addition.\\
+It is possible to prove that a OTP encryption scheme is unbreakable if the following conditions are satisfied:
+\begin{itemize}
+\item the key must be as long as the plaintext;
+\item the key must be truly random;
+\item the key must be used only once.
+\end{itemize}
+Going back to the network architecture, consider mapping bit $0$ to angle $0$ and bit $1$ to angle $\pi$ (XOR can be seen as the sum of the angles). Generalizing bits to a continuous space, the following defines the mapping of a bit $b$ into an angle: 
 \begin{equation}
 \label{eq:bit-to-angle}
 f(b) = \text{arccos}(1 - 2b)
@@ -1033,8 +1043,17 @@ Let $E_{\mathcal{A}}(\cdot, K)$ be Alice's encryption function and let $D_{\math
 \begin{equation}
 E_{\mathcal{A}}(\cdot, K) = D_{\mathcal{B}}(\cdot, K) = \zeta_n(W, \cdot, K).
 \end{equation}
-This means, such network must be the inverse of itself.
-More details on the training procedure can be found in the original paper.
+This means, such network must be the inverse of itself. Therefore, to communicate properly, it should be the case that 
+\begin{equation}
+\zeta_n \left(W,\zeta_n(W,P,K),K \right) = P,
+\end{equation}
+where we recall that $P$ is the plaintext. \\
+The training, similarly to the procedure described in \cite{google}, relies on estimated values calculated alternating the training of Eve with that of Alice and Bob. Note that, unlike the standard training process of neural networks, here we do not have a clear concept of convergence. In fact, when $\mathcal{E}$ changes its network, then the objective functions of $\mathcal{A}$ and $\mathcal{B}$ also change as consequence. Hence, it was necessary to introduce the following two stopping criteria.
+\begin{enumerate}
+\item If the decryption error of $\mathcal{B}$ is very close to zero and the attacks of $\mathcal{E}$ are as bad as random guesses, then we stop. In this case, training is successful.
+\item If the previous stop criterion is not reached in a prefixed number of rounds, training stops. Recall here a round is completed when $\mathcal{A}$ and $\mathcal{B}$ are trained and then $\mathcal{E}$ is trained. If this happens, failure of the training occurs.
+\end{enumerate}
+With several test and experiments, authors of \cite{brazilians} showed that neural networks in the described setting can learn a perfectly secure cryptosystem, namely OTP.
 \chapter{Chapter title}
 
 \section{Another section}
@@ -1160,10 +1179,6 @@ with $F_h: U_h \longrightarrow V_h$, $f_h \in V_h$, and discrete spaces $U_h, V_
 
 
 \begin{thebibliography}{99}
-
-\bibitem[Ethier and Kurtz(1981)]{EK81}  {\sc Ethier, S.N.} and {\sc Kurtz, T.G.} (1981). The infinitely-many-neutral-alleles diffusion model. {\em Adv. Appl. Probab.} {\bf 13}, 429--452.
-
-\bibitem[Ethier and Kurtz(1986)]{EK86}  {\sc Ethier, S.N.} and {\sc Kurtz, T.G.} (1986). \emph{Markov processes: characterization and convergence}. Wiley, New York.
 
 \bibitem[Graupe(2007)]{graupe} {\sc Graupe, D.} (2007). \textit{Principles of Artificial Neural Networks (2nd Edition)}. Word Scientific Publishing, Singapore.
  
