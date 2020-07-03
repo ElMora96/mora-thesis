@@ -183,9 +183,17 @@ You can insert here possible thanks and acknowledgements
 \chapter{Introduction to Neural Networks}
 First chapter of this work is dedicated to its main ingredient: Artificial Neural Networks. These are models of computation based loosely on the way in which the brain is believed to work. Since their invention, biologists are interested in using such networks to model biological brains, but most of the impetus comes from their employment in applied sciences: NN's allow us to create machine that can perform "cognitive" tasks.
 \section{Biological Perspective}
-To start off, an overview on biological neural network is needed, as ANN's in principle attempt to simulate them. An extensive treatment of both principles and applications of neural networks can be found in \cite{graupe}, to which I make reference for this chapter. \\
+To start off, an overview on biological neural network is needed, as ANN's in principle attempt to simulate them: figure \ref{fig:artificialneuron} gives a clear idea of this concept. An extensive treatment of both principles and applications of neural networks can be found in \cite{graupe}, to which I make reference for this chapter. \\
 The biological neural network consists of interconnected nerve cells (called neurons), whose bodies are where most of the neural "computation" takes place. Neural activity passes from one neuron to another through electrical signals which travel from one cell to the following down the neuron's axon, that can be seen as a connection wire. However, the mechanism of signal transmission in not via electrical conduction, but via charge exchange that is transported by diffusion ions. At the terminal end of the axon, a synaptic gap takes place and an electro-chemical process allows communication with the other cell. \\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{pictures/neuron_biological_artificial.jpg}
+\caption{Biological (above) and Artificial (below) neurons representation.}
+\label{fig:artificialneuron}
+\end{figure}
 Since a given neuron may have many synapses, it can connect to many other cells. Similarly, since there are many dendrites (input connections) per each neuron, a single nerve cell can receive signals from many other neurons. It is very important to notice that not all of such interconnections are equally weighted: some have a higher priority than others. Also some are inhibitory and some are excitory. These facts are also key feature of artificial neural networks, as I'll discuss in the following sections.
+\newpage
+
 \section{Principles}
 \begin{singlespace}
 The theoretical principles of the artificial neural networks first appeared in the pioneering paper \cite{mcculloch}. In this early work, five fundamental assumptions were formulated:
@@ -201,6 +209,7 @@ Another widely applied principle is the so-called \textit{Hebbian Rule} (or \tex
 "When an axon of cell $A$ is near-enough to excite cell B and when it repeatedly and persistently takes part in firing it, then some growth process or metabolic change takes place in one or both these cells such that the efficiency of cell $A$ is increased". \\
 Roughly speaking, such rule can be summarized as "cells that fire together wire together", that is the connections between two neurons might be strengthened (in terms of weights) if the neurons fire simultaneously. \\
 Notice that above historical principles do not all apply to most modern neural network architectures. Following sections contain the description of the neural network models which have been employed (also in) neurocryptography.
+\newpage
 \section{The Perceptron}
 \subsection{Basic structure}
 \label{percbs}
@@ -227,12 +236,18 @@ where
 for every $i \in \{1,\dots,n\}$. 
 \subsection{Activation functions}
 \label{percact}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{pictures/sigmoid.png}
+\caption{The sigmoid curve.}
+\label{fig:sigmoid}
+\end{figure}
 The Perceptron's cell's output differs from the summation output \ref{percout} by the activation operation of the neuron's body, just as the output of the biological cell differs from the weighted sum of its inputs. Such operation is in terms of an activation function $f_N(z_i)$, which is a non-linear operator yielding $i$-th neuron's output $y_i$ to satisfy certain limiting properties. Different functions are in use, but the most common choice is the sigmoid function, that is
 \begin{equation}
 \label{act-sigmoid}
 y_i = f_N(z_i) = \frac{1}{1 + e^{-z_i}}, \quad i \in \{1,\dots,n\}.
 \end{equation}
-Under this choice, the following relations are satisfied (see figure TO ADD!!).
+Under this choice, the following relations are satisfied (see figure \ref{fig:sigmoid}).
 \begin{align*}
 z_i \to - \infty \quad &\Longleftrightarrow \quad y_i \to 0 ;\\
 z_i = 0 \quad &\Longleftrightarrow \quad y_i = 0.5; \\
@@ -360,6 +375,12 @@ In the following sections we will discuss more advanced training algorithms, tha
 Back Propagation (BP) algorithm was first proposed in \cite{back}, as a solution for setting weights (and hence for the training) of multi-layer perceptrons. 
 The availability of a rigorous method to set intermediate weights, namely to train the hidden layers of neural networks, gave a major boost to the further development of such models. \\
 In this section this algorithm is presented in detail. \\
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/multilayer-perceptron.png}
+\caption{Schematic representation of multi-layer perceptron.}
+\label{fig:mlp}
+\end{figure}
 \subsection{The Algorithm}
 The BP algorithm starts with computing values of the output layer, which is by definition the only one whose desired outputs are available. Let $\epsilon$ be the the \textit{error-energy} at the output layer, that is
 \begin{equation}
@@ -585,6 +606,7 @@ P_S(\vec{v}) = \frac{f(v)}{F}.
 \end{equation}
 Note that \eqref{avgfit}, despite not being explicitly computed in the algorithm, has great theoretical relevance (see Subsection \ref{gabehavior}). \\
 The other probabilistic quantities involved are crossover probability $P_C$ and mutation probability $P_M$. The former can also be regarded as the fraction of elements of $\textbf{P}(t)$ that will go through reproduction, while the latter can be thought of as the percentage of bits (of all chromosomes) that will change due to random mutations. Both values are fixed and typically we have $P_C >> P_M$.
+\newpage
 
 \section{The Algorithm}
 Each execution of the Genetic Algorithm produces an offspring of chromosomes: it moves from  population $\textbf{P}(t)$ to $\textbf{P}(t+1)$. This evolution process happens in three main phases:
@@ -593,6 +615,12 @@ Each execution of the Genetic Algorithm produces an offspring of chromosomes: it
 \item reproduction via crossover;
 \item mutation.
 \end{enumerate}
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.25]{pictures/genetic_algo.png}
+\caption{Flow chart representation of Genetic Algorithm.}
+\label{fig:artificialneuron}
+\end{figure}
 \subsection{Selection}
 As anticipated just above, in the first phase the algorithm mimics the behavior of wheel of fortune. First, a sequence $\{q_i\}_{i=0}^{N}$ is computed recursively in the following way:
 \begin{align}
@@ -643,6 +671,7 @@ If $r_j < P_M$, then the corresponding bit is changed to its two's complement (o
 \begin{equation}
 |\textbf{P}(t+1)|=|\textbf{P}(t)|=N.
 \end{equation}
+\newpage
 
 \section{Holland Theorem}
 Despite GA's are quite simple to describe and implement, understanding their behavior appears to be quite complicated. According to Holland's theory, such algorithms work by discovering, emphasizing and recombining good "building blocks" (taken from chromosomes with high fitness). Such building blocks are formally named "schemas". 
@@ -792,8 +821,14 @@ Here, a new concept appears in neurocryptography: synchronization of two nets to
 
 \subsection{The Protocol}
 Object of the aforementioned work is a key-exchange protocol based on a learning process of feedforward neural networks. The two NNs participating in the communication start from private key vectors $E_k(0)$ and $D_k(0)$. Mutual learning from the exchange of public information leads the two nets to develop a common, time dependent key: $E_k(t) = - D_k(t)$. This is then used for both encryption and decryption. \\
+\begin{figure}[]
+\centering
+\includegraphics[width=0.9\textwidth]{pictures/tpm.jpg}
+\caption{An example of tree parity machine.}
+\label{fig:tpm}
+\end{figure}
 This phenomenon, known as synchronization of synaptic weights, has the core feature of speed. In fact, experiments of the authors show that such synchronizing is faster than the process of tracking the weights of one of the networks by an eavesdropper. It must be said that the inventors were not able to find a mathematical proof of this, that instead was published little later by other cryptographers in \cite{shamir}. In this same work, all of the limitations of \textit{KKK} are also shown, but we will deal with this in the following subsections (Synchronization: \ref{ssc:synchro}; Attacks: \ref{ssc:atk}).  \\
-Going back to the model, the architecture used by both sender and recipient is a tree parity machine, a two-layered perceptron with $K$ hidden units, $K \times N$ input neurons and a single output. Input units take binary values $x_{kj} = \pm 1$, $k = 1,\dots, K$ and $j = 1, \dots, N$. The $K$ binary hidden units are denoted by $y_k$, $k = 1,\dots, K$, while the integer weight from the $j$-th input unit from the $k$-th hidden unit is denoted $w_{kj}\in\{-L,\dots,L\}$. Output $O$ is the product of the state of the hidden neurons. (ADD FIGURE!!!) \\
+Going back to the model, the architecture used by both sender and recipient is a tree parity machine, a two-layered perceptron with $K$ hidden units, $K \times N$ input neurons and a single output. Input units take binary values $x_{kj} = \pm 1$, $k = 1,\dots, K$ and $j = 1, \dots, N$. The $K$ binary hidden units are denoted by $y_k$, $k = 1,\dots, K$, while the integer weight from the $j$-th input unit from the $k$-th hidden unit is denoted $w_{kj}\in\{-L,\dots,L\}$. Output $O$ is the product of the state of the hidden neurons. A graphical representation of a tree parity machine is reported in figure \ref{fig:tpm}. \\
 Fix for simplicity $K = 3$ and let $w_{kj}^S$, $w_{kj}^R$ be the secret information of sender and recipient, respectively (that is, the initial values for the weights). Hence this consists of $3N$ integer numbers for each of the two participants.  Note that, from now on, superscript $S$ will denote sender, while $R$ will denote recipient. \\
 Each network is then trained with the output of its partner. At each step, both for synchronization and for encryption/decryption steps, a new common public input vector is needed. Given $\vec{x}_{kj}$, output is computed in two steps. In the first one, states of hidden units are computed as 
 \begin{equation}
@@ -861,13 +896,20 @@ An interesting experimental result: in the majority of tests led by the authors,
 Other examples of successful attacks to the \textit{KKK} protocol are the one based on geometrical reasoning and the probabilistic case. The former exploits the geometrical representation of inputs and weight in an algorithm that guesses hidden outputs in the nets of the two parties. The latter, instead, is again based on the properties of generalized random walks: these allow us to compute conditional probabilities for the values of hidden states.
 
 \chapter{Neural Cryptanalysis}
-Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see Subsection \ref{cpaanc}). \\
+Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see Subsection \ref{cpaanc}). 
+
 \section{Cryptanalysis of Simon Cipher using Neural Networks}
 The paper I am considering in this section is \cite{jay}, in which the author describes a novel, complete approach of using neural networks in cryptanalysis. The cryptosystem of interest belongs to the recent family of Simon block ciphers, publicly released by NSA in \cite{nsa}. Such publication also introduces the family of Speck block ciphers, that is Simon's sister algorithm. Essentially, Simon has been optimized for performance in hardware implementations, while Speck has been optimized for software implementations.
 %(Add citation https://eprint.iacr.org/2013/404.pdf). \\
 \subsection{Simon Cipher}
 Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithm, but it is good for research purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. \\
-Simon has has input block size of length $32$, with a key size of $64$ bits in length. In this study, Simon cipher is round-reduced: it encrypts the plaintexts with first a single round of the Feistel network and then with two rounds; same is for decryption. (ADD PICTURE)\\
+Simon has has input block size of length $32$, with a key size of $64$ bits in length. In this study, Simon cipher is round-reduced: it encrypts the plaintexts with first a single round of the Feistel network and then with two rounds; same is for decryption (see figure \ref{fig:simon}).
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{pictures/simon.png}
+\caption{Round function of Simon Cipher.}
+\label{fig:simon}
+\end{figure}
 More precisely, the $32$ bits long plaintext $x$ is divided into two blocks of $16$ bits in length, namely $x_i$ and $x_{i+1}$, respectively. The former half is made to go through several left circular shift units, with $S^j$, $j = 1,2,8$, representing shift by one, two and eight bits respectively. A bitwise \textit{AND} is performed on the results of $S^1$ and $S^8$, followed by a bitwise \textit{XOR} with the second half $x_{i+1}$. The result of previous operation is again \textit{XOR}-ed with the result from $S^2$. \\
 In general, Simon creates a list of key words $k_0, k_1, \dots, k_T$, where $T$ is the number of rounds. Since in this case the algorithms is simplified to one round and two rounds of the cipher, the key schedules generate only one and two key words respectively. The corresponding key word from the key schedule is then \textit{XOR}-ed with the result of the last performed operation. In the final step of the round, the result from the last step is swapped with the input block $x_{i+1}$ and then passed on to the next round.
 
@@ -902,8 +944,8 @@ The neural nets describes in previous section are implemented using \textit{Kera
 
 
 The trained neural network model is then used to predict the key of the plaintext-ciphertext pairs. The accuracy of the network is measured by identifying the number of bits predicted by the neural network that are the same as the key bits in the original key. Better results were attained when considering a single round of the Speck cipher. In this case, after a considerable number of training epochs, an accuracy around 70\% was reached. \\
-A powerful extension of this project could be a design based on fuzzy classifiers that could be used along with the neural networks to yield probabilities for zeros and ones, rather than hard predictions that this model does. \\
-
+A powerful extension of this project could be a design based on fuzzy classifiers that could be used along with the neural networks to yield probabilities for zeros and ones, rather than hard predictions that this model does. 
+\newpage
 \section{Cryptanalysis of Speck Cipher using Neural Networks}
 Another sensible improvement in using NN's to attack these block ciphers can be found in \citep{gohr}. In this paper, efficients attack to Speck (the hardware version of Simon) is implemented by making use of convolutional neural networks. In this case, the attack reveals to be effective even against ciphertext created with up to eleven rounds of the cipher.
 
@@ -956,7 +998,13 @@ The research I'm considering is \cite{google}. In this paper, a new cryptosystem
 
 \subsection{Cryptosystem Organization}
 Let's start with some notation. In this scenario, we consider the problem of the secure communication between Alice and Bob, denote them $\mathcal{A}$ and 
-$\mathcal{B}$, respectively. Consider also a third participant, Eve ($\mathcal{E})$), who wishes to eavesdrop on their communication. Such adversary is passive, that means it can only intercept communications. \\
+$\mathcal{B}$, respectively. Consider also a third participant, Eve ($\mathcal{E})$), who wishes to eavesdrop on their communication. Such adversary is passive, that means it can only intercept communications. A graphical representation of this setting can be seen in figure \ref{fig:anc}. \\
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{pictures/anc.png}
+\caption{ANC graphical representation.}
+\label{fig:anc}
+\end{figure}
 In this scenario, Alice wishes to send a private message $P$  ("Plaintext") to Bob. Such message must be regarded as an input to $\mathcal{A}$, together with a key $K$. This key is also known by $\mathcal{B}$, that uses it to decipher $\mathcal{A}$'s output; denote it $C$ ("Ciphertext"). Also Eve knows $C$ and tries to recover $P$ from it, but $\mathcal{E}$ cannot know $K$. Hence let $P_{\mathcal{B}}$ and $P_{\mathcal{E}}$ be the respective outputs. \\
 Alice, Bob, and Eve are represented by, guess what, neural networks, based on a "Mix and Trasform" architecture. This structure has a first fully-connected
 (FC) layer, where the number of outputs is equal to the number of inputs. $P$ and $K$ are fed into this layer, that enables mixing between the bits of these two vectors. Such layer is followed by a sequence of convolutional layers, the last of which produces an output of a size suitable for a plaintext or ciphertext.  These neural networks have parameters, which we write $\theta_{\mathcal{A}}$, $\theta_{\mathcal{B}}$ and $\theta_{\mathcal{E}}$. Moreover, $P$, $C$, $K$, $P_{\mathcal{B}}$ and $P_{\mathcal{E}}$ are vectors of float numbers; in particular values are allowed to range in $(-1, 1)$. \\
@@ -1003,6 +1051,7 @@ Consider a dataset consisting of vectors of for values, namely $(A, B, C, D)$. T
 $\hat{D}$ and $D_{\text{public}}$. The former is most accurate possible estimate, while the latter is defined as the best possible estimate of $D$ that does not reveal any information about the value of $C$. \\
 As before, Alice and Bob share a key and both $\mathcal{B}$ and Eve have access to $\mathcal{A}$'s outputs, that are $D_{\text{public}}$ and a ciphertext $T$. Her input is $(A, B, C)$. Bob produces $\hat{D}$, while Eve tries to recover $C$. 
 Using strongly correlated values for $(A, B, C)$ and $D$, the authors were able to show that the adversarial training permits approximating $D$ without revealing $C$.
+\newpage
 
 \section{Improvements: CPA-ANC}
 This section is dedicated to an extension of Abadi and Andersen's model. In fact, also this last model has some limitations, that are shown in \cite{brazilians}. Authors of this paper elaborated an extension to ANC, that is discusses in the following.
@@ -1011,7 +1060,12 @@ This section is dedicated to an extension of Abadi and Andersen's model. In fact
 \label{cpaanc}
 Main limitation to the security of original ANC model lies in the job of Eve, that appears to be too hard. It must decrypt a random message having access only to the ciphertext. The consequence is that, under this methodology, Alice and Bob learn to protect against a weak adversary. It is however possible to strengthen Eve by letting it mount a CPA.  \\
 Eve chooses two plaintext messages, namely $P_0$ and $P_1$, and sends them to Alice. $\mathcal{A}$ chooses one of the messages randomly, encrypts it to $C$ and sends it to $\mathcal{B}$ and $\mathcal{E}$. The former decrypts the message using a NN, while the latter only outputs $0$ if it believes $P_0$ was encrypted or $1$ if it believes $P_1$ was encrypted. \\
-
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.4]{pictures/cpa-anc.png}
+\caption{Chosen-Plaintext Attack ANC.}
+\label{fig:artificialneuron}
+\end{figure}
 
 \subsection{Neural Network Architecture}
 A specific network architecture for this model is proposed, based on the continuous extension of logic operator XOR, built to learn a One-Time Pad algorithm (OTP). \\
@@ -1054,37 +1108,6 @@ The training, similarly to the procedure described in \cite{google}, relies on e
 \item If the previous stop criterion is not reached in a prefixed number of rounds, training stops. Recall here a round is completed when $\mathcal{A}$ and $\mathcal{B}$ are trained and then $\mathcal{E}$ is trained. If this happens, failure of the training occurs.
 \end{enumerate}
 With several test and experiments, authors of \cite{brazilians} showed that neural networks in the described setting can learn a perfectly secure cryptosystem, namely OTP.
-\chapter{Chapter title}
-
-\section{Another section}
-
-Tex of the section with example of theorem
-
-\begin{theorem}\label{th1}
-Example of theorem
-\end{theorem}
-\begin{proof}
-proof of the theorem
-\end{proof}
-
-to be referenced like Theorem \ref{th1}. 
-
-Same for proposition
-\begin{proposition}
-Example of proposition
-\end{proposition}
- or lemma
-\begin{definition}
-Example of definition
-\end{definition}
-
-\begin{remark}
-Example of remark
-\end{remark}
-
-\begin{lemma}
-Example of lemma
-\end{lemma}
 
 \begin{appendices}
 
@@ -1182,8 +1205,6 @@ with $F_h: U_h \longrightarrow V_h$, $f_h \in V_h$, and discrete spaces $U_h, V_
 
 \bibitem[Graupe(2007)]{graupe} {\sc Graupe, D.} (2007). \textit{Principles of Artificial Neural Networks (2nd Edition)}. Word Scientific Publishing, Singapore.
  
-\bibitem[Anthony(2001)]{anthony} {\sc Anthony, M. } (2001). \textit{Discrete Mathematics of Neural Networks}. Society for Industrial and Applied Mathematics, Philadelphia.
-
 \bibitem[McCulloch and Pitts(1943)]{mcculloch} {\sc McCulloch, W.} and {\sc Pitts, W}. (1943). \textit{A logical calculus of the ideas immanent in nervous activity}. Bulletin of Mathematical Biophysics 5, 115-133.
 
 \bibitem[Hebb(1949)]{hebb} {\sc Hebb, D. O.} (1949). \textit{The organization of behavior; a neuropsychological theory}. Wiley, New York.
@@ -1224,10 +1245,6 @@ with $F_h: U_h \longrightarrow V_h$, $f_h \in V_h$, and discrete spaces $U_h, V_
 \bibitem[Alani(2012)]{alani} {\sc Alani, M. M.} (2012). \textit{Neuro-cryptanalysis of DES}. World Congress on Internet Security (WorldCIS-2012)
 
 \bibitem[Gohr(2019)]{gohr} {\sc Gohr, A.} (2019). \textit{Improving Attacks on Round-Reduced Speck32/64 Using Deep Learning}. Bundesamt für Sicherheit in der Informationstechnik (BSI).
-
-\bibitem[Nielsen and Chuang(2000)]{nielsen} {\sc Nielsen, M. A.} and {\sc Chuang, I. L.} (2000). \textit{Quantum Computation and Quantum Information}. Cambridge University Press.
-
-\bibitem[Bernstein, Buchmann and Dahmen(2009)]{pqc} {\sc Bernstein, D. J.}, {\sc Buchmann, J.} and {\sc Dahmen, E.} (2009). \textit{Post-Quantum Cryptography}. Springer.
 
 \bibitem[Shi et al.(2020)]{china} {\sc Shi, J.}, {\sc Chen, S.}, {\sc Lu, Y.}, {\sc Feng, Y.}, {\sc Shi, R.}, {\sc Yang, Y.} and {\sc Li, J.} (2020). \textit{An Approach to Cryptography Based on Continuous-Variable Quantum Neural Network}. Nature.
 
