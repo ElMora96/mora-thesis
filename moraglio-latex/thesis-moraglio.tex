@@ -225,12 +225,12 @@ Notice that above historical principles do not all apply to most modern neural n
 \section{The Perceptron}
 \subsection{Basic structure}
 \label{percbs}
-The first complete neural computation model, that is called Perceptron, first appeared in \citep{rosenblatt} and serves as a building block to most later models. The Perceptron posses the fundamental structure of a neural cell, of several weighted input connections and a single output channel. The input/output relations are defined to be
+The first complete neural computation model, that is called Perceptron, first appeared in \citep{rosenblatt} and serves as a building block to most later models. The Perceptron posseses the fundamental structure of a neural cell, of several weighted input connections and a single output channel. The input/output relations are defined to be
 \begin{align}
 z = \sum_{i}w_i x_i \quad \text{(summation output)} \label{summation}\\
 y = f_N(z) \quad \text{(cell output)}, \label{nonlinear}
 \end{align}
-where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. $y$, instead, denotes the cell's output, that is a nonlinear activation function $f_N$ (see Subsection \ref{percact} below) of the node output $z$. \\
+where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. $y$, instead, denotes the output of the cell, that is a nonlinear activation function $f_N$ (see Subsection \ref{percact} below) of the node output $z$. \\
 It is customary to consider a network of $n$ Perceptrons; in this case, by letting $z_i$ be the summation output of the $i$-th Perceptron and its inputs $x_{i,j}$, the summation relation becomes
 \begin{equation}
 z_i = \sum_{j=1}^{m}w_{ij} x_{ij}, \quad i \in \{1,\dots,n\},
@@ -254,7 +254,7 @@ for every $i \in \{1,\dots,n\}$.
 \caption{The sigmoid curve.}
 \label{fig:sigmoid}
 \end{figure}
-The Perceptron's cell's output differs from the summation output \ref{percout} by the activation operation of the neuron's body, just as the output of the biological cell differs from the weighted sum of its inputs. Such operation is in terms of an activation function $f_N(z_i)$, which is a non-linear operator yielding $i$-th neuron's output $y_i$ to satisfy certain limiting properties. Different functions are in use, but the most common choice is the sigmoid function, that is
+The cell output of the Perceptron differs from the summation output \ref{percout} by the activation operation of the neuron's body, just as the output of the biological cell differs from the weighted sum of its inputs. Such operation is in terms of an activation function $f_N(z_i)$, which is a non-linear operator yielding the output of $i$-th neuron $y_i$ to satisfy certain limiting properties. Different functions are in use, but the most common choice is the sigmoid function, that is
 \begin{equation}
 \label{act-sigmoid}
 y_i = f_N(z_i) = \frac{1}{1 + e^{-z_i}}, \quad i \in \{1,\dots,n\}.
@@ -278,7 +278,7 @@ y_i = H(z_i) = \begin{cases}
 \end{cases}
 \end{equation*}
 Main advantage of the former two over the latter is that they are (mathematically) smooth. \\
-In many applications the activation function's output is translated so that it ranges in $\left(-1, 1\right)$, rather than in $\left(0, 1 \right)$. In particular, sigmoid function \eqref{act-sigmoid} becomes 
+In many applications the output of the activation function is translated so that it ranges in $\left(-1, 1\right)$, rather than in $\left(0, 1 \right)$. In particular, sigmoid function \eqref{act-sigmoid} becomes 
 \begin{equation}
 y_i = \frac{2}{1 + e^{-z_i}} -1 = \tanh(z_i/2),
 \end{equation}
@@ -492,7 +492,7 @@ This way, again by right-hand side of \eqref{newphi}, we obtain
 \Delta w_{ji} = -\eta \left[ \frac{\partial \epsilon}{\partial y_j (r)} \frac{\partial y_j}{\partial z_j} \right]y_i(r-1),
 \end{equation}
 where $\frac{\partial \epsilon}{\partial y_j}$ is inaccessible (just like $\phi_j (r)$ above). \\
-Since we're considering backward propagation from the output, error-energy is only determined by upwards neurons:
+Since we are considering backward propagation from the output, error-energy is only determined by upwards neurons:
 \begin{equation}
 \frac{\partial \epsilon}{\partial y_j (r)} = \sum_k \frac{\partial \epsilon}{\partial z_k (r+1)} \left[\frac{\partial z_k (r+1)}{\partial y_j (r)} \right] = \sum_k \frac{\partial \epsilon}{\partial z_k} \left[ \frac{\partial}{\partial y_j(r)} \sum_m w_{km}(r+1)y_m(r)\right].
 \end{equation}
@@ -557,7 +557,7 @@ Here the theory of \textit{Adam} optimizer is presented according to the origina
 
 Let $f(\theta)$ be a noisy objective function: a stochastic scalar function that is differentiable with respect to parameters $\theta$. The stochasticity might come from the evaluation at random subsamples (minibatches)of datapoints, or arise from inherent function noise.\\
 We are interested in minimizing the expected value of such function, that is $\mathbb{E}\left[f(\theta)\right]$. Denote by $f_1(\theta), \dots,f_T(\theta)$ the realizations of the function at subsequent time steps $1,\dots, T$. Let $g_t = \nabla_{\theta}f_t(\theta)$ be the gradient, that is the vector of partial derivatives of $f$ (w.r.t. $\theta$) evaluated at time step $t$. \\
-The algorithms updates exponential moving averages of the gradient and of the squared gradient; denote these estimates by $m_t$ and $v_t$, respectively. Exponential decay rates of these moving averages are controlled by the hyper parameters $\beta_1,\beta_2 \in \left[0,1\right)$. The moving average themselves are estimates of the mean and the uncentered variance (the second moment) of the gradient. Since these estimates are initialized as vectors of zeros, they are biased towards zero, especially during the initial time steps and when the decay rates are small (i.e. $\beta_1,\beta_2 \approx 1$). This initialization bias can however be easily counteracted, resulting in bias-corrected estimates $\hat{m}_t$ and $\hat{v}_t$, as described in the following. \\
+The algorithms updates exponential moving averages of the gradient and of the squared gradient; denote these estimates by $m_t$ and $v_t$, respectively. Exponential decay rates of these moving averages are controlled by the hyperparameters $\beta_1,\beta_2 \in \left[0,1\right)$. The moving average themselves are estimates of the mean and the uncentered variance (the second moment) of the gradient. Since these estimates are initialized as vectors of zeros, they are biased towards zero, especially during the initial time steps and when the decay rates are small (i.e. $\beta_1,\beta_2 \approx 1$). This initialization bias can however be easily counteracted, resulting in bias-corrected estimates $\hat{m}_t$ and $\hat{v}_t$, as described in the following. \\
 Recall that $g_1,\dots,g_T$ denote the gradients at subsequent time steps; each can be seen as a draw from an underlying gradient distribution $p(g_t)$. Consider the second moment estimate. As can be seen in pseudocode \ref{algo:adam}, the exponential moving average is initialized as $v_0 = 0$. First note that the update at time step $t$, $v_t = \beta_2v_{t-1} + (1 -\beta_2)g_t^{2}$, can be written as a function of the gradients at all previous time steps:
 \begin{equation}
 \label{adam:update}
@@ -586,7 +586,7 @@ $$\frac{\hat{m}_t}{\sqrt{v_t}} \approx \pm 1,$$
 since 
 $$\frac{|\mathbb{E}\left[g\right]|}{\sqrt{\mathbb{E}\left[g^2 \right]}}\leq 1.$$
 Hence the effective magnitude of the steps taken in the parameter space at each time step are approximately bounded by the stepsize setting $\alpha$. \\
-The effective step size $\Delta_t$ is also invariant to the scale of the gradients; rescaling the gradients $g$ with factor $c$ won't lead to changes:
+The effective step size $\Delta_t$ is also invariant to the scale of the gradients; rescaling the gradients $g$ with factor $c$ will not lead to changes:
 \begin{equation}
 \frac{c\hat{m}_t}{\sqrt{c^2\hat{v}_t}} = \frac{\hat{m}_t}{\sqrt{\hat{v_t}}}.
 \end{equation}
@@ -607,7 +607,7 @@ We now need to define some probabilities which are involved in the GA. Selection
 \begin{equation}
 f: \textbf{P}(t) \longrightarrow \mathbb{R}_0^{+}.
 \end{equation}
-We're now allowed to define total fitness and average fitness, namely
+We are now allowed to define total fitness and average fitness, namely
 \begin{align}
 F &= \sum_{\vec{v}\in \textbf{P}(t)}f(\vec{v}) \quad \text{and} \\
 \overline{F} &= \frac{F}{N}, \label{avgfit}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.5.13)  8 JUL 2020 13:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.5.13)  8 JUL 2020 13:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1059,7 +1059,7 @@ Overfull \hbox (9.04753pt too wide) in paragraph at lines 292--294
 al-leng-ing for re-searchers,
  []
 
-[12]
+[12] [13]
 Overfull \hbox (3.19624pt too wide) in paragraph at lines 347--349
 \T1/lmr/m/n/13.19997 Denoting a weights vec-tor set-ting af-ter the $\OML/lmm/m
 /it/13.19997 m$\T1/lmr/m/n/13.19997 -th train-ing set, $\OML/lmm/m/it/13.19997 
@@ -1067,7 +1067,7 @@ m \OMS/lmsy/m/n/13.19997 2 f\OT1/lmr/m/n/13.19997 1\OML/lmm/m/it/13.19997 ; []
 ; L\OMS/lmsy/m/n/13.19997 g$\T1/lmr/m/n/13.19997 ,
  []
 
-[13] [14] [15]
+[14] [15]
 <pictures/multilayer-perceptron.png, id=465, 584.93532pt x 293.59688pt>
 File: pictures/multilayer-perceptron.png Graphic file (type png)
 <use pictures/multilayer-perceptron.png>
@@ -1229,7 +1229,7 @@ onts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lm
 sy7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/share/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis-moraglio.pdf (64 pages, 2471120 bytes).
+Output written on thesis-moraglio.pdf (64 pages, 2471110 bytes).
 PDF statistics:
  1060 PDF objects out of 1200 (max. 8388607)
  946 compressed objects within 10 object streams
