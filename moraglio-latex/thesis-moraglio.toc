@@ -43,7 +43,7 @@
 \contentsline {section}{\numberline {4.2}Cryptanalysis of Speck Cipher using Neural Networks}{47}{section.4.2}% 
 \contentsline {subsection}{\numberline {4.2.1}Speck Cipher}{47}{subsection.4.2.1}% 
 \contentsline {subsection}{\numberline {4.2.2}Differential Attacks}{47}{subsection.4.2.2}% 
-\contentsline {subsection}{\numberline {4.2.3}Neural Distinguishers for Speck}{49}{subsection.4.2.3}% 
+\contentsline {subsection}{\numberline {4.2.3}Neural Distinguishers for Speck}{48}{subsection.4.2.3}% 
 \contentsline {chapter}{\numberline {5}Adversarial Neural Cryptography}{51}{chapter.5}% 
 \contentsline {section}{\numberline {5.1}Google's Model}{51}{section.5.1}% 
 \contentsline {subsection}{\numberline {5.1.1}Cryptosystem Organization}{51}{subsection.5.1.1}% 

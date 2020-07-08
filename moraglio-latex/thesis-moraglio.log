@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.5.13)  8 JUL 2020 13:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.5.13)  8 JUL 2020 14:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1157,7 +1157,10 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [51
 
-] [52 <./pictures/anc.png>] [53] [54]
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [52 <./pictures/anc.png>] [53] [54]
 <pictures/cpa-anc.png, id=828, 794.97pt x 485.815pt>
 File: pictures/cpa-anc.png Graphic file (type png)
 <use pictures/cpa-anc.png>
@@ -1229,7 +1232,7 @@ onts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lm
 sy7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/share/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis-moraglio.pdf (64 pages, 2471110 bytes).
+Output written on thesis-moraglio.pdf (64 pages, 2471144 bytes).
 PDF statistics:
  1060 PDF objects out of 1200 (max. 8388607)
  946 compressed objects within 10 object streams

@@ -686,7 +686,7 @@ If $r_j < P_M$, then the corresponding bit is changed to its two's complement (o
 \newpage
 
 \section{Holland Theorem}
-Despite GA's are quite simple to describe and implement, understanding their behavior appears to be quite complicated. According to Holland's theory, such algorithms work by discovering, emphasizing and recombining good "building blocks" (taken from chromosomes with high fitness). Such building blocks are formally named "schemas". 
+Despite GA's are quite simple to describe and implement, understanding their behavior appears to be quite complicated. According to the theory of Holland, such algorithms work by discovering, emphasizing and recombining good "building blocks" (taken from chromosomes with high fitness). Such building blocks are formally named "schemas". 
 \subsection{Definitions}
 A schema is a set of bit strings that can be described as a template made up of the symbols $0$, $1$ and $*$, which denotes a "free entry". For example, the schema
 \begin{equation}
@@ -698,7 +698,7 @@ For a scheme $H$, we denote $o(H)$ the order of $H$, that is its number of defin
 \subsection{Behavior of Genetic Algorithms}
 \label{gabehavior}
 After this few premises, we can discuss how the GA processes schemas. \\
-Any given bit string of length $l$ in an instance of $2^l$ different schemas. Thus, given a population of $N$ chromosomes, it contains instances of $k$ different schemes, with $2^l \leq k \leq N2^l$. This means that, at a given generation $t$, while the GA is explicitly evaluating the fitness of the $N$ chromosomes, it is actually implicitly estimating the average fitness of a much larger number of schemas (where the average fitness of a schema is defined to be the average fitness of all possible instances of that schema). Obviously, the estimates of schema average fitness are not calculated or stored by the GA, However, the algorithm's behavior can be described as though it was actually calculating and storing these averages. \\
+Any given bit string of length $l$ in an instance of $2^l$ different schemas. Thus, given a population of $N$ chromosomes, it contains instances of $k$ different schemes, with $2^l \leq k \leq N2^l$. This means that, at a given generation $t$, while the GA is explicitly evaluating the fitness of the $N$ chromosomes, it is actually implicitly estimating the average fitness of a much larger number of schemas (where the average fitness of a schema is defined to be the average fitness of all possible instances of that schema). Obviously, the estimates of schema average fitness are not calculated or stored by the GA, However, the behavior of the algorithm can be described as though it was actually calculating and storing these averages. \\
 Let $H$ be a schema with at least one instance present in $\textbf{P}(t)$ and let $m(H,t)$ the number of instances of $H$ at time $t$. Moreover let $\hat{U}(H,t)$ be the observed average fitness. We want to compute 
 \begin{equation}
 \mathbb{E}\left[m(H, t + 1) \right],
@@ -746,7 +746,7 @@ In this chapter we discuss some of the fist neural cryptosystems.
 This section describes one of the first attempts in designing a neural network to be practically used in both cryptography and cryptanalysis. It must be said that the results attained in \cite{volna}, the paper to which I refer, are still quite rough: synchronization-based approach was not yet developed at the time of this publication. However, this work contains interesting key-concepts of neural cryptography. 
 
 \subsection{Genetic Algorithms in Neural Network Design}
-Main element in this research are feedforward neural nets with Back Propagation, but the most interesting characteristic of the approach chosen by Volna is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
+Main element in this research are feedforward neural nets with Back Propagation, but the most interesting characteristic of the approach chosen by Volná is that it relies on EP (Evolutionary Programming): genetic algorithms are used for optimization of the designed NN topology. This is based on a previous work of the same author, that is \cite{volna2}. \\
 The criterion of choice is the minimization of the sum of square of deviation of output from neural network. At first, the maximal architecture of the nets is proposed, then, at each step, to optimize the population it is necessary to solve the cryptographic problems of interest. Thereafter the process of genetic algorithms is applied. An optimal population is found either when it achieves the maximal generation or when fitness function achieves the maximal defined value. \\
 At this point, it is required to complete the "best" architecture by adapting weights and hence three digits are generated for every
 connection coming out from a unit. If the connection does not exist, three zeroes are assigned, else weights are computed this way:
@@ -784,7 +784,7 @@ The genetic algorithm used by Volná makes use of standard crossover and mutatio
 Adaptation of the best found network architecture is finished with Back Propagation.
 
 \subsection{Volná's experiment}
-In this work, the parameters of the adapted neural network become the key of an encryption/decryption algorithm. Topology of such NN clearly depends on the training set that, in Volná's case, is represented in table ~\ref{table:traingset}, while the chain of chars of the plain text is equivalent to a binary value, that is 96 less than its ASCII code. The cipher text is a randomly generated chain of bits.
+In this work, the parameters of the adapted neural network become the key of an encryption/decryption algorithm. Topology of such NN clearly depends on the training set that, in the case of Volná, is represented in table ~\ref{table:traingset}, while the chain of chars of the plain text is equivalent to a binary value, that is 96 less than its ASCII code. The cipher text is a randomly generated chain of bits.
 \begin{table}[]
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -911,7 +911,7 @@ Other examples of successful attacks to the \textit{KKK} protocol are the one ba
 Not only neural networks reveal themselves capable of learning how to communicate securely. In fact, recent studies show that NN's can be employed to perform efficient cryptanalysis over lightweight ciphers. The present chapter is dedicated to discussing an example of such studies. Before this, it is important to recall a previous study of interest, that is \cite{alani}. In this work, Neural Networks, together with the Known Plaintext Attack (KPA) methodology, are efficiently employed to break Data Encryption Standard. A similar combination, that is NN's together with the Chosen Plaintext Attack (CPA), will be later used to build extremely strong cryptosystems (see Subsection \ref{cpaanc}). 
 
 \section{Cryptanalysis of Simon Cipher using Neural Networks}
-The paper I am considering in this section is \cite{jay}, in which the author describes a novel, complete approach of using neural networks in cryptanalysis. The cryptosystem of interest belongs to the recent family of Simon block ciphers, publicly released by NSA in \cite{nsa}. Such publication also introduces the family of Speck block ciphers, that is Simon's sister algorithm. Essentially, Simon has been optimized for performance in hardware implementations, while Speck has been optimized for software implementations.
+The paper I am considering in this section is \cite{jay}, in which the author describes a novel, complete approach of using neural networks in cryptanalysis. The cryptosystem of interest belongs to the recent family of Simon block ciphers, publicly released by NSA in \cite{nsa}. Such publication also introduces the family of Speck block ciphers, that is the sister algorithm of Simon. Essentially, Simon has been optimized for performance in hardware implementations, while Speck has been optimized for software implementations.
 %(Add citation https://eprint.iacr.org/2013/404.pdf). \\
 \subsection{Simon Cipher}
 Simon cipher can be consider a lightweight cipher; as such it generally finds its use in devices that have very restricted hardware resources. Hence we remark it cannot be considered a top-security algorithm, but it is good for research purpose; that is, experimenting the capabilities of neural networks in cryptanalysis. \\
@@ -959,7 +959,7 @@ The trained neural network model is then used to predict the key of the plaintex
 A powerful extension of this project could be a design based on fuzzy classifiers that could be used along with the neural networks to yield probabilities for zeros and ones, rather than hard predictions that this model does. 
 \newpage
 \section{Cryptanalysis of Speck Cipher using Neural Networks}
-Another sensible improvement in using NN's to attack these block ciphers can be found in \citep{gohr}. In this paper, efficients attack to Speck (the hardware version of Simon) is implemented by making use of convolutional neural networks. In this case, the attack reveals to be effective even against ciphertext created with up to eleven rounds of the cipher.
+Another sensible improvement in using NN's to attack these block ciphers can be found in \cite{gohr}. In this paper, efficients attack to Speck (the software version of Simon) is implemented by making use of convolutional neural networks. In this case, the attack reveals to be effective even against ciphertext created with up to eleven rounds of the cipher.
 
 \subsection{Speck Cipher}
 As we mentioned before, Speck is an iterated block cipher firstly appeared in \cite{nsa} with the aim of building a cipher efficient in software implementations in IoT (Internet of Things) devices. Just like its sister algorithm Simon, it is a composition of the basic functions of modular addition (mod $2^k$), bitwise rotation and bitwise addition applied to $k$-bit strings. More precisely, denote by $\oplus$ bitwise addition, and modular addition modulo $2^k$ by $\boxplus$. Moreover let $\ll$ and $\gg$ denote bitwise rotation of a fixed-size word to the left and to the right, respectively.  \\
@@ -975,7 +975,7 @@ R_{i+1} &= \left(R_i \ll \beta \right) \oplus L_{i+1}.
 Here $\alpha$ and $\beta$ are constants specific to each member of the Speck cipher family. The round function is applied a fixed number of times. For example, in the original version of Speck32/64, 22 rounds are performed.
 
 \subsection{Differential Attacks}
-Let us first introduce some notations and conventions related to (neural) differential attacks. In these type of attacks, neural networks are essentially trained to distinguish the output of Speck with a given input difference from random data. In \cite{gohr}, differential cryptanalysis means cryptanalysis with regards to bitwise differences in the in the adversary-controlled input to the cipher under study (and here is why this can be considered a Chosen-Plaintext Attack). \\
+Let us first introduce some notations and conventions related to (neural) differential attacks. In these type of attacks, neural networks are essentially trained to distinguish the output of Speck with a given input difference from random data. In \cite{gohr}, differential cryptanalysis means cryptanalysis with regards to bitwise differences in the adversary-controlled input to the cipher under study (and here is why this can be considered a Chosen-Plaintext Attack). \\
 Let $F: \{0,1\}^n \longrightarrow \{0,1\}^m$ be a map. Then, a differential transition for $F$ is a pair
 \begin{equation}
 \left(\Delta_{\text{in}},\Delta_{\text{out}} \right) \in \{0,1\}^n \times \{0,1\}^m.
@@ -1006,10 +1006,10 @@ In \cite{gohr} a partial key-recovery attack is also proposed, by extending the 
 After a long period without any substantial contribution to neural cryptography, a new, revolutionary approach made its appearance in 2016, thanks to Google's researchers. That is, neural networks can learn to protect the secrecy of their data from other neural networks: they discover forms of encryption and decryption, without being taught specific algorithms for these purposes. This new approach to cryptography has been named ANC (Adversarial Neural Cryptography).
 
 \section{Google's Model}
-The research I'm considering is \cite{google}. In this paper, a new cryptosystem is proposed. At its core there are adversarial neural networks and in this section I'm examining this protocol.
+The research I am considering is \cite{google}. In this paper, a new cryptosystem is proposed. At its core there are adversarial neural networks and in this section I am examining this protocol.
 
 \subsection{Cryptosystem Organization}
-Let's start with some notation. In this scenario, we consider the problem of the secure communication between Alice and Bob, denote them $\mathcal{A}$ and 
+Let us start with some notation. In this scenario, we consider the problem of the secure communication between Alice and Bob, denote them $\mathcal{A}$ and 
 $\mathcal{B}$, respectively. Consider also a third participant, Eve ($\mathcal{E})$), who wishes to eavesdrop on their communication. Such adversary is passive, that means it can only intercept communications. A graphical representation of this setting can be seen in figure \ref{fig:anc}. \\
 \begin{figure}[h]
 \centering
@@ -1017,12 +1017,12 @@ $\mathcal{B}$, respectively. Consider also a third participant, Eve ($\mathcal{E
 \caption{ANC graphical representation.}
 \label{fig:anc}
 \end{figure}
-In this scenario, Alice wishes to send a private message $P$  ("Plaintext") to Bob. Such message must be regarded as an input to $\mathcal{A}$, together with a key $K$. This key is also known by $\mathcal{B}$, that uses it to decipher $\mathcal{A}$'s output; denote it $C$ ("Ciphertext"). Also Eve knows $C$ and tries to recover $P$ from it, but $\mathcal{E}$ cannot know $K$. Hence let $P_{\mathcal{B}}$ and $P_{\mathcal{E}}$ be the respective outputs. \\
+In this scenario, Alice wishes to send a private message $P$  ("Plaintext") to Bob. Such message must be regarded as an input to $\mathcal{A}$, together with a key $K$. This key is also known by $\mathcal{B}$, that uses it to decipher the output of $\mathcal{A}$; denote it $C$ ("Ciphertext"). Also Eve knows $C$ and tries to recover $P$ from it, but $\mathcal{E}$ cannot know $K$. Hence let $P_{\mathcal{B}}$ and $P_{\mathcal{E}}$ be the respective outputs. \\
 Alice, Bob, and Eve are represented by, guess what, neural networks, based on a "Mix and Trasform" architecture. This structure has a first fully-connected
 (FC) layer, where the number of outputs is equal to the number of inputs. $P$ and $K$ are fed into this layer, that enables mixing between the bits of these two vectors. Such layer is followed by a sequence of convolutional layers, the last of which produces an output of a size suitable for a plaintext or ciphertext.  These neural networks have parameters, which we write $\theta_{\mathcal{A}}$, $\theta_{\mathcal{B}}$ and $\theta_{\mathcal{E}}$. Moreover, $P$, $C$, $K$, $P_{\mathcal{B}}$ and $P_{\mathcal{E}}$ are vectors of float numbers; in particular values are allowed to range in $(-1, 1)$. \\
-Eve's objective is to reconstruct $P$, that is, to minimize the distance between $P$ and $P_{\mathcal{E}}$. Alice and Bob want to communicate clearly (to minimize the error between $P$ and $P_{\mathcal{B}}$ ), but also to hide their communication from $\mathcal{E}$. $\mathcal{A}$ and $\mathcal{B}$ are hence trained jointly to communicate securely and to defeat Eve: here lies the biggest innovation in ANC. \\
-Since we want Alice and Bob to be trained against the best possible version of Eve, we need to assume a probability distribution on plaintexts and keys. After that, we can rephrase the parties' objectives in terms of expectation. \\
-Denote Alice and Bob's output as $A(\theta_{\mathcal{A}}, P, K)$ and $B(\theta_{\mathcal{B}}, C, K)$, respectively. Similarly, write $E(\theta_{\mathcal{E}}, C)$ for Eve's output. As anticipated above, we need to choose a distance function on the space of plaintexts. In this model, assuming such $P$'s have length $N$, we take
+The objective of Eve is to reconstruct $P$, that is, to minimize the distance between $P$ and $P_{\mathcal{E}}$. Alice and Bob want to communicate clearly (to minimize the error between $P$ and $P_{\mathcal{B}}$ ), but also to hide their communication from $\mathcal{E}$. $\mathcal{A}$ and $\mathcal{B}$ are hence trained jointly to communicate securely and to defeat Eve: here lies the biggest innovation in ANC. \\
+Since we want Alice and Bob to be trained against the best possible version of Eve, we need to assume a probability distribution on plaintexts and keys. After that, we can rephrase the objectives of the parties in terms of expectation. \\
+Denote the outputs of Alice and Bob as $A(\theta_{\mathcal{A}}, P, K)$ and $B(\theta_{\mathcal{B}}, C, K)$, respectively. Similarly, write $E(\theta_{\mathcal{E}}, C)$ for the output of Eve. As anticipated above, we need to choose a distance function on the space of plaintexts. In this model, assuming such $P$'s have length $N$, we take
 \begin{equation}
 d(P,P') = \sum_{i=0}^{N}|P_i - P'_i|,
 \end{equation}
@@ -1045,7 +1045,7 @@ Similarly to the case of Eve, a per-example loss for Bob is defined and then ext
 L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}, P, K \right) = d\left(P, B(\theta_{\mathcal{B}}, A(\theta_{\mathcal{A}}, P, K), K ) \right) \nonumber \\ 
 L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}\right) = \mathbb{E}_{P,K}\left[ d\left(P, B(\theta_{\mathcal{B}}, A(\theta_{\mathcal{A}}, P, K), K ) \right)\right].
 \end{align}
-We now need to define a joint loss function for Alice and Bob, which takes into account $\mathcal{B}$'s loss and the optimal value of Eve's loss (by maximizing $\mathcal{E}$'s reconstruction error). This is: 
+We now need to define a joint loss function for Alice and Bob, which takes into account the loss of $\mathcal{B}$ and the optimal value of loss of Eve (by maximizing reconstruction error of $\mathcal{E}$). This is: 
 \begin{equation}
 L_{\mathcal{A}\mathcal{B}}(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}) = L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}\right) - L_{\mathcal{E}}(\theta_{\mathcal{A}}, O_{\mathcal{E}}\left(\theta_{\mathcal{A}} \right)).
 \end{equation}
@@ -1055,7 +1055,7 @@ Note that also this choice may be subject to variations. Optimal configurations 
 \end{equation}
 It must be said that such optimal configurations are not necessarily unique. \\
 A few words about training. Such procedure is based upon stochastic gradient descent and on estimated values calculated over examples (not on expected values over a distribution). In addition, $O_{\mathcal{E}}$ is not computed for given values of $\theta_{\mathcal{A}}$ , but simply approximated. This is done by alternating the training of Eve with that of Alice and Bob. \\
-Roughly speaking, training proceeds follows. At first, $\mathcal{A}$'s outputs may be totally incomprehensible for both $\mathcal{B}$ and $\mathcal{E}$. After a few steps, Bob could discover a way to decrypt Alice's messages at least partially, without Eve being able to do the same. Later, however, $\mathcal{E}$ may start to break this code. Alice and Bob should then find improvements to their security, in a way such that Eve would find impossible to adjust to those ciphers. Note that this kind of alternation is typical in game theory. 
+Roughly speaking, training proceeds follows. At first, the outputs of $\mathcal{A}$ may be totally incomprehensible for both $\mathcal{B}$ and $\mathcal{E}$. After a few steps, Bob could discover a way to decrypt the messages of Alice at least partially, without Eve being able to do the same. Later, however, $\mathcal{E}$ may start to break this code. Alice and Bob should then find improvements to their security, in a way such that Eve would find impossible to adjust to those ciphers. Note that this kind of alternation is typical in game theory. 
 
 \subsection{ANC and selective protection} 
 Authors of ANC described an experiment to study to test this cryptosystem over selective protection: the question of whether neural networks can learn what information to protect. For example, a plaintext may be made up of several components, of which only few of them are required to be kept secret to the adversary. In this case, selective protection would mean a maximization in utility. \\
@@ -1105,7 +1105,7 @@ C = \zeta_n(W, P, K),
 where we recall $n$ is the size of vectors $P$ and $K$.
 
 \subsection{Method}
-Let $E_{\mathcal{A}}(\cdot, K)$ be Alice's encryption function and let $D_{\mathcal{B}}(\cdot, K)$ be Bob's decryption function. In this setup, these maps are defined to be the same \textit{CryptoNet}:
+Let $E_{\mathcal{A}}(\cdot, K)$ be the encryption function of Alice and let $D_{\mathcal{B}}(\cdot, K)$ be the decryption function of Bob. In this setup, these maps are defined to be the same \textit{CryptoNet}:
 \begin{equation}
 E_{\mathcal{A}}(\cdot, K) = D_{\mathcal{B}}(\cdot, K) = \zeta_n(W, \cdot, K).
 \end{equation}
