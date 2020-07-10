@@ -43,6 +43,13 @@
 \usepackage[T1]{fontenc}%    codifica dei font
 \usepackage{lmodern}%        scelta dei font
 
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% The paper headers
+\fancyhead[RO,LE]{\small\thepage}
+\fancyhead[LO]{\small IEEE Transactions on Vehicular Technology,~Vol.~7, No.~7, Oct~2011}% odd page header and number to right top
+\fancyhead[RE]{\small ElBadawy H., \textit{Performability Modeling}}%Even page header and number at left top
+\fancyfoot[L,R,C]{}
 
 %\parindent=2mm
 %\parskip=1mm
@@ -85,6 +92,7 @@
 % Per scrivere testo fasullo in "latinorum"
 %\usepackage{lipsum}
 %
+
 
 %%%%%%% Definizioni locali
 \newtheorem{osservazione}{Osservazione}% Standard LaTeX
@@ -186,7 +194,7 @@ technique concludes the work.
 
 %You can insert here possible thanks and acknowledgements
 
-\tablespagetrue\figurespagetrue % normalmente questa riga non serve ed e' commentata
+%\tablespagetrue\figurespagetrue % normalmente questa riga non serve ed e' commentata
 \indici
 
 %%%%%%%% fine esperimento
@@ -230,7 +238,7 @@ The first complete neural computation model, that is called Perceptron, first ap
 z = \sum_{i}w_i x_i \quad \text{(summation output)} \label{summation}\\
 y = f_N(z) \quad \text{(cell output)}, \label{nonlinear}
 \end{align}
-where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. $y$, instead, denotes the output of the cell, that is a nonlinear activation function $f_N$ (see Subsection \ref{percact} below) of the node output $z$. \\
+where $w_i$ is the weight at the input $x_i$. Such weights, according to the biological model, need to be adjustable. The output of the cell, instead, is denoted by $y$, that is a nonlinear activation function $f_N$ (see Subsection \ref{percact} below) of the node output $z$. \\
 It is customary to consider a network of $n$ Perceptrons; in this case, by letting $z_i$ be the summation output of the $i$-th Perceptron and its inputs $x_{i,j}$, the summation relation becomes
 \begin{equation}
 z_i = \sum_{j=1}^{m}w_{ij} x_{ij}, \quad i \in \{1,\dots,n\},
@@ -290,7 +298,8 @@ We recall that in many neural network models, a bias term is added to the summat
 \begin{equation}
 z = b + \sum_{i}w_i x_i,
 \end{equation}
-where $b$ is subject to the same training procedures as the the weights of the net. \\ Such training algorithms revealed themselves to be challenging for researchers, especially from the introduction of the so called Multi-Layer Perceptron (MLP). In fact, already in the late 1960s, limitations of single-layer architectures were shown (see \cite{minpapert}), together with the possibility of solving more complicated problems using MLP's. However, finding efficient algorithms to adjust the weights of such nets was problematic and took several years. Some examples of solutions to these problems are presented in the following sections. All of such algorithms are thought to work in discrete time, while taking into account partial derivatives of the quantities of interest. Please read appendix \ref{fdmappendix} for further detail about Finite Difference Methods (FDMs).
+where $b$ is subject to the same training procedures as the the weights of the net. \\ 
+Such training algorithms revealed themselves to be challenging, especially from the introduction of the so called Multi-Layer Perceptron (MLP). In fact, already in the late 1960s, limitations of single-layer architectures were shown (see \cite{minpapert}), together with the possibility of solving more complicated problems using MLP's. However, finding efficient algorithms to adjust the weights of such nets was problematic and took several years. Some examples of solutions to these problems are presented in the following sections. All of such algorithms are thought to work in discrete time, while taking into account partial derivatives of the quantities of interest. Please read appendix \ref{fdmappendix} for further detail about Finite Difference Methods (FDMs).
 
 \subsection{Least Mean Square Training}
 We first discuss a simple algorithm to set weights of the so-called Adaline (ADAptive LInear NEuron) network. Such model first appeared in \cite{widrow} and it has the basic structure of a bipolar perceptron. The nonlinear operator of equation \eqref{nonlinear} is here a simple threshold element, to yield the Adaline output $y$ as
@@ -377,9 +386,9 @@ thus obtaining an approximation to $\nabla J$ by using $e_m^2$ as the approximat
 \end{equation}
 Here $\mu$ is chosen to satisfy 
 \begin{equation}
-\frac{1}{\lambda_{max}} > \mu > 0,
+\frac{1}{\lambda_{\text{max}}} > \mu > 0,
 \end{equation}
-where $\lambda_{max}$ is the maximum eigenvalue of matrix $R$ of equation \eqref{expectdesign}.
+where $\lambda_{\text{max}}$ is the maximum eigenvalue of the matrix $R$ of equation \eqref{expectdesign}.
 \end{enumerate}
 In the following sections we will discuss more advanced training algorithms, that are designed to be compatible with multiple-layer architectures.
 \newpage
@@ -552,10 +561,10 @@ Here the theory of \textit{Adam} optimizer is presented according to the origina
   $\theta_t \leftarrow \theta_{t-1} - \alpha\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}$ (Update parameters)\;
  }
  \Return{$\theta_t$}
- \caption{\textit{Adam} stochastic optimization algorithm. $g_t^{2}$ indicates the elementwise square $g_t \cdot g_t$.}
+ \caption{\textit{Adam} stochastic optimization algorithm. The elementwise square $g_t \cdot g_t$ is denoted $g_t^{2}$.}
 \end{algorithm}
 
-Let $f(\theta)$ be a noisy objective function: a stochastic scalar function that is differentiable with respect to parameters $\theta$. The stochasticity might come from the evaluation at random subsamples (minibatches)of datapoints, or arise from inherent function noise.\\
+Let $f(\theta)$ be a noisy objective function: a stochastic scalar function that is differentiable with respect to parameters $\theta$. The stochasticity might come from the evaluation at random subsamples (minibatches) of datapoints, or arise from inherent function noise.\\
 We are interested in minimizing the expected value of such function, that is $\mathbb{E}\left[f(\theta)\right]$. Denote by $f_1(\theta), \dots,f_T(\theta)$ the realizations of the function at subsequent time steps $1,\dots, T$. Let $g_t = \nabla_{\theta}f_t(\theta)$ be the gradient, that is the vector of partial derivatives of $f$ (w.r.t. $\theta$) evaluated at time step $t$. \\
 The algorithms updates exponential moving averages of the gradient and of the squared gradient; denote these estimates by $m_t$ and $v_t$, respectively. Exponential decay rates of these moving averages are controlled by the hyperparameters $\beta_1,\beta_2 \in \left[0,1\right)$. The moving average themselves are estimates of the mean and the uncentered variance (the second moment) of the gradient. Since these estimates are initialized as vectors of zeros, they are biased towards zero, especially during the initial time steps and when the decay rates are small (i.e. $\beta_1,\beta_2 \approx 1$). This initialization bias can however be easily counteracted, resulting in bias-corrected estimates $\hat{m}_t$ and $\hat{v}_t$, as described in the following. \\
 Recall that $g_1,\dots,g_T$ denote the gradients at subsequent time steps; each can be seen as a draw from an underlying gradient distribution $p(g_t)$. Consider the second moment estimate. As can be seen in pseudocode \ref{algo:adam}, the exponential moving average is initialized as $v_0 = 0$. First note that the update at time step $t$, $v_t = \beta_2v_{t-1} + (1 -\beta_2)g_t^{2}$, can be written as a function of the gradients at all previous time steps:
@@ -569,7 +578,7 @@ We wish to know how $\mathbb{E}\left[v_t\right]$, the expected value of the expo
 &= \mathbb{E}\left[g_t^2 \right](1 - \beta_2)\sum_{i=1}^{t}\beta_2^{t-i} + \zeta = \\
 &= \mathbb{E}\left[g_t^2 \right](1 - \beta_2^t)\ + \zeta,
 \end{align}
-where $\zeta = 0$ if the true second moment $\mathbb{E}\left[g_t^2 \right]$ is stationary. If not, $\zeta$ can be kept small since the exponential decay rate $\beta_2$ can (and should) be chosen such that the exponential moving average assigns small weights to gradients far in the past. What is left is the term $(1 - \beta_2^t)$ which is caused by initializing the running average with zero. In algorithm \ref{algo:adam} we therefore divide by this term to correct the initialization bias. \\
+where $\zeta = 0$ if the true second moment $\mathbb{E}\left[g_t^2 \right]$ is stationary. If not, $\zeta$ can be kept small since the exponential decay rate $\beta_2$ can (and should) be chosen such that the exponential moving average assigns small weights to gradients far in the past. What is left is the term $(1 - \beta_2^t)$ which is caused by initializing the running average with zero. In Algorithm \ref{algo:adam} we therefore divide by this term to correct the initialization bias. \\
 Going back to \textit{Adam}'s update rule, we have to focus on its careful choice of stepsizes. Assuming $\epsilon = 0$, the effective step taken in the parameter space at time step $t$ is 
 \begin{equation}
 \Delta_t = \alpha\frac{\hat{m}_t}{\sqrt{\hat{v}_t}}.
@@ -737,9 +746,9 @@ Last result is known as Holland Theorem (or Schemata Theorem). It implies that s
 \chapter{Neural Cryptography: History}
 \section{Introduction}
 Cryptography is one of the most crucial aspects for cybersecurity and it is becoming increasingly indispensable in information age. In classical cryptosystems, cryptography algorithms are mostly based on classical hard-to-solve problems in number theory. \\
-However, several researchers have combined neural network with classical cryptography for the multivariate structural and nondirectional features of neural network. More precisely, the concept of cryptography based on NNs was firstly introduced in \cite{lauria}.Then branches of applications and related works of cryptography with different NN models were proposed subsequently. In particular, it came out network stochastic synchronization provides a possibility for mutual learning between neural networks, allowing researchers to build secure communication channels. \\
+However, several researchers have combined neural network with classical cryptography for the multivariate structural and nondirectional features of neural network. More precisely, the concept of cryptography based on NNs was firstly introduced in \cite{lauria}.Then branches of applications and related works of cryptography with different NN models were proposed subsequently. In particular, it came out that network stochastic synchronization provides a possibility for mutual learning between neural networks, allowing researchers to build secure communication channels. \\
 In the last few years, main ingredients of neural cryptography have been ported to Quantum Neural Networks (QNN); an interesting example can be found in \cite{china}. QNNs are indeed famous for their advantages in fast learning and improving the efficiency of information processing. \\
-In this chapter we discuss some of the fist neural cryptosystems.
+In this chapter we discuss some of the first neural cryptosystems.
 \newpage
 
 \section{Neural Networks in Cryptography: an interesting attempt}
@@ -761,7 +770,7 @@ where $w_{ij,kl} = w(x_{ij}, x_{kl})$ is the weight value between the $j$-th uni
     e_0, e_1 &= \text{random digits} \\
   	e_2 &= \text{sign bit}.
 \end{align*}
-$L$ denotes the total number of layers, while $n_i$ and $n_k$ are the number of units in layers $i$ and $k$, respectively. Recall that these values are determined by the execution of the genetic algorithm. \\
+The total number of layers is denoted by $L$, while $n_i$ and $n_k$ are the number of units in layers $i$ and $k$, respectively. Recall that these values are determined by the execution of the genetic algorithm. \\
 Error between the desired and the real output is then computed and stored in the vector $\vec{E}$ . On the basis of it, the algorithm computes the fitness precursor value $f_i^{\star}$, for each individual $i = 1, \dots, N$, that is
 \begin{equation}
 f_i^{\star} = k_1(E_i)^2 + k_2(U_i)^2 + k_3(L_i)^2,
@@ -1129,7 +1138,7 @@ In numerical analysis, Finite Difference Methods (FDMs) are discretizations used
 In the present appendix we discuss the theoretical bases of finite difference methods applied to PDEs. The results presented here are taken from the second chapter of \cite{fdm}, where a much wider treatment of these methods can be found.
 \section{An introductory example}
 When a finite difference method (FDM) is used to treat numerically a partial differential equation, the differentiable solution is approximated by some grid function, in example, by a function that is defined only at a finite number of grid points that lie in the underlying domain and its boundary. Each derivative that appears in the partial differential equation has to be replaced
-by a suitable divided difference of function values at the chosen grid points. Such approximations of derivatives by difference formulas can be generated in various ways; in case they are generated by a Taylor expansions, the approach is generally known in literature as finite difference method. \\
+by a suitable divided difference of function values at the chosen grid points. Such approximations of derivatives by difference formulas can be generated in various ways; in case they are generated by a Taylor expansion, the approach is generally known in literature as finite difference method. \\
 As an introduction to FDMs, consider the following example. We are interested in computing an approximation to a sufficiently
 smooth function $u$ that for given $f$ satisfies Poisson’s equation in the unit square and vanishes on its boundary:
 \begin{align}
@@ -1141,7 +1150,7 @@ FDMs provide values $u_{i,j}$ that approximate the desired function values $U(x_
 \begin{equation}
 x_{i,j} = (ih, jh)^{\intercal} \in \mathbb{R}^2, \quad i,j \in \{0,1,\dots, N\}.
 \end{equation}
-Here $h = \frac{1}{N}$, $N \in \mathbb{N}$, is the mesh size of the grid. \\
+Here $h = \frac{1}{N}$, $N \in \mathbb{N}\setminus \{0\}$, is the mesh size of the grid. \\
 At grid points lying on the boundary $\Gamma$ the given function values (which here are homogeneous) can be immediately taken as the point values of the grid functions. All derivatives in problem \eqref{poissonfdm} have however to be approximated by difference quotients. From Taylor's theorem we obtain
 \begin{align}
 \frac{\partial^2u}{\partial x_1^2}(x_{i,j}) &\approx \frac{1}{h^2}\left(u(x_{i-1,j}) -2u(x_{i,j}) + u(x_{i+1,j}) \right), \\
@@ -1153,12 +1162,12 @@ system of linear equations
 &4u_{i,j} - u_{i-1,j} -u_{i+1,j} -u_{i,j-1} -u_{i,j+1} = h^2f(x_{i,j}), \nonumber \\
 &u_{0,j} = u_{N,j} = u_{i,0} = u_{i,N} = 0; \quad i,j \in \{1,\dots,N-1\}.
 \end{align}
-For any $N\in \mathbb{N}$ this linear system has a unique solution $u_{i,j}$ Under certain smoothness assumptions on the desired solution $u$ of the original problem one has $u_{i,j} \approx u(x_{i,j})$.
+For any $N\in \mathbb{N}$, $N > 1$ this linear system has a unique solution $u_{i,j}$. Under certain smoothness assumptions on the desired solution $u$ of the original problem one has $u_{i,j} \approx u(x_{i,j})$.
 
 \section{Method of Finite Differences applied to PDEs: Basic Concepts}
 Let us consider the very simple domain $\Omega := (0,1)^n \subset \mathbb{R}^n$. Denote its closure by $\overline{\Omega}$. For the discretization of $\overline{\Omega}$ a set $\overline{\Omega}_h$ of grid points has to be
 selected, e.g., we may chose an equidistant grid that is defined by the points
-of intersection obtained when one translates the coordinate axes through consecutive equidistant steps with step size $h=\frac{1}{N}$. Here $N\in \mathbb{N}$ denotes the number of shifted grid lines in each coordinate direction. \\
+of intersection obtained when one translates the coordinate axes through consecutive equidistant steps with step size $h=\frac{1}{N}$. Here $N\in \mathbb{N} \setminus \{0\}$ denotes the number of shifted grid lines in each coordinate direction. \\
 We distinguish between those grid points lying in the domain $\Omega$ and those at the boundary $\Gamma$ by setting
 \begin{equation}
 \Omega_h := \overline{\Omega}_h \cap \Omega \quad \text{and} \quad \Gamma_h := \overline{\Omega}_h \cap \Gamma.
@@ -1235,7 +1244,7 @@ with $F_h: U_h \longrightarrow V_h$, $f_h \in V_h$, and discrete spaces $U_h, V_
 
 \bibitem[Holland(1975)]{holland} {\sc Holland, J.} (1975). \textit{Adaptation in Natural and Artificial Systems}. MIT Press. 
 
-\bibitem[Lauria(1990)]{lauria} {\sc Lauria, F. E.} (1990). \textit{On neurocrytology.} Proceedings of the Third Italian Workshop on Parallel Architectures and Neural Networks, 337-343.
+\bibitem[Lauria(1990)]{lauria} {\sc Lauria, F. E.} (1990). \textit{On Neurocryptology.} Proceedings of the Third Italian Workshop on Parallel Architectures and Neural Networks, 337-343.
 
 \bibitem[Volná(2000)]{volna} {\sc Volnà, E.} (2000). \textit{Using Neural Network in Cryptography}. University of Ostrava.
 
