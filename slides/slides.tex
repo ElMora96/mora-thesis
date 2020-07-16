@@ -166,7 +166,7 @@ where $w_i$ is the (adjustable) weight at input $x_i$. Function $f_N$ is nonline
 %----------------------------------------------
 \begin{frame}
 \frametitle{Training}
-The training of an ANN is the procedure of adjusting its weight. This task can be performed with several techniques. For the simplest architectures, we recall
+The training of an ANN is the procedure of adjusting its weights. This task can be performed with several techniques. For the simplest architectures, we recall
 \begin{itemize}
 \item \textbf{Least Mean Square}. Minimizes the (approximated) square expectation of the error over all training sets. It is simple, but it is suitable only for bipolar perceptrons and may lead to inaccurate results.
 \item \textbf{Gradient Descent}. Attempts to provide weight-setting estimates from one training set to the next.
@@ -193,7 +193,7 @@ More advanced algorithms were required to set weights of Multi-Layer Perceptrons
 \item Adam works by updating exponential moving averages of the gradient and of the squared gradient.
 \item Exponential decay rates of such moving averages are controlled by hyperparameters.
 \end{itemize}
-Name "Adam" is derived from "adaptive moment estimation".
+The name "Adam" is derived from "adaptive moment estimation".
 \end{frame}
 
 
@@ -275,7 +275,7 @@ This protocol is based on the synchronization of the weights of two tree parity 
 \begin{itemize}
 \item The two NNs participating in the communication start from private key vectors $E_k(0)$ and $D_k(0)$. Mutual learning from the exchange of public information leads the two nets to develop a common, time dependent key: $E_k(t) = - D_k(t)$. This is then used for both encryption and decryption.
 \item At each step of the training process (and of encryption/decryption), a common public input vector is needed. 
-\item Sender and recipient send their outputs to each other and in case they do not agree on them, weight are updated according
+\item Sender and recipient send their outputs to each other and in case they do not agree on them, weights are updated according
 to a Hebbian learning rule.
 \item As soon as the two NNs are synchronized, so they stay forever.
 \end{itemize}
@@ -371,7 +371,7 @@ This scenario can be summarized as follows.
 %---------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Network Architecture}
-Neural Nets in the ANC share the so-called "Mix \& Transform" architecture:
+Neural Nets in the ANC protocol share the so-called "Mix \& Transform" architecture:
 \begin{itemize}
 \item a first fully-connected (FC) layer, that enables mixing between input vectors;
 \item a sequence of convolutional layers;
@@ -460,7 +460,7 @@ Training follows a similar procedure to that of the original ANC, but leads to a
 
 \bibitem[Gohr(2019)]{gohr} {\sc Gohr, A.} (2019). \textit{Improving Attacks on Round-Reduced Speck32/64 Using Deep Learning}. Bundesamt für Sicherheit in der Informationstechnik (BSI).
 
-\bibitem[Shi et al.(2020)]{china} {\sc Shi, J.}, {\sc Chen, S.}, {\sc Lu, Y.}, {\sc Feng, Y.}, {\sc Shi, R.}, {\sc Yang, Y.} and {\sc Li, J.} (2020). \textit{An Approach to Cryptography Based on Continuous-Variable Quantum Neural Network}. Nature.
+
 
 \end{thebibliography}
 \end{frame}
