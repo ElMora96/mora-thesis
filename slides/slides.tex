@@ -34,7 +34,7 @@
 %\usetheme{Copenhagen}
 %\usetheme{Darmstadt}
 %\usetheme{Dresden}
-%\usetheme{Frankfurt}
+\usetheme{Frankfurt}
 %\usetheme{Goettingen}
 %\usetheme{Hannover}
 %\usetheme{Ilmenau}
@@ -47,7 +47,7 @@
 %\usetheme{PaloAlto}
 %\usetheme{Pittsburgh}
 %\usetheme{Rochester}
-\usetheme{Singapore}
+%\usetheme{Singapore}
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
@@ -83,7 +83,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Short title]{Rudiments of Neural Cryptography} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Rudiments of N. C.]{Rudiments of Neural Cryptography} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{Francesco Moraglio} % Your name
 \institute[UniTO] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -297,6 +297,44 @@ These results marked the beginning of a long period without any substantial cont
 \section{Neural Cryptanalysis}
 \begin{frame}
 \frametitle{Neural Cryptanalysis}
+Not only NNs reveal themselves capable of learning how to communicate securely: recent studies show they can be employed
+to perform efficient cryptanalysis. Consider the family of block ciphers released by NSA in \cite{nsa}, namely
+\begin{itemize}
+\item \textbf{Simon}, a cipher efficient in hardware implementations in IoT (Internet of Things) devices;
+\item \textbf{Speck}, the sister algorithm of Simon, optimized for software implementations.
+\end{itemize}
+Both algorithms are compositions of the basic functions of modular addition, bitwise rotation and bitwise addition.
+\end{frame}
+
+%----------------------------------------------------------
+\begin{frame}
+\frametitle{Simon}
+\begin{columns}[c]
+\column{0.55\textwidth} 
+\begin{figure}
+\includegraphics[width = 0.9\textwidth]{"pictures/simon.png"}
+\end{figure}
+\column{0.6\textwidth}
+\begin{itemize}
+\item The attack to Simon cipher consists in recovering the key, given a set of plaintext-ciphertext pairs.
+\item MLPs are employed; input layer has one neuron per each bit of the plaintext-ciphertext pairs. Output layer has same size of the key; each cell is binary.
+\item Activation function is chosen to be the Linear Rectifier:
+	\begin{equation*}
+	y = \sum_{j}w_j x_j + b.
+	\end{equation*}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Speck}
+A more advanced attack was developed against Speck, by making use of convolutional NNs to build a (neural) distinguisher. 
+\begin{itemize}
+\item Let $F: \{0,1\}^n \longrightarrow \{0,1\}^m$ be a map (round function). A differential transition for $F$ is a pair
+$$\left(\Delta_{\text{in}},\Delta_{\text{out}} \right) \in \{0,1\}^n \times \{0,1\}^m$$
+\item A differential attack uses nonrandom properties of the output of the cipher when it is being given input data with known difference distribution, i. e. $\mathbb{P}\left( \Delta_{\text{in}} \rightarrow \Delta_{\text{out}}\right)$.
+\item Nets are trained to distinguish the output of Speck with given input conditions from random data.
+\end{itemize} 
 \end{frame}
 
 %------------------------------------------------
