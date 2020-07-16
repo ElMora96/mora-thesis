@@ -168,28 +168,34 @@ where $w_i$ is the (adjustable) weight at input $x_i$. Function $f_N$ is nonline
 \frametitle{Training}
 The training of an ANN is the procedure of adjusting its weight. This task can be performed with several techniques. For the simplest architectures, we recall
 \begin{itemize}
-\item \textbf{Least Mean Square Training}
-\item \textbf{Gradient Descent Training}
+\item \textbf{Least Mean Square}. Minimizes the (approximated) square expectation of the error over all training sets. It is simple, but it is suitable only for bipolar perceptrons and may lead to inaccurate results.
+\item \textbf{Gradient Descent}. Attempts to provide weight-setting estimates from one training set to the next.
 \end{itemize}
 \end{frame}
 %----------------------------------------------
+
 \begin{frame}
-\frametitle{Perceptron: 2}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-
-\column{.45\textwidth} % Left column and width
-\textbf{Heading}
-\begin{enumerate}
-\item Statement
-\item Explanation
-\item Example
-\end{enumerate}
-
-\column{.5\textwidth} % Right column and width
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-
-\end{columns}
+\begin{figure}
+\includegraphics[height = 0.4\textheight]{"pictures/multilayer-perceptron.png"}
+\end{figure}
+More advanced algorithms were required to set weights of Multi-Layer Perceptrons (MLPs), whose computational capabilities are sensitively higher than those of single-layer NNs. 
+\begin{itemize}
+\item \textbf{Back Propagation (BP)} was developed with this specific purpose. It is an extension of the Gradient Descent method, that "propagates" from the last layer back to the first one, iterating over a pre-fixed set of training vectors.
+\end{itemize}
 \end{frame}
+
+%--------------------------------------------
+\begin{frame}
+\frametitle{Adam}
+\textbf{Adam}, a recent method for stochastic optimization, revealed itself to be a powerful tool for the training of most modern NN architectures. Let $f(\theta)$ be a noisy objective function; we are interested in minimizing $\mathbb{E}\left[f(\theta)\right]$.
+\begin{itemize}
+\item Consider $g_t = \nabla_{\theta}f_t(\theta)$, the gradient evaluated at time step $t$.
+\item Adam works by updating exponential moving averages of the gradient and of the squared gradient.
+\item Exponential decay rates of such moving averages are controlled by hyperparameters.
+\end{itemize}
+Name "Adam" is derived from "adaptive moment estimation".
+\end{frame}
+
 
 
 %------------------------------------------------
@@ -338,12 +344,62 @@ $$\left(\Delta_{\text{in}},\Delta_{\text{out}} \right) \in \{0,1\}^n \times \{0,
 \end{frame}
 
 %------------------------------------------------
-\section{Adversarial Neural Cryptography}
+\section[ANC]{Adversarial Neural Cryptography}
 \begin{frame}
-\Huge{\centerline{The End}}
+\frametitle{Adversarial Neural Cryptography}
+Neural networks can learn to protect the secrecy of their data from other neural networks. This is the core principle of Adversarial Neural Cryptography (ANC), a revolutionary approach to cryptography invented by Google researchers in 2016. Such technique is based on\\
+\begin{itemize}
+\item  the problem of the secure communication between two parties, when a third participant wishes to eavesdrop on it;
+\item the adversarial training of NNs representing the three participants.
+\end{itemize}
+
+
 \end{frame}
 
+%-----------------------------------------------
+\begin{frame}
+This scenario can be summarized as follows.
+\begin{itemize}
+\item Alice wants to sent message $P$ to Bob. $P$ and key $K$ are the input of Alice. 
+\item $K$ is also known by Bob and it is used to decipher $C$, that is the output of Alice.
+\item Eve wants to eavesdrop on the communication. She knows only $C$ and tries to recover $P$.
+\end{itemize}
+\begin{figure}
+\includegraphics[width = \textwidth]{"pictures/anc.png"}
+\end{figure}
+\end{frame}
+%---------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Network Architecture}
+Neural Nets in the ANC share the so-called "Mix \& Transform" architecture:
+\begin{itemize}
+\item a first fully-connected (FC) layer, that enables mixing between input vectors;
+\item a sequence of convolutional layers;
+\item an output layer of a size suitable for a plaintext or a ciphertext.
+\end{itemize}
+Adjustment of the weights is based on Adam optimizer. The training of Eve is alternated with that of Alice and Bob.
+\end{frame}
+%---------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Chosen-Plaintext Attack ANC}
+Main limitation to the security of original ANC model lies in the job of Eve, that appears to be too hard. A solution to this problem is to strengthen Eve by letting it mount a Chosen-Plaintext Attack (CPA).
+\begin{figure}
+\includegraphics[width = 0.75\textwidth]{"pictures/cpa-anc.png"}
+\end{figure}
+\end{frame}
+%---------------------------------------------------------------------------------
+\begin{frame}
+The resulting cryptosystem is named CPA-ANC and has the following key features.
+\begin{itemize}
+\item Eve choose two plaintexts $P_0$ and $P_1$ and sends them to Alice. 
+\item Alice chooses one plaintext randomly, encrypts it to $C$ and send it to Bob and Eve.
+\item Bob decrypts the message using its neural network.
+\item Eve outputs $0$ if it believes $P_0$ was encrypted or $1$ if it believes $P_1$ was encrypted.
+\end{itemize}
+Training follows a similar procedure to that of the original ANC, but leads to a much stronger communication channel.
+\end{frame}
 %----------------------------------------------------------------------------------------
+\section*{References}
 \begin{frame}
 \frametitle{References}
 \begin{thebibliography}{99}
@@ -363,7 +419,7 @@ $$\left(\Delta_{\text{in}},\Delta_{\text{out}} \right) \in \{0,1\}^n \times \{0,
 %----------------------------------------------------------------
 \begin{frame}
 \begin{thebibliography}{99}
-\bibitem[Minsky and Papert(1969)]{minpapert} {\sc MInsky, M.} and {\sc Papert, S. A.} (1969). \textit{Perceptrons: An Introduction to Computational Geometry}. MIT Press.
+\bibitem[Minsky and Papert(1969)]{minpapert} {\sc Minsky, M.} and {\sc Papert, S. A.} (1969). \textit{Perceptrons: An Introduction to Computational Geometry}. MIT Press.
 \bibitem[Rumelhart, Hinton and Williams(1986)]{back} {\sc Rumelhart, D.}, {\sc Hinton, G.} and {\sc Williams, R.} (1986). \textit{Learning representations by back-propagating errors}. Nature 323, 533–536.
 
 \bibitem[Sejnowski and Rosenberg(1987)]{sejnowski} {\sc Sejnowski, T. J.} and {\sc Rosenberg, C. R.} (1987). \textit{Parallel Networks that Learn to Pronounce English Text}. Complex Systems, 1.
@@ -380,8 +436,6 @@ $$\left(\Delta_{\text{in}},\Delta_{\text{out}} \right) \in \{0,1\}^n \times \{0,
 \bibitem[Lauria(1990)]{lauria} {\sc Lauria, F. E.} (1990). \textit{On Neurocryptology.} Proceedings of the Third Italian Workshop on Parallel Architectures and Neural Networks, 337-343.
 
 \bibitem[Volná(2000)]{volna} {\sc Volná, E.} (2000). \textit{Using Neural Network in Cryptography}. University of Ostrava.
-
-\bibitem[Volná(1998)]{volna2} {\sc Volná, E.} (1998).\textit{Learning algorithm which learns both architectures and weights of feedforward neural networks.} Neural Network World. Int. Journal on Neural and Mass-Parallel Compo and Inf. Systems.
 
 \bibitem[Kanter, Kinzel and Kanter(2001)]{kanter} {\sc Kanter, I.}, {\sc Kinzel, W.} and {\sc Kanter, E.} (2001). \textit{Secure exchange of information by synchronization of neural networks}. Bar Ilan University.
 
