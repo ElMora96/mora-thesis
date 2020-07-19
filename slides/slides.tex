@@ -78,7 +78,7 @@
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
-
+\usepackage[ruled,vlined]{algorithm2e} %pseudocode algorithms
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ Artificial Neural Networks (ANNs) are models of computation based loosely on the
 
 \begin{frame}
 \frametitle{Artificial Neural Networks}
-Interconnections between cells are not all equally weighted: this is the key feature modeled by ANNs. Their theoretical principles were firstly formulated in the forties. Among them, a fundamental, widely applied learning principle is the following.
+Interconnections between cells are not all equally weighted: this is the key feature modeled by ANNs. Their theoretical principles were firstly formulated in the Forties. Among them, a fundamental, widely applied learning principle is the following.
 \begin{block}{Hebbian Learning Law}
 When an axon of cell $A$ is near-enough to excite cell $B$ and when it repeatedly and persistently takes part in firing it, then some growth process
 or metabolic change takes place in one or both these cells such that the efficiency of cell $A$ is increased.
@@ -140,7 +140,7 @@ or metabolic change takes place in one or both these cells such that the efficie
 
 \begin{frame}
 \frametitle{Perceptron: 1}
-The first complete neural model is called Perceptron and appeared in the late fifties. It serves as a building block to most later models.
+The first complete neural model is called Perceptron and appeared in the late Fifties. It serves as a building block to most later models.
 \begin{figure}
 \centering
 \includegraphics[width = 0.85\textwidth]{"pictures/perceptron.png"}
@@ -155,7 +155,7 @@ The input/output relations of the Perceptron are defined to be
 z = \sum_{i}w_i x_i \quad &\text{(summation output)} \\
 y = f_N(z) \quad &\text{(cell output)}, 
 \end{align*}
-where $w_i$ is the (adjustable) weight at input $x_i$. Function $f_N$ is nonlinear and is called activation. Typical activation functions used in ANNs include
+where $w_i$ is the (adjustable) weight at input $x_i$. Function $f_N$ is nonlinear and it is called \emph{activation}. Typical activation functions used in ANNs include
 \begin{itemize}
 \item sigmoid function;
 \item hyperbolic tangent;
@@ -196,6 +196,30 @@ More advanced algorithms were required to set weights of Multi-Layer Perceptrons
 The name "Adam" is derived from "adaptive moment estimation".
 \end{frame}
 
+%---------------------------------------------
+\begin{frame}
+\begin{algorithm}[H]
+%\SetAlgoLined
+%\KwResult{Write here the result }
+ \textbf{Require:} $\alpha$: Stepsize\;
+ \textbf{Require:} $\beta_1,\beta_2 \in \left[0,1\right)$: Exponential decay rates\;
+ \textbf{Require:} $f(\theta)$: Stochastic objective function with parameters $\theta$\;
+ \textbf{Require:} $\theta_0$: Initial parameter vector\;
+ $m_0 \leftarrow 0$ (Initialize first moment vector)\;
+ $v_0 \leftarrow 0$ (Initialize second moment vector)\;
+ $t \leftarrow 0$ (Initialize time step)\;
+ \While{$\theta_t$ not converged}{
+  $t \leftarrow t + 1$\;
+  $g_t \leftarrow \nabla_{\theta}f_t(\theta_{t-1})$ (Get gradients)\; 
+  $m_t \leftarrow \beta_1m_{t-1} + (1-\beta_1)g_t$ (Biased first moment est.)\;
+  $v_t \leftarrow \beta_2v_{t-1} + (1 -\beta_2)g_t^2$ (Biased second moment est.)\;
+  $\hat{m}_t \leftarrow 	\frac{m_t}{1 - \beta_1^t}$ (Bias-corrected first moment est.)\;
+  $\hat{v}_t \leftarrow 	\frac{v_t}{1 - \beta_2^t}$ (Bias-corrected second moment est.)\;
+  $\theta_t \leftarrow \theta_{t-1} - \alpha\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}$ (Update parameters)\;
+ }
+ \Return{$\theta_t$}
+\end{algorithm}
+\end{frame}
 
 
 %------------------------------------------------
@@ -233,13 +257,51 @@ by using an imitation of natural selection together with the genetic-inspired op
 \end{columns}
 \end{frame}
 
+%----------------------------------------------------
+\begin{frame}
+\frametitle{Genetic Algorithms: 3}
+\begin{itemize}
+\item
+The genome of the evolutionary model is represented by a size $N$ multiset of bit strings:
+\begin{equation*}
+\textbf{P}(t) = \{\vec{v}_1, \dots, \vec{v}_N \},
+\end{equation*}
+where $t \in \mathbb{N}$ denotes the $t$-th generation.
+
+\item Selection is based on a fitness function:
+\begin{equation*}
+f: \textbf{P}(t) \longrightarrow \mathbb{R}_0^{+}.
+\end{equation*}
+\item Total fitness is defined to be $F = \sum_{\vec{v}\in \textbf{P}(t)}f(\vec{v})$; average fitness is $\overline{F} = \frac{F}{N}.$
+\item For a given chromosome $\vec{v}$, its selection probability is given by
+\begin{equation*}
+P_S(\vec{v}) = \frac{f(v)}{F}.
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}
+\frametitle{Genetic Algorithms: Holland Theorem}
+\begin{itemize}
+\item Let $P_C \in (0,1)$ be the crossover probability and $P_M \in (0,1)$ the mutation probability. 
+\item A schema $H$ is a set of bit strings that can be described as a template made up of symbols $0$, $1$ and $*$ (free entry). Denote by $o(H)$ the order of $H$, that is its number of defined bits ($\neq *$) and we let $d(H)$ be the length of the scheme (the distance between its outermost defined bits).
+\end{itemize}
+\begin{theorem}
+Let $H$ be a schema with at least one instance present in $\textbf{P}(t)$ and let $m(H,t)$ the number of instances of $H$ at time $t$. Moreover let $\hat{U}(H,t)$ be the observed average fitness. Then $\mathbb{E}\left[m(H, t + 1) \right] \geq \frac{\hat{U}(H,t)}{\overline{F}}m(H,t)\left( 1 - P_C\left(\frac{d(H)}{n-1} \right)\right)\left[ (1-P_M)^{o(H)}\right].$
+
+\end{theorem}
+\end{frame}
+
+
+
 
 %------------------------------------------------
 \section{Neural Cryptography}
 \begin{frame} % Need to use the fragile option when verbatim is used in the slide
 \frametitle{Neural Cryptography}
 \begin{itemize}
-\item From the nineties on, researchers have made attempts at combining the features of neural networks with cryptography: this field is commonly known as neurocryptography.
+\item From the Nineties on, researchers have made attempts at combining the features of neural networks with cryptography: this field is commonly known as neurocryptography.
 \item One of the first attempts can be found in \cite{volna}. In this work, the author builds a symmetric cryptosystem by making use of neural networks, whose parameters constitute the key of the cipher.
 \item GAs are used for the optimization of the designed NN topology. Adaptation of the best found network architecture is then finished with BP.
 \end{itemize}
@@ -247,7 +309,8 @@ by using an imitation of natural selection together with the genetic-inspired op
 %-----------------------------------------------
 \begin{frame}
 \frametitle{The NNs of Volná}
-The GA of Volná evolves the architecture of feedforward NNs whose weights are initialized as follows. For every existing connection, three digits are generated and weights are computed as 
+\begin{itemize}
+\item The GA of Volná evolves the architecture of feedforward NNs whose weights are initialized as follows. For every existing connection, three digits are generated and weights are computed as 
 \begin{align*}
 w_{ij,kl} = \eta[e_2(e_1 2^1 + e_0 2^0)]; \quad i,k\in\{1,\dots,L\}, \\
   j\in\{1,\dots, n_i\}, \\
@@ -259,8 +322,61 @@ where $w_{ij,kl} = w(x_{ij}, x_{kl})$ is the weight value between the $j$-th uni
     e_0, e_1 &= \text{random digits} \\
   	e_2 &= \text{sign bit}.
 \end{align*}
+\item $L$ is the total number of layers, while $n_i$ and $n_k$ are the number of units in layers $i$ and $k$.
+\end{itemize}
 \end{frame}
 
+%----------------------------------------------------
+\begin{frame}
+\begin{itemize}
+\item On the basis of the error between desired and real output, the algorithm computes the fitness precursor value $f_i^{\star}$, for each individual $i = 1, \dots, N$, that is
+\begin{equation*}
+f_i^{\star} = k_1(E_i)^2 + k_2(U_i)^2 + k_3(L_i)^2,
+\end{equation*}
+where $k_j$, $j = 1,2,3$ are fixed constants and
+\begin{align*}
+    E_i &= \text{error for network }i\\
+    U_i &= \text{number of hidden units}\\
+  	L_i &= \text{number of hidden layers}.
+\end{align*}
+\item The general fitness function  $f$ is then calculated as follows:
+$$
+f_i = \begin{cases}
+k - (f_i^{\star} + k_5) \quad \text{if} \quad E_i > k_4 \\
+k - f_i^{\star} \quad \text{otherwise.}
+\end{cases} 
+$$ 
+\item $k, k_4$ and $k_5$ also denote constants.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------
+\begin{frame}
+
+\frametitle{Training set}
+\begin{table}[]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{\textbf{Plaintext}}                                                                                                                     & \textbf{Cyphertext}                                                          \\ \hline
+\textit{Char} & \textit{\begin{tabular}[c]{@{}c@{}}ASCII\\ Code\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}Bit String\\ Representation\end{tabular}} & \textit{\begin{tabular}[c]{@{}c@{}}Bit String\\ Representation\end{tabular}} \\ \hline
+a             & 97                                                            & 00001                                                                        & 000010                                                                       \\ \hline
+b             & 98                                                           & 00010                                                                        & 100110                                                                       \\ \hline
+c             & 99                                                            & 00011                                                                        & 001011                                                                       \\ \hline
+d             & 100                                                           & 00100                                                                        & 011010                                                                       \\ \hline
+e             & 101                                                           & 00101                                                                        & 100000                                                                       \\ \hline
+f             & 102                                                           & 00110                                                                        & 001110                                                                       \\ \hline
+g             & 103                                                           & 00111                                                                        & 100101                                                                       \\ \hline
+h             & 104                                                           & 01000                                                                        & 010010                                                                       \\ \hline
+i             & 105                                                           & 01001                                                                        & 001000                                                                       \\ \hline
+j             & 106                                                           & 01010                                                                        & 011110                                                                       \\ \hline
+
+\end{tabular}
+\end{table}
+\begin{itemize}
+\item The ciphertext is a randomly generated chain of bits.
+\end{itemize}
+\end{frame}
 %-----------------------------------------------
 \begin{frame}
 \frametitle{KKK Key Exchange Protocol}
@@ -360,14 +476,36 @@ Neural networks can learn to protect the secrecy of their data from other neural
 \begin{frame}
 This scenario can be summarized as follows.
 \begin{itemize}
-\item Alice wants to sent message $P$ to Bob. $P$ and key $K$ are the input of Alice. 
+\item Alice ($\mathcal{A}$) wants to sent message $P$ to Bob ($\mathcal{B}$). $P$ and key $K$ are the input of Alice. 
 \item $K$ is also known by Bob and it is used to decipher $C$, that is the output of Alice.
-\item Eve wants to eavesdrop on the communication. She knows only $C$ and tries to recover $P$.
+\item Eve ($\mathcal{E}$) wants to eavesdrop on the communication. She knows only $C$ and tries to recover $P$.
+
 \end{itemize}
 \begin{figure}
 \includegraphics[width = \textwidth]{"pictures/anc.png"}
 \end{figure}
 \end{frame}
+%--------------------------------------------------------------------
+\begin{frame}
+\frametitle{ANC: Method}
+\begin{itemize}
+\item NNs have parameters we denote by $\theta_{\mathcal{A}}$, $\theta_{\mathcal{B}}$ and $\theta_{\mathcal{E}}$.
+\item Denote the outputs of Alice and Bob as $A(\theta_{\mathcal{A}}, P, K)$ and $B(\theta_{\mathcal{B}}, C, K)$, respectively. Write $E(\theta_{\mathcal{E}}, C)$ for the output of Eve.
+\item The loss function of Eve is the following.
+\begin{equation*}
+L_{\mathcal{E}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{E}}\right) = \mathbb{E}_{P,K} \left[ d\left(P, E(\theta_{\mathcal{E}}, A(\theta_{\mathcal{A}}, P, K) ) \right)\right]
+\end{equation*}
+\item Similarly, for Bob we have
+\begin{equation*}
+L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}\right) = \mathbb{E}_{P,K}\left[ d\left(P, B(\theta_{\mathcal{B}}, A(\theta_{\mathcal{A}}, P, K), K ) \right)\right]. 
+\end{equation*}
+\item  The joint loss function of Alice and Bob takes into account the loss of $\mathcal{B}$ and the value of loss of optimal Eve ($O_{\mathcal{E}}\left(\theta_{\mathcal{A}} \right)$):
+\begin{equation*}
+L_{\mathcal{A}\mathcal{B}}(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}) = L_{\mathcal{B}}\left(\theta_{\mathcal{A}}, \theta_{\mathcal{B}}\right) - L_{\mathcal{E}}(\theta_{\mathcal{A}}, O_{\mathcal{E}}\left(\theta_{\mathcal{A}} \right)).
+\end{equation*}
+\end{itemize}
+\end{frame}
+
 %---------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Network Architecture}
